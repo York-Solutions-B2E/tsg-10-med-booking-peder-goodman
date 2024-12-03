@@ -16,9 +16,9 @@ const Home = () => {
     setLoading(true);
     try {
       // fetch user data returns response.data
-      const response = await axios.get("api/user", { withCredentials: true });
+      const response = await axios.get("api/auth/check", { withCredentials: true });
       // check if response is ok
-      if (response.status !== 200) {
+      if (response.data == "User not authenticated") {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       console.log("response is: ", response);
@@ -50,13 +50,14 @@ const Home = () => {
     if (port === ":3000") {
       port = ":8080";
     }
+
     // redirect to the Okta login page (aka an api/<privateRoute>)
-    window.location.href = `//${window.location.hostname}${port}/oauth2/authorization/okta`;
-    // window.location.href = `//${window.location.hostname}${port}/api/private`;
+    // window.location.href = `//${window.location.hostname}${port}/oauth2/authorization/okta`;
+    window.location.href = `//${window.location.hostname}${port}/api/auth/login`;
   };
 
   const logout = async () => {
-    const response = await axios.post("/api/logout", null, {
+    const response = await axios.post("/api/auth/logout", null, {
       withCredentials: true,
       headers: { "X-XSRF-TOKEN": cookies["XSRF-TOKEN"] },
     });

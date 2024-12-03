@@ -1,8 +1,9 @@
 package com.health_care.med_booking_backend.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -18,22 +19,29 @@ import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 public class SecurityConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/", "/index.html", "/static/**",
-                                "/*.ico", "/*.json", "/*.png", "/api/v1/user").permitAll()
-                        .anyRequest().authenticated()
-                )
+                // Enable CORS and CSRF protection
                 .csrf((csrf) -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        // https://stackoverflow.com/a/74521360/65681
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                )
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+                // Define authorization rules
+                .authorizeHttpRequests((authz) -> authz
+                        // allow access to the following paths without authentication
+                        .requestMatchers("/", "/index.html", "/static/**",
+                                "/*.ico", "/*.json", "/*.png", "/api/auth/check", "/api/auth/login")
+                        .permitAll()
+                        // secure the rest of the app
+                        // .requestMatchers("/protected").authenticated()
+                        .anyRequest().authenticated())
                 .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
-                .oauth2Login(Customizer.withDefaults());
+                // Configure login
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("http://localhost:3000/", true));
         return http.build();
     }
 

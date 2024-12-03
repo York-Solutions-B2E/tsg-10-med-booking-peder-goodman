@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.health_care.med_booking_backend.dto.CheckAuthResponse;
+import com.health_care.med_booking_backend.model.Admin;
+import com.health_care.med_booking_backend.service.UserService;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,29 +29,27 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final ClientRegistration registration;
-    // private final UserService userService;
+    private final UserService userService;
 
-    // public AuthController(ClientRegistrationRepository registrations, UserService
-    // userService) {
-    public AuthController(ClientRegistrationRepository registrations) {
+    public AuthController(ClientRegistrationRepository registrations, UserService userService) {
         this.registration = registrations.findByRegistrationId("okta");
-        // // this.userService = userService;
+        this.userService = userService;
     }
 
     // Expose the /user endpoint for fetching user data
     @GetMapping("/check")
-    public ResponseEntity<?> getUser(@AuthenticationPrincipal OAuth2User user) {
+    public ResponseEntity<CheckAuthResponse> getUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
-            return ResponseEntity.ok("User not authenticated");
+            return ResponseEntity.ok(new CheckAuthResponse(false, null, "User not authenticated"));
             // return ResponseEntity.status(401).body("User not authenticated");
         }
 
         // Check if user exists in the database, if not, save them
-        // User currentUser = userService.checkAndSaveAuthenticatedUser(user);
+        Admin currentUser = userService.validateAndStoreAdminUser(user);
 
         // Return the authenticated user's details
-        // return ResponseEntity.ok(currentUser);
-        return ResponseEntity.ok(user.getAttributes());
+        return ResponseEntity.ok(new CheckAuthResponse(true, currentUser, "User authenticated!"));
+
     }
 
     // Handle logout functionality
@@ -89,7 +91,8 @@ public class AuthController {
     }
 
     // weird hack to delete cookies
-    // considering calling a logout endpoint on the backend to clear the session via the logout functionality in spring security
+    // considering calling a logout endpoint on the backend to clear the session via
+    // the logout functionality in spring security
     private void deleteCookies(HttpServletRequest request, HttpServletResponse response, String... cookiesToDelete) {
         for (String cookieName : cookiesToDelete) {
             Cookie cookie = new Cookie(cookieName, null);

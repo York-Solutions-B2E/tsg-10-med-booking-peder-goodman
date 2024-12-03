@@ -20,8 +20,4 @@ public class Admin extends User {
         super(firstName, lastName, email, role);
         this.oktaId = oktaId;
     }
-
-
-
-
 }

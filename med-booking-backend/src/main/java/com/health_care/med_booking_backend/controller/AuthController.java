@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/auth")
 public class AuthController {
     private final ClientRegistration registration;
@@ -34,7 +35,6 @@ public class AuthController {
     }
 
     // Expose the /user endpoint for fetching user data
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/check")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
@@ -51,7 +51,6 @@ public class AuthController {
     }
 
     // Handle logout functionality
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response,
             @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) {

@@ -2,20 +2,18 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 import { AdminLoginButton } from "../buttons/AdminLoginButton";
 
 export default function DefaultNav() {
-  const handleClickMyAppointments = () => {
-    console.log("My Appointments clicked");
+  const navigate = useNavigate();
 
-    // navigate to home page (aka /my-appointments)
-    // navigate("/my-appointments");
+  const handleClickMyAppointments = () => {
+    navigate("/my-appointments");
   };
 
   const handleClickCreateAppointment = () => {
-    console.log("Create Appointment clicked");
-    // navigate to /create-appointment page)
-    // navigate("/create-appointment");
+    navigate("/create-appointment");
   };
 
   return (

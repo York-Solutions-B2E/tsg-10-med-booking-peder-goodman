@@ -1,8 +1,11 @@
+import { useEffect } from "react";
+import { checkUserAuthentication } from "../store/actions/userActions";
+import { store } from "../store/store";
 
-
-import React from 'react'
 export const AddAppointmentForm = () => {
-  return (
-    <div>AddAppointmentForm</div>
-  )
-}
+  useEffect(() => {
+    store.dispatch(checkUserAuthentication());
+  }, []);
+
+  return <div>AddAppointmentForm</div>;
+};

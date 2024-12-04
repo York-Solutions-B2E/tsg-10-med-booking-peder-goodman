@@ -1,5 +1,14 @@
+import { store } from "../store/store";
+
 export {};
 declare global {
+  export type RootState = ReturnType<typeof store.getState>;
+
+  interface AppState {
+    user: UserState;
+    medicalOptions: MedicalOptionsState;
+    appointments: AppointmentsState;
+  }
   interface UserState {
     isLoading: boolean;
     isUserAuthenticated: boolean;
@@ -21,6 +30,4 @@ declare global {
     // doctorAvailability: string[];
     errorMessage: string | null;
   }
-
-
 }

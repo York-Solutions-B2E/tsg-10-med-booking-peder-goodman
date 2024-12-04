@@ -6,6 +6,6 @@ declare global {
   };
 
   type ProtectedRouteProps = {
-    requiredRoles: string[];
+    requiredRole: Role;
   }
 }

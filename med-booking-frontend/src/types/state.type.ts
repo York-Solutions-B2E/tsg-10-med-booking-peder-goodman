@@ -12,7 +12,7 @@ declare global {
   interface UserState {
     isLoading: boolean;
     isUserAuthenticated: boolean;
-    userDetails: AdminDetails | PatientDetails | null;
+    userDetails: AdminDetails | PatientDetails;
     errorMessage: string | null;
   }
 

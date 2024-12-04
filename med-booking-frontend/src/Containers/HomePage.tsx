@@ -11,6 +11,7 @@ export const HomePage = () => {
   const { userDetails, isUserAuthenticated } = useSelector(
     (state: RootState) => state.user
   );
+  const userRole = userDetails?.role;
 
   useEffect(() => {
     store.dispatch(checkUserAuthentication());
@@ -18,9 +19,9 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (isUserAuthenticated) {
-      if (userDetails.role === "ADMIN") {
+      if (userRole === "ADMIN") {
         navigate("/admin");
-      } else if (userDetails.role === "PATIENT") {
+      } else if (userRole === "PATIENT") {
         navigate("/my-appointments");
       }
     }

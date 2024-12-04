@@ -1,7 +1,6 @@
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
-import { logoutUser, checkUserAuthentication } from "../actions/userActions";
-import { act } from "react";
+import { checkUserAuthentication, logoutUser } from "../actions/userActions";
 
 const initialState: UserState = {
   isLoading: false,

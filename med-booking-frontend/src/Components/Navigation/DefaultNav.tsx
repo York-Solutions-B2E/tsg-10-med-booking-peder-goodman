@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { AdminLoginButton } from "./buttons/AdminLoginButton";
+import { AdminLoginButton } from "../buttons/AdminLoginButton";
 
 export default function DefaultNav() {
   const handleClickMyAppointments = () => {

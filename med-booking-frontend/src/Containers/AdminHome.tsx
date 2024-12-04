@@ -5,7 +5,7 @@ import "../App.css";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
-const Home = () => {
+const AdminHome = () => {
   const { userDetails, isLoading, isUserAuthenticated } = useSelector(
     (state: RootState) => state.user
   );
@@ -40,4 +40,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AdminHome;

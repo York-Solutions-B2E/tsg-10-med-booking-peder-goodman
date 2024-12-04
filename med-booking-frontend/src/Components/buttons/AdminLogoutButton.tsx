@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { logoutUser } from "../../../store/actions/userActions";
-import { store } from "../../../store/store";
+import { store } from "../../store/store";
+import { logoutUser } from "../../store/actions/userActions";
 
 const handleLogout = () => {
   store.dispatch(logoutUser());

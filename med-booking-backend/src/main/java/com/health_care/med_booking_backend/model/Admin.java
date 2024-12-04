@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admin")
+@Table(name = "admins")
 public class Admin extends User {
     private String oktaId;
 

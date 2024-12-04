@@ -35,7 +35,7 @@ public class Doctor {
     @JoinColumn(name = "specialization_id")
     private Specialization specialization;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctors")
     @JsonIgnore
     private List<Appointment> doctorAppointments;
 

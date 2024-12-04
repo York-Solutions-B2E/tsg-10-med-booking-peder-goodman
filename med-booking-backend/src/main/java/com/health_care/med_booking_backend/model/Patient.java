@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "patient")
+@Table(name = "patients")
 public class Patient extends User {
     @Column(nullable = false)
     private Date birthdate;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patients")
     @JsonIgnore
     private List<Appointment> patientAppointments;
 

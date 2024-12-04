@@ -68,9 +68,8 @@ public class AuthController {
         logoutDetails.put("logoutUrl", logoutUrl);
         logoutDetails.put("idToken", idToken.getTokenValue());
 
-        // Clear the session
+        // Invalidate the current session
         if (request.getSession(false) != null) {
-            // Invalidate the current session
             request.getSession(false).invalidate();
         }
 
@@ -79,13 +78,6 @@ public class AuthController {
 
         // Manually delete cookies
         deleteCookies(request, response, "JSESSIONID", "XSRF-TOKEN");
-
-        // Verify that the context is cleared
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("Security context successfully cleared.");
-        } else {
-            System.out.println("Security context not cleared.");
-        }
 
         return ResponseEntity.ok(logoutDetails);
     }

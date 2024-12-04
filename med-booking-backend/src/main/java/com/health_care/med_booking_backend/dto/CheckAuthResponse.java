@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CheckAuthResponse {
 
-    private boolean isAuthenticated;
-    private Admin userDetails; 
+    private boolean authenticated;
+    private Admin userDetails;
     private String message;
 
-    public CheckAuthResponse(boolean isAuthenticated, Admin userDetails, String message) {
-        this.isAuthenticated = isAuthenticated;
+    public CheckAuthResponse(boolean authenticated, Admin userDetails, String message) {
+        this.authenticated = authenticated;
         this.userDetails = userDetails;
         this.message = message;
     }

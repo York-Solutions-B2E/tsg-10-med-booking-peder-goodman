@@ -8,6 +8,7 @@ declare global {
   }
 
   interface LogoutResponse {
+    message: string;
     logoutUrl: string;
     idToken: string;
   }

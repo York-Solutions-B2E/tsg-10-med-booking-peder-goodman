@@ -25,7 +25,7 @@ export const HomePage = () => {
         navigate("/my-appointments");
       }
     }
-  }, []);
+  }, [isUserAuthenticated, userRole]);
 
   return (
     <>

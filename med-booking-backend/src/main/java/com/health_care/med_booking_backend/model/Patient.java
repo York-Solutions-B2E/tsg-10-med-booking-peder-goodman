@@ -24,7 +24,7 @@ public class Patient extends User {
     @Column(nullable = false)
     private Date birthdate;
 
-    @OneToMany(mappedBy = "patients")
+    @OneToMany(mappedBy = "patient")
     @JsonIgnore
     private List<Appointment> patientAppointments;
 

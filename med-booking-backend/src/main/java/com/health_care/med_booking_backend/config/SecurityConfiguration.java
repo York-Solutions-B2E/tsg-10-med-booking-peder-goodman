@@ -32,11 +32,18 @@ public class SecurityConfiguration {
                         // secure the rest of the app
                         // .requestMatchers("/protected").authenticated()
                         .anyRequest().authenticated())
+                // Configure logout
+                .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "XSRF-TOKEN")
+                )
                 .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
                 // Configure login
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("http://localhost:3000/", true));
+
         return http.build();
     }
 

@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                 .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
                 // Configure login
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("http://localhost:3000/", true));
+                        .defaultSuccessUrl("http://localhost:3000/admin", true));
 
         return http.build();
     }

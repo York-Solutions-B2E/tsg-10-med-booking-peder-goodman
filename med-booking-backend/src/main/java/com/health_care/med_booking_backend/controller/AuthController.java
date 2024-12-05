@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.health_care.med_booking_backend.dto.CheckAuthResponse;
 import com.health_care.med_booking_backend.model.Admin;
-import com.health_care.med_booking_backend.service.UserService;
+import com.health_care.med_booking_backend.service.AdminService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,11 +29,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final ClientRegistration registration;
-    private final UserService userService;
+    private final AdminService adminService;
 
-    public AuthController(ClientRegistrationRepository registrations, UserService userService) {
+    public AuthController(ClientRegistrationRepository registrations, AdminService adminService) {
         this.registration = registrations.findByRegistrationId("okta");
-        this.userService = userService;
+        this.adminService = adminService;
     }
 
     // Expose the /user endpoint for fetching user data
@@ -45,7 +45,7 @@ public class AuthController {
         }
 
         // Check if user exists in the database, if not, save them
-        Admin currentUser = userService.validateAndStoreAdminUser(user);
+        Admin currentUser = adminService.validateAndStoreAdminUser(user);
 
         // Return the authenticated user's details
         return ResponseEntity.ok(new CheckAuthResponse(true, currentUser, "User authenticated!"));

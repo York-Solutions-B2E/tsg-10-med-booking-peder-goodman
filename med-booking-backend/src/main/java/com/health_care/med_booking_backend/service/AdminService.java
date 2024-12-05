@@ -12,10 +12,10 @@ import static com.health_care.med_booking_backend.model.Role.ADMIN;
 import com.health_care.med_booking_backend.repository.AdminRepository;
 
 @Service
-public class UserService {
+public class AdminService {
     private final AdminRepository adminRepository;
 
-    public UserService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
 

@@ -26,12 +26,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/", "/index.html", "/static/**",
                                 "/*.ico", "/*.json", "/*.png", "/api/auth/check", "/api/auth/login")
                         .permitAll()
-                        .requestMatchers("/api/patients/**", "/api/appointments/**").permitAll()
+                        .requestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**").permitAll()
                         // secure the rest of the app
                         .anyRequest().authenticated())
                 // Enable CORS and CSRF protection
                 .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**") // allow new appointments
+                        .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**") // allow new appointments
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
 

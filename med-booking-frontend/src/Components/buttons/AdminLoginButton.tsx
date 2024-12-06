@@ -10,7 +10,6 @@ const handleLogin = () => {
   if (port === ":3000") {
     port = ":8080";
   }
-  console.log("location is: ", window.location.hostname);
 
   // redirect to the Okta login page (aka an api/<privateRoute>)
   window.location.href = `//${window.location.hostname}${port}/api/auth/login`;

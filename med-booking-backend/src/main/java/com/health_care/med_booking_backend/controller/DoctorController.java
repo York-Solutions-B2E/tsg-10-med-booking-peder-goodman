@@ -31,25 +31,24 @@ public class DoctorController {
     // Add New Doctor
     @PostMapping(path = "/create")
     public ResponseEntity<String> createNewDoctor(@RequestBody DoctorDTO newDoctor) {
-        System.out.println("doctor data: " + newDoctor);
-        return ResponseEntity.ok("Doctor Created! " + newDoctor.getFirstName());
+        return doctorService.createNewDoctor(newDoctor);
     }
 
     // Update Existing Doctor
     @PutMapping(path = "/edit/{doctorId}")
     public ResponseEntity<String> updateDoctor(@PathVariable Long doctorId) {
-        return ResponseEntity.ok("Doctor Updated! Doctor id is: " + doctorId);
+        return doctorService.updateDoctor(doctorId);
     }
 
     // Delete doctor
     @DeleteMapping("/delete/{doctorId}")
     public ResponseEntity<String> deleteDoctor(@PathVariable Long doctorId) {
-        return ResponseEntity.ok("Doctor Deleted! Doctor id is: " + doctorId);
+        return doctorService.deleteDoctor(doctorId);
     }
 
     // Get a list of Doctors and Specializations
     @GetMapping("/doctors-specializations")
     public ResponseEntity<String> getListOfDoctorsAndSpecializations() {
-        return ResponseEntity.ok("List of Doctors & Specializations!!");
+        return doctorService.getListOfDoctorsAndSpecializations();
     }
 }

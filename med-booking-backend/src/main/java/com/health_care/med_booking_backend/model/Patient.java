@@ -3,7 +3,8 @@ package com.health_care.med_booking_backend.model;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,11 +22,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "patients")
 public class Patient extends User {
+
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
 
     @OneToMany(mappedBy = "patient")
-    @JsonIgnore
+    @JsonBackReference
     private List<Appointment> patientAppointments;
 
     public Patient(String firstName, String lastName, Role role, String email, Date birthdate) {

@@ -2,7 +2,8 @@ package com.health_care.med_booking_backend.model;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,19 +27,24 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties("patientAppointments")
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
+
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties("doctorAppointments")
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
+
     @Column(nullable = false)
     private LocalDateTime appointmentDate;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VisitType visitType;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AppointmentStatus appointmentStatus;

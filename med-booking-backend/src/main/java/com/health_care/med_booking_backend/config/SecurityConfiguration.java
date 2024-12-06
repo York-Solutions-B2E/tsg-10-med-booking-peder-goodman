@@ -19,27 +19,29 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Enable CORS and CSRF protection
-                .csrf((csrf) -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+
                 // Define authorization rules
                 .authorizeHttpRequests((authz) -> authz
                         // allow access to the following paths without authentication
                         .requestMatchers("/", "/index.html", "/static/**",
                                 "/*.ico", "/*.json", "/*.png", "/api/auth/check", "/api/auth/login")
                         .permitAll()
+                        .requestMatchers("/api/patients/**", "/api/appointments/**").permitAll()
                         // secure the rest of the app
-                        // .requestMatchers("/protected").authenticated()
                         .anyRequest().authenticated())
+                // Enable CORS and CSRF protection
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**") // allow new appointments
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+
                 // Configure logout
                 .logout(logout -> logout
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID", "XSRF-TOKEN")
-                )
-                .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
+                        .deleteCookies("JSESSIONID", "XSRF-TOKEN"))
+                .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class) //
+                // disabled to test api without
                 // Configure login
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("http://localhost:3000/admin", true));

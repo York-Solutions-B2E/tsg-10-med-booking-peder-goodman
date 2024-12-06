@@ -1,5 +1,6 @@
 package com.health_care.med_booking_backend.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -25,13 +26,13 @@ public class Patient extends User {
 
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthdate;
+    private LocalDate birthdate;
 
     @OneToMany(mappedBy = "patient")
     @JsonBackReference
     private List<Appointment> patientAppointments;
 
-    public Patient(String firstName, String lastName, Role role, String email, Date birthdate) {
+    public Patient(String firstName, String lastName, Role role, String email, LocalDate birthdate) {
         super(firstName, lastName, email, role);
         this.role = Role.PATIENT;
         this.email = email;

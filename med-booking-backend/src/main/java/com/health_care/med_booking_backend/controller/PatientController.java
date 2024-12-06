@@ -39,13 +39,7 @@ public class PatientController {
     // Add New Patient
     @PostMapping(path = "/create")
     public ResponseEntity<String> createNewPatient(@RequestBody PatientDTO newPatient) {
-        boolean patientCreated = patientService.createNewPatient(newPatient);
-
-        if (patientCreated) {
-            return ResponseEntity.ok("Patient Created");
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return patientService.createNewPatient(newPatient);
     }
 
     // Get "Login"???

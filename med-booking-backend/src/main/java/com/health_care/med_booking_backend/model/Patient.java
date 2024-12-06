@@ -1,7 +1,6 @@
 package com.health_care.med_booking_backend.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

@@ -1,7 +1,6 @@
 package com.health_care.med_booking_backend.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.health_care.med_booking_backend.model.Admin;
-import static com.health_care.med_booking_backend.model.Role.ADMIN;
 import com.health_care.med_booking_backend.repository.AdminRepository;
 
 @Service
@@ -29,7 +28,7 @@ public class AdminService {
         String oktaId = (String) attributes.get("sub");
 
         // create new user object
-        Admin currentUser = new Admin(first_name, last_name, email, ADMIN, oktaId);
+        Admin currentUser = new Admin(first_name, last_name, email, oktaId);
 
         // check if user exists in database
         Optional<Admin> doesOktaUserExist = adminRepository.findAdminByOktaId(oktaId);

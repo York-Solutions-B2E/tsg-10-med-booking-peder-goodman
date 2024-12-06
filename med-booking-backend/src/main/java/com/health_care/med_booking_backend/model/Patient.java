@@ -31,10 +31,8 @@ public class Patient extends User {
     @JsonBackReference
     private List<Appointment> patientAppointments;
 
-    public Patient(String firstName, String lastName, Role role, String email, LocalDate birthdate) {
-        super(firstName, lastName, email, role);
-        this.role = Role.PATIENT;
-        this.email = email;
+    public Patient(String firstName, String lastName, String email, LocalDate birthdate) {
+        super(firstName, lastName, email, Role.PATIENT);
         this.birthdate = birthdate;
     }
 }

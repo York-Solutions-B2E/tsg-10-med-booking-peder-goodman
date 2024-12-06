@@ -1,14 +1,13 @@
 package com.health_care.med_booking_backend.service;
 
-import java.util.Optional;
-
+import com.health_care.med_booking_backend.dto.PatientDTO;
+import com.health_care.med_booking_backend.model.Patient;
+import com.health_care.med_booking_backend.repository.PatientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.health_care.med_booking_backend.dto.PatientDTO;
-import com.health_care.med_booking_backend.model.Patient;
-import com.health_care.med_booking_backend.model.Role;
-import com.health_care.med_booking_backend.repository.PatientRepository;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -29,20 +28,23 @@ public class PatientService {
     // Add New Patient
     public ResponseEntity<String> createNewPatient(PatientDTO patientDTO) {
 
-        System.out.println("Patient Recieved!" + patientDTO.getFirstName());
-        System.out.println("Patient Recieved!" + patientDTO.getBirthdate());
+        System.out.println("Patient Received!" + patientDTO.getFirstName());
+        System.out.println("Patient Received!" + patientDTO.getBirthdate());
 
         Optional<Patient> doesPatientEmailExist = patientRepository.findPatientByEmail(patientDTO.getEmail());
 
         // validate patient exists in the DB
         if (doesPatientEmailExist.isPresent()) {
             return ResponseEntity.badRequest().body("Email already exists");
-
         }
 
+        String firstName = patientDTO.getFirstName();
+        String lastName = patientDTO.getLastName();
+        String email = patientDTO.getEmail();
+        LocalDate birthdate = patientDTO.getBirthdate();
+
         // Save the new patient to the repository
-        Patient newPatient = new Patient(patientDTO.getFirstName(), patientDTO.getLastName(), Role.PATIENT,
-                patientDTO.getEmail(), patientDTO.getBirthdate());
+        Patient newPatient = new Patient(firstName, lastName, email, birthdate);
 
         patientRepository.save(newPatient);
 

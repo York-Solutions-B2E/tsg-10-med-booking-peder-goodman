@@ -1,13 +1,14 @@
 package com.health_care.med_booking_backend.service;
 
-import com.health_care.med_booking_backend.dto.PatientDTO;
-import com.health_care.med_booking_backend.model.Patient;
-import com.health_care.med_booking_backend.repository.PatientRepository;
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import com.health_care.med_booking_backend.dto.PatientDTO;
+import com.health_care.med_booking_backend.model.Patient;
+import com.health_care.med_booking_backend.repository.PatientRepository;
 
 @Service
 public class PatientService {
@@ -27,10 +28,6 @@ public class PatientService {
 
     // Add New Patient
     public ResponseEntity<String> createNewPatient(PatientDTO patientDTO) {
-
-        System.out.println("Patient Received!" + patientDTO.getFirstName());
-        System.out.println("Patient Received!" + patientDTO.getBirthdate());
-
         Optional<Patient> doesPatientEmailExist = patientRepository.findPatientByEmail(patientDTO.getEmail());
 
         // validate patient exists in the DB
@@ -58,7 +55,7 @@ public class PatientService {
                 .orElseThrow(() -> new IllegalStateException("Patient with id " + patientId + " does not exist"));
     }
 
-    // Get "Login"???
+    // Get "Login"
     public Patient loginPatient(PatientDTO patientEmailAndBirthdate) {
 
         Optional<Patient> doesPatientEmailExist = patientRepository

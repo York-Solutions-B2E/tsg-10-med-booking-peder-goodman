@@ -19,6 +19,10 @@ public class Specialization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String name;
+
+    public Specialization(String name) {
+        this.name = name;
+    }
 }

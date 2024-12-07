@@ -29,7 +29,7 @@ public class Doctor {
 
     @Column(nullable = false)
     private String firstName;
-    
+
     @Column(nullable = false)
     private String lastName;
 
@@ -47,5 +47,11 @@ public class Doctor {
         this.lastName = lastName;
         this.specialization = specialization;
         this.doctorAppointments = doctorAppointments;
+    }
+
+    public Doctor(String firstName, String lastName, Specialization specialization) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.specialization = specialization;
     }
 }

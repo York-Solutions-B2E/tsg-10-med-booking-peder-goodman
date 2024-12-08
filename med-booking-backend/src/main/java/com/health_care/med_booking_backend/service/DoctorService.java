@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.health_care.med_booking_backend.dto.DoctorDTO;
 import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
+import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.repository.AppointmentRepository;
 import com.health_care.med_booking_backend.repository.DoctorRepository;
 import com.health_care.med_booking_backend.repository.SpecializationRepository;
-import com.health_care.med_booking_backend.responses.DoctorSpecializationListResponse;
 
 import jakarta.transaction.Transactional;
 
@@ -40,10 +40,12 @@ public class DoctorService {
         String lastName = doctorRequestDTO.getLastName();
         Specialization specialization = doctorRequestDTO.getSpecialization();
 
-        Optional<Doctor> doesDoctorExist = doctorRepository.findDoctorByFirstNameAndLastName(firstName, lastName);
+        Optional<Doctor> doesDoctorExist = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(firstName,
+                lastName, specialization);
 
         if (doesDoctorExist.isPresent()) {
-            return ResponseEntity.badRequest().body("Doctor already exists in the Database");
+            return ResponseEntity.badRequest()
+                    .body("Doctor already exists in the Database with the same name and specialization");
         }
 
         doctorRepository.save(new Doctor(firstName, lastName, specialization));

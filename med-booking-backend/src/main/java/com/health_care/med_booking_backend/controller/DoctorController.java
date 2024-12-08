@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.health_care.med_booking_backend.dto.DoctorDTO;
 import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
+import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Doctor;
-import com.health_care.med_booking_backend.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.service.DoctorService;
 
 @RestController

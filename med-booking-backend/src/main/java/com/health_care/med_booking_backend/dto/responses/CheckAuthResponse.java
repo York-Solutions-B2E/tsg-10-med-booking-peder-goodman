@@ -1,5 +1,5 @@
 
-package com.health_care.med_booking_backend.responses;
+package com.health_care.med_booking_backend.dto.responses;
 
 import com.health_care.med_booking_backend.model.Admin;
 

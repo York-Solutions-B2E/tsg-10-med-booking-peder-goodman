@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.health_care.med_booking_backend.dto.responses.CheckAuthResponse;
+import com.health_care.med_booking_backend.dto.responses.LogoutResponse;
 import com.health_care.med_booking_backend.model.Admin;
-import com.health_care.med_booking_backend.responses.CheckAuthResponse;
-import com.health_care.med_booking_backend.responses.LogoutResponse;
 import com.health_care.med_booking_backend.service.AdminService;
 
 import jakarta.servlet.ServletException;

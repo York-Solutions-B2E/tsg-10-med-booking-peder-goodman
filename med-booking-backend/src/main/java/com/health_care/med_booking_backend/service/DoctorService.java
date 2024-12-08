@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.health_care.med_booking_backend.dto.DoctorDTO;
+import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.model.Specialization;
@@ -28,7 +28,7 @@ public class DoctorService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public ResponseEntity<String> createNewDoctor(DoctorDTO newDoctor) {
+    public ResponseEntity<String> createNewDoctor(DoctorRequestDTO newDoctor) {
         System.out.println("doctor data: " + newDoctor);
         return ResponseEntity.ok("Doctor Created! " + newDoctor.getFirstName());
     }

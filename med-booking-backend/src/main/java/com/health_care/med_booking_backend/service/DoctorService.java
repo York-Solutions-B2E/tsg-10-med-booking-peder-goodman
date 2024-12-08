@@ -14,6 +14,7 @@ import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.repository.AppointmentRepository;
 import com.health_care.med_booking_backend.repository.DoctorRepository;
 import com.health_care.med_booking_backend.repository.SpecializationRepository;
+import com.health_care.med_booking_backend.responses.DoctorSpecializationListResponse;
 
 import jakarta.transaction.Transactional;
 
@@ -106,17 +107,18 @@ public class DoctorService {
         return ResponseEntity.ok("Doctor Deleted! Doctor id is: " + doctorId);
     }
 
-    public ResponseEntity<?> getListOfDoctorsAndSpecializations() {
+    public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {
         List<Specialization> specializationList = specializationRepository.findAll();
         List<Doctor> doctorList = doctorRepository.findAll();
 
-        System.out.println("Specializations: " + specializationList);
+        DoctorSpecializationListResponse doctorSpecializationListResponse = new DoctorSpecializationListResponse(
+                specializationList, doctorList);
 
-        return ResponseEntity.ok(doctorList);
+        return ResponseEntity.ok(doctorSpecializationListResponse);
     }
 
     // Get Doctor by ID
-    public ResponseEntity<?> getDoctorById(Long doctorId) {
+    public ResponseEntity<Doctor> getDoctorById(Long doctorId) {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new IllegalStateException("Doctor with id " + doctorId + " does not exist"));
 

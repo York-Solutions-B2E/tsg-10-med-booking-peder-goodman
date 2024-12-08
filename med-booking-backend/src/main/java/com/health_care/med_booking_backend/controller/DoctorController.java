@@ -1,6 +1,5 @@
 package com.health_care.med_booking_backend.controller;
 
-import com.health_care.med_booking_backend.dto.DoctorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.health_care.med_booking_backend.dto.DoctorDTO;
 import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
+import com.health_care.med_booking_backend.model.Doctor;
+import com.health_care.med_booking_backend.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.service.DoctorService;
 
 @RestController
@@ -47,14 +49,14 @@ public class DoctorController {
         return doctorService.deleteDoctor(doctorId);
     }
 
-    @GetMapping("/get/{doctorId}")
-    public ResponseEntity<?> getDoctorById(@PathVariable Long doctorId) {
-        return doctorService.getDoctorById(doctorId);
-    }
-
     // Get a list of Doctors and Specializations
     @GetMapping("/doctors-specializations")
-    public ResponseEntity<?> getListOfDoctorsAndSpecializations() {
+    public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {
         return doctorService.getListOfDoctorsAndSpecializations();
+    }
+
+    @GetMapping("/get/{doctorId}")
+    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long doctorId) {
+        return doctorService.getDoctorById(doctorId);
     }
 }

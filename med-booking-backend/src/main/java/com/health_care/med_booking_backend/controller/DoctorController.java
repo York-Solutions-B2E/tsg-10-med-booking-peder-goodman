@@ -1,5 +1,6 @@
 package com.health_care.med_booking_backend.controller;
 
+import com.health_care.med_booking_backend.dto.DoctorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,9 +36,9 @@ public class DoctorController {
     }
 
     // Update Existing Doctor
-    @PutMapping(path = "/edit/{doctorId}")
-    public ResponseEntity<String> updateDoctor(@PathVariable Long doctorId) {
-        return doctorService.updateDoctor(doctorId);
+    @PutMapping(path = "/edit")
+    public ResponseEntity<String> updateDoctor(@RequestBody DoctorDTO doctorDTO) {
+        return doctorService.updateDoctor(doctorDTO);
     }
 
     // Delete doctor

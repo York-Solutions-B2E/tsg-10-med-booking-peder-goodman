@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.health_care.med_booking_backend.dto.DoctorDTO;
+import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
 import com.health_care.med_booking_backend.service.DoctorService;
 
 @RestController
@@ -30,7 +30,7 @@ public class DoctorController {
 
     // Add New Doctor
     @PostMapping(path = "/create")
-    public ResponseEntity<String> createNewDoctor(@RequestBody DoctorDTO newDoctor) {
+    public ResponseEntity<String> createNewDoctor(@RequestBody DoctorRequestDTO newDoctor) {
         return doctorService.createNewDoctor(newDoctor);
     }
 
@@ -46,9 +46,14 @@ public class DoctorController {
         return doctorService.deleteDoctor(doctorId);
     }
 
+    @GetMapping("/get/{doctorId}")
+    public ResponseEntity<?> getDoctorById(@PathVariable Long doctorId) {
+        return doctorService.getDoctorById(doctorId);
+    }
+
     // Get a list of Doctors and Specializations
     @GetMapping("/doctors-specializations")
-    public ResponseEntity<String> getListOfDoctorsAndSpecializations() {
+    public ResponseEntity<?> getListOfDoctorsAndSpecializations() {
         return doctorService.getListOfDoctorsAndSpecializations();
     }
 }

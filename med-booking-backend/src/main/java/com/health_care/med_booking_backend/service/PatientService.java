@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.health_care.med_booking_backend.dto.PatientDTO;
+import com.health_care.med_booking_backend.dto.PatientRequestDTO;
 import com.health_care.med_booking_backend.model.Patient;
 import com.health_care.med_booking_backend.repository.PatientRepository;
 
@@ -20,14 +20,14 @@ public class PatientService {
     }
 
     // Validate patient exists
-    public boolean validatePatientExists(PatientDTO patientDTO) {
+    public boolean validatePatientExists(PatientRequestDTO patientDTO) {
         // if exists, return true. if they don't exist, return false
         return patientRepository.findPatientByFirstNameAndLastNameAndBirthdate(patientDTO.getFirstName(),
                 patientDTO.getLastName(), patientDTO.getBirthdate()).isPresent();
     }
 
     // Add New Patient
-    public ResponseEntity<String> createNewPatient(PatientDTO patientDTO) {
+    public ResponseEntity<String> createNewPatient(PatientRequestDTO patientDTO) {
         Optional<Patient> doesPatientEmailExist = patientRepository.findPatientByEmail(patientDTO.getEmail());
 
         // validate patient exists in the DB
@@ -56,7 +56,7 @@ public class PatientService {
     }
 
     // Get "Login"
-    public Patient loginPatient(PatientDTO patientEmailAndBirthdate) {
+    public Patient loginPatient(PatientRequestDTO patientEmailAndBirthdate) {
 
         Optional<Patient> doesPatientEmailExist = patientRepository
                 .findPatientByEmail(patientEmailAndBirthdate.getEmail());

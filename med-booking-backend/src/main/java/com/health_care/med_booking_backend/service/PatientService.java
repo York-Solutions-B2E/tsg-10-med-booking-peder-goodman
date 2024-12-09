@@ -1,14 +1,13 @@
 package com.health_care.med_booking_backend.service;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import com.health_care.med_booking_backend.dto.requests.PatientRequest;
 import com.health_care.med_booking_backend.model.Patient;
 import com.health_care.med_booking_backend.repository.PatientRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -56,26 +55,29 @@ public class PatientService {
     }
 
     // Get "Login"
-    public Patient loginPatient(PatientRequest patientRequest) {
+    public Patient loginPatient(PatientRequest patientLoginRequest) {
 
         Optional<Patient> doesPatientEmailExist = patientRepository
-                .findPatientByEmail(patientRequest.getEmail());
+                .findPatientByEmail(patientLoginRequest.getEmail());
 
         // validate patient exists in the DB
         if (doesPatientEmailExist.isEmpty()) {
             throw new IllegalStateException("User Doesn't exists");
         }
 
-        System.out.println("submitted Birthdate: " + patientRequest.getBirthdate());
-        System.out.println("submitted Birthdate: " + doesPatientEmailExist.get().getBirthdate());
+        System.out.println("submitted Birthdate: " + patientLoginRequest.getBirthdate());
+        System.out.println("database Birthdate: " + doesPatientEmailExist.get().getBirthdate());
+        System.out.println("submitted email " + patientLoginRequest.getEmail());
+        System.out.println("database email" + doesPatientEmailExist.get().getEmail());
+        boolean doEmailsMatch = doesPatientEmailExist.get().getEmail().equals(patientLoginRequest.getEmail());
+        boolean doDatesMatch = doesPatientEmailExist.get().getBirthdate() == patientLoginRequest.getBirthdate();
+        System.out.println("Validate Email Result: " + doEmailsMatch);
+        System.out.println("Validate date Result: " + doDatesMatch);
 
         // Validate correct login info (email and DOB)
-        // if
-        // (doesPatientEmailExist.get().getEmail().equals(patientEmailAndBirthdate.getEmail())
-        // && doesPatientEmailExist.get().getBirthdate() !=
-        // patientEmailAndBirthdate.getBirthdate()) {
-        // throw new IllegalStateException("Login Info doesn't match");
-        // }
+        if (!doEmailsMatch || doDatesMatch) {
+            throw new IllegalStateException("Login Info doesn't match");
+        }
 
         // return the patient if all checks out
         return doesPatientEmailExist.get();

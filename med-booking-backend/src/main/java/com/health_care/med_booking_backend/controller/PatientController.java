@@ -44,8 +44,8 @@ public class PatientController {
 
     // Get "Login"???
     @PostMapping(path = "/login")
-    public Patient loginPatient(@RequestBody PatientRequest patientRequest) {
-        return patientService.loginPatient(patientRequest); // returns patient with list of appointments
+    public Patient loginPatient(@RequestBody PatientRequest patientLoginRequest) {
+        return patientService.loginPatient(patientLoginRequest); // returns patient with list of appointments
     }
 
     // GetPatient details

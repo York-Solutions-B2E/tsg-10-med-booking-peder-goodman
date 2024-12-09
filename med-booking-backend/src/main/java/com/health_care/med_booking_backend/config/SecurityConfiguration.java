@@ -26,15 +26,15 @@ public class SecurityConfiguration {
                         .requestMatchers("/", "/index.html", "/static/**",
                                 "/*.ico", "/*.json", "/*.png", "/api/auth/check", "/api/auth/login")
                         .permitAll()
-                        .requestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**").permitAll()
+                        .requestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**", "/api/doctors/doctors-specializations", "/api/doctor/get/*").permitAll()
                         // secure the rest of the app
                         .anyRequest().authenticated())
                 // Enable CORS and CSRF protection
                 .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**") // allow new appointments
+                        // allow access to the following paths without CSRF protection
+                        .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**", "/api/doctors/**", "/api/doctors/doctors-specializations", "/api/doctor/get/*")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-
                 // Configure logout
                 .logout(logout -> logout
                         .invalidateHttpSession(true)
@@ -45,7 +45,6 @@ public class SecurityConfiguration {
                 // Configure login
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("http://localhost:3000/admin", true));
-
         return http.build();
     }
 

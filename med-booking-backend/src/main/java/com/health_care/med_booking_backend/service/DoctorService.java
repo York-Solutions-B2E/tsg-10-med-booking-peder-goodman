@@ -127,7 +127,6 @@ public class DoctorService {
                 .orElseThrow(() -> new IllegalStateException("Doctor with id " + doctorId + " does not exist"));
 
         return ResponseEntity.ok(doctor);
-
     }
 
 }

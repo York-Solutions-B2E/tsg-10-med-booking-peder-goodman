@@ -46,20 +46,17 @@ public class AppointmentSeeder {
                 // Select the visit type (80% IN_PERSON)
                 VisitType visitType = random.nextInt(100) < 80 ? VisitType.IN_PERSON : VisitType.TELEHELTH;
 
-                // Select the appointment status (85% future appointments should be BOOKED, past
-                // ones COMPLETED)
-                AppointmentStatus status = appointmentDate.isAfter(LocalDateTime.now())
-                        ? AppointmentStatus.BOOKED
-                        : AppointmentStatus.COMPLETED;
+                // Select the appointment status should be BOOKED by default
+                AppointmentStatus status = AppointmentStatus.BOOKED;
 
-                // Randomly sprinkle in some canceled appointments (10-15 cancellations)
+                // Randomly sprinkle in some canceled appointments
                 if (random.nextInt(100) < 10) {
                     status = AppointmentStatus.CANCELED;
                 }
 
-                // If the appointment is in the future, it can either be with the main doctor or
-                // another doctor
-                Doctor doctor = (i < numAppointments - 2 || random.nextInt(100) < 85) ? mainDoctor
+                // The appointment can either be with the main doctor or sometimes another
+                // doctor
+                Doctor doctor = (i < numAppointments - 2 || random.nextInt(100) < 80) ? mainDoctor
                         : getRandomOtherDoctor(doctors, mainDoctor);
 
                 appointments.add(new Appointment(patient, doctor, appointmentDate, visitType, status));

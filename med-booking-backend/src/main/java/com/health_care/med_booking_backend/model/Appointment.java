@@ -1,7 +1,9 @@
 package com.health_care.med_booking_backend.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -39,15 +41,12 @@ public class Appointment {
     private Doctor doctor;
 
     @Column(nullable = false)
-    private LocalDateTime appointmentDate;
-
-    // @Column(nullable = false)
-    // @JsonFormat(pattern = "yyyy-MM-dd")
-    // private LocalDate date;
-    //
-    // @Column(nullable = false)
-    // @JsonFormat(pattern = "HH:mm")
-    // private LocalTime time;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate appointmentDate;
+    
+    @Column(nullable = false)
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime appointmentTime;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,11 +56,12 @@ public class Appointment {
     @Column(nullable = false)
     private AppointmentStatus appointmentStatus;
 
-    public Appointment(Patient patient, Doctor doctor, LocalDateTime appointmentDate, VisitType visitType,
+    public Appointment(Patient patient, Doctor doctor, LocalDate appointmentDate, LocalTime appointmentTime, VisitType visitType,
             AppointmentStatus appointmentStatus) {
         this.patient = patient;
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
         this.visitType = visitType;
         this.appointmentStatus = appointmentStatus;
     }

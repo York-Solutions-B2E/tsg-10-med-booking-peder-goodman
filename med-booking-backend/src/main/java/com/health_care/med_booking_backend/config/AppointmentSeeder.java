@@ -1,7 +1,9 @@
 package com.health_care.med_booking_backend.config;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,11 +39,14 @@ public class AppointmentSeeder {
 
             for (int i = 0; i < numAppointments; i++) {
                 // Randomize appointment date: between a week before and 2-3 weeks from today
-                LocalDateTime appointmentDate = getRandomAppointmentDate();
-                while (takenDates.contains(appointmentDate)) {
-                    appointmentDate = getRandomAppointmentDate(); // Ensure unique appointment time
+                LocalDateTime appointmentDateTime = getRandomAppointmentDate();
+                while (takenDates.contains(appointmentDateTime)) {
+                    appointmentDateTime = getRandomAppointmentDate(); // Ensure unique appointment time
                 }
-                takenDates.add(appointmentDate);
+                takenDates.add(appointmentDateTime);
+                // split date and time
+                LocalDate appointmentDate = appointmentDateTime.toLocalDate();
+                LocalTime appointmentTime = appointmentDateTime.toLocalTime();
 
                 // Select the visit type (80% IN_PERSON)
                 VisitType visitType = random.nextInt(100) < 80 ? VisitType.IN_PERSON : VisitType.TELEHELTH;
@@ -59,7 +64,7 @@ public class AppointmentSeeder {
                 Doctor doctor = (i < numAppointments - 2 || random.nextInt(100) < 80) ? mainDoctor
                         : getRandomOtherDoctor(doctors, mainDoctor);
 
-                appointments.add(new Appointment(patient, doctor, appointmentDate, visitType, status));
+                appointments.add(new Appointment(patient, doctor, appointmentDate, appointmentTime, visitType, status));
             }
         }
 
@@ -101,6 +106,7 @@ public class AppointmentSeeder {
             System.out.println("Patient: " + appointments.get(i).getPatient().getFirstName() + ", Doctor: "
                     + appointments.get(i).getDoctor().getFirstName() + ", Date: "
                     + appointments.get(i).getAppointmentDate()
+                    + appointments.get(i).getAppointmentTime()
                     + ", Visit Type: "
                     + appointments.get(i).getVisitType() + ", Status: " + appointments.get(i).getAppointmentStatus());
         }
@@ -111,8 +117,8 @@ public class AppointmentSeeder {
         appointments.forEach(appointment -> {
             System.out.println("Patient: " + appointment.getPatient().getFirstName() +
                     ", Doctor: " + appointment.getDoctor().getFirstName() +
-                    ", Date: " + appointment.getAppointmentDate() +
-                    ", Visit Type: " + appointment.getVisitType() +
+                    ", Date: " + appointment.getAppointmentDate() + appointment.getAppointmentTime()
+                    + ", Visit Type: " + appointment.getVisitType() +
                     ", Status: " + appointment.getAppointmentStatus());
         });
     }

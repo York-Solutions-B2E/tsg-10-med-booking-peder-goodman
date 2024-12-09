@@ -1,22 +1,20 @@
 package com.health_care.med_booking_backend.service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
+import com.health_care.med_booking_backend.dto.AppointmentDTO;
+import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
+import com.health_care.med_booking_backend.model.*;
+import com.health_care.med_booking_backend.repository.AppointmentRepository;
+import com.health_care.med_booking_backend.repository.DoctorRepository;
+import com.health_care.med_booking_backend.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.health_care.med_booking_backend.dto.AppointmentDTO;
-import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
-import com.health_care.med_booking_backend.model.Appointment;
-import com.health_care.med_booking_backend.model.AppointmentStatus;
-import com.health_care.med_booking_backend.model.Doctor;
-import com.health_care.med_booking_backend.model.Patient;
-import com.health_care.med_booking_backend.model.VisitType;
-import com.health_care.med_booking_backend.repository.AppointmentRepository;
-import com.health_care.med_booking_backend.repository.DoctorRepository;
-import com.health_care.med_booking_backend.repository.PatientRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -28,7 +26,7 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
 
     public AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository,
-            PatientRepository patientRepository) {
+                              PatientRepository patientRepository) {
         this.appointmentRepository = appointmentRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -37,7 +35,8 @@ public class AppointmentService {
     public ResponseEntity<String> createNewAppointment(AppointmentRequest appointmentRequest) {
         Long requestedDoctorId = appointmentRequest.getDoctor().getId();
         Long requestedPatientId = appointmentRequest.getPatient().getId();
-        LocalDateTime requestedAppointmentDate = appointmentRequest.getAppointmentDate();
+        LocalDate requestedAppointmentDate = appointmentRequest.getAppointmentDate();
+        LocalTime requestedAppointmentTime = appointmentRequest.getAppointmentTime();
         VisitType requestedVisitType = appointmentRequest.getVisitType();
 
         // grab patient & doctor entities
@@ -52,8 +51,8 @@ public class AppointmentService {
 
         // Check if the appointment exists
         Optional<Appointment> doesAppointmentExist = appointmentRepository
-                .findAppointmentByPatientAndDoctorAndAppointmentDate(requestedPatient.get(), requestedDoctor.get(),
-                        requestedAppointmentDate);
+                .findAppointmentByPatientAndDoctorAndAppointmentDateAndAppointmentTime(requestedPatient.get(), requestedDoctor.get(),
+                        requestedAppointmentDate, requestedAppointmentTime);
 
         // If appointment does Exist and *is not* CANCELED, we can't make it, send bad
         // request!
@@ -62,24 +61,17 @@ public class AppointmentService {
             return ResponseEntity.badRequest().body("Appointment already Exists!");
         }
 
-        // Validate Appointment Date and patient and doctor do not have another
-        // appointment on the same day
-        // LocalDate requestedAppointmentDateOnly =
-        // requestedAppointmentDate.toLocalDate();
-        // System.out.println("Requested Appointment Date Only = " +
-        // requestedAppointmentDateOnly);
-
-        // List<?> existingAppointments =
-        // appointmentRepository.findByPatientIdAndDoctorIdOnDate(
-        // requestedPatient.get().getId(), requestedDoctor.get().getId(),
-        // requestedAppointmentDateOnly);
-
-        // System.out.println("Existing Appointments = " + existingAppointments.size());
-        // ????????
+        // checks if an appointment with the same patient & doctor exists for the requested appointment date, filters out "CANCELED" appointments
+        List<Appointment> existingAppointments = appointmentRepository.findAppointmentByPatientIdAndDoctorIdAndAppointmentDate(requestedPatientId, requestedDoctorId, requestedAppointmentDate);
+        if (!existingAppointments.isEmpty()) {
+            return ResponseEntity.badRequest().body("This Patient already has an appointment on this day!");
+        }
 
         // Validate date is in the future
-        boolean validateDateTimeInFuture = appointmentRequest.getAppointmentDate()
-                .isAfter(java.time.LocalDateTime.now());
+        // merge date and time
+        LocalDateTime requestedDateTime = LocalDateTime.of(requestedAppointmentDate, requestedAppointmentTime);
+
+        boolean validateDateTimeInFuture = requestedDateTime.isAfter(java.time.LocalDateTime.now());
         if (!validateDateTimeInFuture) {
             return ResponseEntity.badRequest().body("Requested Appointment is not in the future!");
         }
@@ -94,6 +86,7 @@ public class AppointmentService {
                 requestedPatient.get(),
                 requestedDoctor.get(),
                 requestedAppointmentDate,
+                requestedAppointmentTime,
                 requestedVisitType,
                 AppointmentStatus.BOOKED);
 
@@ -107,16 +100,13 @@ public class AppointmentService {
     public ResponseEntity<String> updateAppointmentDetails(AppointmentDTO appointmentDTO) {
         Optional<Appointment> doesAppointmentIdExist = appointmentRepository.findById(appointmentDTO.getId());
 
-        System.out.println("Appointment exists = " + doesAppointmentIdExist.isPresent());
+        if (doesAppointmentIdExist.isEmpty()) {
+            return ResponseEntity.badRequest().body("Appointment doesn't exist!");
+        }
 
-        // LocalDate requestedAppointmentDateOnly = appointmentDTO.getAppointmentDate().toLocalDate();
-        // List<?> existingAppointments = appointmentRepository.findByPatientIdAndDoctorIdOnDate(
-        //         appointmentDTO.getDoctor().getId(), appointmentDTO.getPatient().getId(), requestedAppointmentDateOnly);
-
-        // System.out.println("Existing Appointments = " + existingAppointments);
         // check that appointment exists
 
-        // check for change to appointment date
+        // check for change to appointment date & date validations
 
         // check for change to appointment doctor & doctor validations
 
@@ -126,5 +116,7 @@ public class AppointmentService {
 
         return ResponseEntity.ok("Appointment Details Updated!");
     }
+
+
 
 }

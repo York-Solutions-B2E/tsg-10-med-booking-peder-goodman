@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.health_care.med_booking_backend.dto.DoctorDTO;
-import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
+import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Doctor;
@@ -29,12 +29,12 @@ public class DoctorService {
         this.specializationRepository = specializationRepository;
     }
 
-    public ResponseEntity<String> createNewDoctor(DoctorRequestDTO doctorRequestDTO) {
+    public ResponseEntity<String> createNewDoctor(DoctorRequest doctorRequest) {
         // Check if the doctor already exists
 
-        String firstName = doctorRequestDTO.getFirstName();
-        String lastName = doctorRequestDTO.getLastName();
-        Specialization specialization = doctorRequestDTO.getSpecialization();
+        String firstName = doctorRequest.getFirstName();
+        String lastName = doctorRequest.getLastName();
+        Specialization specialization = doctorRequest.getSpecialization();
 
         Optional<Doctor> doesDoctorExist = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(firstName,
                 lastName, specialization);

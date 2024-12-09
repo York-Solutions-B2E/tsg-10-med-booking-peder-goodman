@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.health_care.med_booking_backend.dto.AppointmentDTO;
-import com.health_care.med_booking_backend.dto.AppointmentRequestDTO;
+import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
 import com.health_care.med_booking_backend.service.AppointmentService;
 
 @RestController
@@ -23,8 +23,8 @@ public class AppointmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createNewAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
-        return appointmentService.createNewAppointment(appointmentRequestDTO);
+    public ResponseEntity<String> createNewAppointment(@RequestBody AppointmentRequest appointmentRequest) {
+        return appointmentService.createNewAppointment(appointmentRequest);
     }
 
     @PutMapping("/update/details")

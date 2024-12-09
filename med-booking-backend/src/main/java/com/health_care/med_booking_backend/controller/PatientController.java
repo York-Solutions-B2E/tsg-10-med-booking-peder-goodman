@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.health_care.med_booking_backend.dto.PatientRequestDTO;
+import com.health_care.med_booking_backend.dto.requests.PatientRequest;
 import com.health_care.med_booking_backend.model.Patient;
 import com.health_care.med_booking_backend.service.PatientService;
 
@@ -32,20 +32,20 @@ public class PatientController {
 
     // validate new user exists
     @GetMapping(path = "/validate")
-    public Boolean validatePatientExists(PatientRequestDTO patient) {
-        return patientService.validatePatientExists(patient);
+    public Boolean validatePatientExists(PatientRequest patientRequest) {
+        return patientService.validatePatientExists(patientRequest);
     }
 
     // Add New Patient
     @PostMapping(path = "/create")
-    public ResponseEntity<String> createNewPatient(@RequestBody PatientRequestDTO newPatient) {
-        return patientService.createNewPatient(newPatient);
+    public ResponseEntity<String> createNewPatient(@RequestBody PatientRequest newPatientRequest) {
+        return patientService.createNewPatient(newPatientRequest);
     }
 
     // Get "Login"???
     @PostMapping(path = "/login")
-    public Patient loginPatient(@RequestBody PatientRequestDTO patientDetails) {
-        return patientService.loginPatient(patientDetails); // returns patient with list of appointments
+    public Patient loginPatient(@RequestBody PatientRequest patientRequest) {
+        return patientService.loginPatient(patientRequest); // returns patient with list of appointments
     }
 
     // GetPatient details

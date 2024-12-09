@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.health_care.med_booking_backend.dto.DoctorDTO;
-import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
+import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.service.DoctorService;
@@ -33,8 +33,8 @@ public class DoctorController {
 
     // Add New Doctor
     @PostMapping(path = "/create")
-    public ResponseEntity<String> createNewDoctor(@RequestBody DoctorRequestDTO newDoctor) {
-        return doctorService.createNewDoctor(newDoctor);
+    public ResponseEntity<String> createNewDoctor(@RequestBody DoctorRequest newDoctorRequest) {
+        return doctorService.createNewDoctor(newDoctorRequest);
     }
 
     // Update Existing Doctor

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.health_care.med_booking_backend.dto.AppointmentDTO;
-import com.health_care.med_booking_backend.dto.AppointmentRequestDTO;
+import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.AppointmentStatus;
 import com.health_care.med_booking_backend.model.Doctor;
@@ -34,11 +34,11 @@ public class AppointmentService {
         this.doctorRepository = doctorRepository;
     }
 
-    public ResponseEntity<String> createNewAppointment(AppointmentRequestDTO appointmentRequestDTO) {
-        Long requestedDoctorId = appointmentRequestDTO.getDoctor().getId();
-        Long requestedPatientId = appointmentRequestDTO.getPatient().getId();
-        LocalDateTime requestedAppointmentDate = appointmentRequestDTO.getAppointmentDate();
-        VisitType requestedVisitType = appointmentRequestDTO.getVisitType();
+    public ResponseEntity<String> createNewAppointment(AppointmentRequest appointmentRequest) {
+        Long requestedDoctorId = appointmentRequest.getDoctor().getId();
+        Long requestedPatientId = appointmentRequest.getPatient().getId();
+        LocalDateTime requestedAppointmentDate = appointmentRequest.getAppointmentDate();
+        VisitType requestedVisitType = appointmentRequest.getVisitType();
 
         // grab patient & doctor entities
         Optional<Patient> requestedPatient = patientRepository.findById(requestedPatientId);
@@ -78,13 +78,13 @@ public class AppointmentService {
         // ????????
 
         // Validate date is in the future
-        boolean validateDateTimeInFuture = appointmentRequestDTO.getAppointmentDate()
+        boolean validateDateTimeInFuture = appointmentRequest.getAppointmentDate()
                 .isAfter(java.time.LocalDateTime.now());
         if (!validateDateTimeInFuture) {
             return ResponseEntity.badRequest().body("Requested Appointment is not in the future!");
         }
         //
-        boolean validateVisitType = appointmentRequestDTO.getVisitType() != null;
+        boolean validateVisitType = appointmentRequest.getVisitType() != null;
         if (!validateVisitType) {
             return ResponseEntity.badRequest().body("Visit Type Required!");
         }

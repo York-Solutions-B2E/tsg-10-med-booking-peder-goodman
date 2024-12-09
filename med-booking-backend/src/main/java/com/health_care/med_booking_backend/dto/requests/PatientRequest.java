@@ -1,6 +1,6 @@
-package com.health_care.med_booking_backend.dto;
+package com.health_care.med_booking_backend.dto.requests;
 
-import com.health_care.med_booking_backend.model.Specialization;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DoctorRequestDTO {
+public class PatientRequest {
     private String firstName;
     private String lastName;
-    private Specialization specialization;
+    private LocalDate birthdate;
+    private String email;
 }

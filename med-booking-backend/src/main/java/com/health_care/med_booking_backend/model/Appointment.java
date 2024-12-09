@@ -41,6 +41,14 @@ public class Appointment {
     @Column(nullable = false)
     private LocalDateTime appointmentDate;
 
+    // @Column(nullable = false)
+    // @JsonFormat(pattern = "yyyy-MM-dd")
+    // private LocalDate date;
+    //
+    // @Column(nullable = false)
+    // @JsonFormat(pattern = "HH:mm")
+    // private LocalTime time;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VisitType visitType;

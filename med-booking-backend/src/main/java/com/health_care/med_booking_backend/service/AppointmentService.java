@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.health_care.med_booking_backend.dto.AppointmentDTO;
 import com.health_care.med_booking_backend.dto.AppointmentRequestDTO;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.AppointmentStatus;
@@ -86,8 +87,7 @@ public class AppointmentService {
                 requestedDoctor.get(),
                 requestedAppointmentDate,
                 requestedVisitType,
-                AppointmentStatus.BOOKED
-        );
+                AppointmentStatus.BOOKED);
 
         // if all is well, save appointment to the database!
         appointmentRepository.save(newAppointment);
@@ -96,8 +96,8 @@ public class AppointmentService {
         return ResponseEntity.status(201).body("Appointment Created!");
     }
 
-    public ResponseEntity<String> updateAppointmentDetails(Appointment appointment) {
-        Optional<Appointment> doesAppointmentIdExist = appointmentRepository.findById(appointment.getId());
+    public ResponseEntity<String> updateAppointmentDetails(AppointmentDTO appointmentDTO) {
+        Optional<Appointment> doesAppointmentIdExist = appointmentRepository.findById(appointmentDTO.getId());
 
         System.out.println("Appointment exists = " + doesAppointmentIdExist.isPresent());
         // check that appointment exists

@@ -2,7 +2,6 @@ package com.health_care.med_booking_backend.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import com.health_care.med_booking_backend.dto.DoctorDTO;
 import com.health_care.med_booking_backend.dto.DoctorRequestDTO;
 import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
-import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.repository.AppointmentRepository;
@@ -115,9 +113,7 @@ public class DoctorService {
         List<Specialization> specializationList = specializationRepository.findAll();
         List<Doctor> doctorList = doctorRepository.findAll();
 
-        List<DoctorDTO> doctorDTOList = doctorList.stream()
-                .map(DoctorMapper::toDoctorDTO)
-                .collect(Collectors.toList());
+        List<DoctorDTO> doctorDTOList = doctorList.stream().map(DoctorMapper::toDoctorDTO).toList();
 
         DoctorSpecializationListResponse doctorSpecializationListResponse = new DoctorSpecializationListResponse(
                 specializationList, doctorDTOList);
@@ -129,11 +125,6 @@ public class DoctorService {
     public ResponseEntity<Doctor> getDoctorById(Long doctorId) {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new IllegalStateException("Doctor with id " + doctorId + " does not exist"));
-
-        // Fetch the list of appointments associated with the doctor
-        List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
-
-        doctor.setDoctorAppointments(appointments);
 
         return ResponseEntity.ok(doctor);
 

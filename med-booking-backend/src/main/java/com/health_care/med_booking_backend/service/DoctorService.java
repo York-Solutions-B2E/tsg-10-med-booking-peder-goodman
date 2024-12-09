@@ -12,7 +12,6 @@ import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.model.Specialization;
-import com.health_care.med_booking_backend.repository.AppointmentRepository;
 import com.health_care.med_booking_backend.repository.DoctorRepository;
 import com.health_care.med_booking_backend.repository.SpecializationRepository;
 
@@ -24,13 +23,10 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final SpecializationRepository specializationRepository;
-    private final AppointmentRepository appointmentRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, SpecializationRepository specializationRepository,
-            AppointmentRepository appointmentRepository) {
+    public DoctorService(DoctorRepository doctorRepository, SpecializationRepository specializationRepository) {
         this.doctorRepository = doctorRepository;
         this.specializationRepository = specializationRepository;
-        this.appointmentRepository = appointmentRepository;
     }
 
     public ResponseEntity<String> createNewDoctor(DoctorRequestDTO doctorRequestDTO) {

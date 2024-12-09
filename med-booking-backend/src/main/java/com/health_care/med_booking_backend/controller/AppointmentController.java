@@ -1,5 +1,6 @@
 package com.health_care.med_booking_backend.controller;
 
+import com.health_care.med_booking_backend.dto.AppointmentRequestDTO;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.service.AppointmentService;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class AppointmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createNewAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.createNewAppointment(appointment);
+    public ResponseEntity<String> createNewAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+        return appointmentService.createNewAppointment(appointmentRequestDTO);
     }
 
     @PutMapping("/update/details")

@@ -1,6 +1,5 @@
 package com.health_care.med_booking_backend.service;
 
-import com.health_care.med_booking_backend.dto.AppointmentRequestDTO;
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.repository.AppointmentRepository;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ public class AppointmentService {
         // -- no more than one appointment per day, per patient
 
 
-
         // if all is well, save appointment to the database!
 
 
@@ -46,10 +44,6 @@ public class AppointmentService {
 
 
         return ResponseEntity.ok("Appointment Details Updated!");
-    }
-
-    public ResponseEntity<String> updateAppointmentStatus(Appointment appointment) {
-        return ResponseEntity.ok("Appointment Status Updated!");
     }
 
 }

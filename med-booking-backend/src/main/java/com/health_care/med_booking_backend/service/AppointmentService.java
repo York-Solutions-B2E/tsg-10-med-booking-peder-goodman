@@ -35,9 +35,6 @@ public class AppointmentService {
     }
 
     public ResponseEntity<String> createNewAppointment(AppointmentRequestDTO appointmentRequestDTO) {
-        // Doctor requestedDoctor = appointmentRequestDTO.getDoctor();
-        // Patient requestedPatient = appointmentRequestDTO.getPatient();
-
         Long requestedDoctorId = appointmentRequestDTO.getDoctor().getId();
         Long requestedPatientId = appointmentRequestDTO.getPatient().getId();
         LocalDateTime requestedAppointmentDate = appointmentRequestDTO.getAppointmentDate();
@@ -67,6 +64,17 @@ public class AppointmentService {
 
         // Validate Appointment Date and patient and doctor do not have another
         // appointment on the same day
+        // LocalDate requestedAppointmentDateOnly =
+        // requestedAppointmentDate.toLocalDate();
+        // System.out.println("Requested Appointment Date Only = " +
+        // requestedAppointmentDateOnly);
+
+        // List<?> existingAppointments =
+        // appointmentRepository.findByPatientIdAndDoctorIdOnDate(
+        // requestedPatient.get().getId(), requestedDoctor.get().getId(),
+        // requestedAppointmentDateOnly);
+
+        // System.out.println("Existing Appointments = " + existingAppointments.size());
         // ????????
 
         // Validate date is in the future
@@ -100,6 +108,12 @@ public class AppointmentService {
         Optional<Appointment> doesAppointmentIdExist = appointmentRepository.findById(appointmentDTO.getId());
 
         System.out.println("Appointment exists = " + doesAppointmentIdExist.isPresent());
+
+        // LocalDate requestedAppointmentDateOnly = appointmentDTO.getAppointmentDate().toLocalDate();
+        // List<?> existingAppointments = appointmentRepository.findByPatientIdAndDoctorIdOnDate(
+        //         appointmentDTO.getDoctor().getId(), appointmentDTO.getPatient().getId(), requestedAppointmentDateOnly);
+
+        // System.out.println("Existing Appointments = " + existingAppointments);
         // check that appointment exists
 
         // check for change to appointment date

@@ -2,6 +2,7 @@ package com.health_care.med_booking_backend.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -39,6 +40,7 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     @JsonManagedReference
+    @JsonIgnoreProperties("doctor")
     private List<Appointment> doctorAppointments;
 
     public Doctor(String firstName, String lastName, Specialization specialization,

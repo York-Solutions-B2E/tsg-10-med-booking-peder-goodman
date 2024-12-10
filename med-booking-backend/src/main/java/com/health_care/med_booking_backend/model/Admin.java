@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admin")
+@Table(name = "admins")
 public class Admin extends User {
     private String oktaId;
 
-    public Admin(String firstName, String lastName, String email, Role role, String oktaId) {
-        super(firstName, lastName, email, role);
+    public Admin(String firstName, String lastName, String email, String oktaId) {
+        super(firstName, lastName, email, Role.ADMIN);
         this.oktaId = oktaId;
     }
 }

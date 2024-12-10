@@ -10,19 +10,15 @@ export const logoutUser = createAsyncThunk<LogoutResponse>(
     // get the xsrf token from the cookies
     const xsrfToken = cookies.get("XSRF-TOKEN");
 
-    const response = await axios.post("/api/auth/logout", null, {
+    const response = await axios.post<LogoutResponse>("/api/auth/logout", {
       withCredentials: true,
       headers: { "X-XSRF-TOKEN": xsrfToken },
     });
 
-    console.log("In Logout Thunk. response is:", response);
-
     if (response.status !== 200) {
       console.log("Error logging out: ", response.status);
-      throw new Error(`HTTP error! status: ${response}`);
+      throw new Error(`HTTP error! status: ${response.data.message}`);
     } else {
-      console.log("Logged out successfully");
-
       // handle redirect to home page/ logout page
       window.location.href =
         `${response.data.logoutUrl}?id_token_hint=${response.data.idToken}` +
@@ -40,7 +36,7 @@ export const checkUserAuthentication = createAsyncThunk<AuthCheckResponse>(
       withCredentials: true,
     });
 
-    console.log("In Check Auth Thunk. response is:", response.data);
+    console.log("In Check Auth Thunk:", response.data.message);
 
     return response.data;
   }

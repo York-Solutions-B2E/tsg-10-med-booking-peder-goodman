@@ -24,20 +24,20 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(nullable = false)
-    private String firstName;
+    protected String firstName;
 
     @Column(nullable = false)
-    private String lastName;
+    protected String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = true, unique = true)
+    protected String email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    protected Role role;
 
     // lombok provides all args and no args constructor
     // this is for everything but the id (and will probably be used most often

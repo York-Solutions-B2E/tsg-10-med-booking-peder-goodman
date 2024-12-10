@@ -31,4 +31,9 @@ public class AppointmentController {
     public ResponseEntity<String> updateAppointmentDetails(@RequestBody AppointmentDTO appointmentDTO) {
         return appointmentService.updateAppointmentDetails(appointmentDTO);
     }
+
+    @PutMapping("/cancel")
+    public ResponseEntity<String> cancelAppointment(@RequestBody Long appointmentId) {
+        return appointmentService.cancelAppointment(appointmentId);
+    }
 }

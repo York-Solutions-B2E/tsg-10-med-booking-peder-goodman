@@ -1,20 +1,25 @@
 package com.health_care.med_booking_backend.service;
 
-import com.health_care.med_booking_backend.dto.AppointmentDTO;
-import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
-import com.health_care.med_booking_backend.model.*;
-import com.health_care.med_booking_backend.repository.AppointmentRepository;
-import com.health_care.med_booking_backend.repository.DoctorRepository;
-import com.health_care.med_booking_backend.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.health_care.med_booking_backend.dto.AppointmentDTO;
+import com.health_care.med_booking_backend.dto.requests.AppointmentRequest;
+import com.health_care.med_booking_backend.model.Appointment;
+import com.health_care.med_booking_backend.model.AppointmentStatus;
+import com.health_care.med_booking_backend.model.Doctor;
+import com.health_care.med_booking_backend.model.Patient;
+import com.health_care.med_booking_backend.model.VisitType;
+import com.health_care.med_booking_backend.repository.AppointmentRepository;
+import com.health_care.med_booking_backend.repository.DoctorRepository;
+import com.health_care.med_booking_backend.repository.PatientRepository;
 
 @Service
 public class AppointmentService {
@@ -112,11 +117,40 @@ public class AppointmentService {
 
         // check for change to visitType
 
-        // check for change to status
+
 
         return ResponseEntity.ok("Appointment Details Updated!");
     }
 
 
 
+    public ResponseEntity<String> cancelAppointment(Long appointmentId) {
+        Optional<Appointment> doesAppointmentIdExist = appointmentRepository.findById(appointmentId);
+
+        if (doesAppointmentIdExist.isEmpty()) {
+            return ResponseEntity.badRequest().body("Appointment doesn't exist!");
+        }
+
+        Appointment appointment = doesAppointmentIdExist.get();
+
+        // check if appointment is already canceled
+        if (appointment.getAppointmentStatus() == AppointmentStatus.CANCELED) {
+            return ResponseEntity.badRequest().body("Appointment is already canceled!");
+        }
+
+        // check if appointment is in the past
+        LocalDateTime appointmentDateTime = LocalDateTime.of(appointment.getAppointmentDate(), appointment.getAppointmentTime());
+        if (appointmentDateTime.isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body("Appointment is in the past!");
+        }
+
+        // set appointment status to CANCELED
+        appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
+        appointmentRepository.save(appointment);
+
+        return ResponseEntity.ok("Appointment Canceled!");
+    }
+
+
+    
 }

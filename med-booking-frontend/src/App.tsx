@@ -1,6 +1,6 @@
-import "./App.css";
 import NavBar from "./Components/Navigation/NavBar";
 import AdminHome from "./Containers/AdminHome";
+import "./css/App.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AddAppointmentForm } from "./Containers/AddAppointmentForm";

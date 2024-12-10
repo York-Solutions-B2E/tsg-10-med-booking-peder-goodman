@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import "../App.css";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 

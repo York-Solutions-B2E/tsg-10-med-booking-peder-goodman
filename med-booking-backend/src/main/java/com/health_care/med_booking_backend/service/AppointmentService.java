@@ -81,6 +81,13 @@ public class AppointmentService {
             return ResponseEntity.badRequest().body("This Patient already has an appointment on this day!");
         }
 
+        // check if doctor is available on the requested date & time
+        Optional<Appointment> isDoctorAvailableOnRequestedDateTime = appointmentValidations
+                .isDoctorAvailable(requestedDoctorId, requestedAppointmentDate, requestedAppointmentTime);
+        if (isDoctorAvailableOnRequestedDateTime.isPresent()) {
+            return ResponseEntity.badRequest().body("Doctor is not available on the requested date & time!");
+        }
+
         // Validate date is in the future
         // merge date and time
         boolean validateDateTimeInFuture = LocalDateTime.of(requestedAppointmentDate, requestedAppointmentTime)

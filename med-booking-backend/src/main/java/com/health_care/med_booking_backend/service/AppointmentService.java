@@ -215,6 +215,7 @@ public class AppointmentService {
         return ResponseEntity.ok("Appointment Details Updated!");
     }
 
+    @Transactional
     public ResponseEntity<String> cancelAppointment(Long appointmentId) {
         Optional<Appointment> doesAppointmentExist = appointmentRepository.findById(appointmentId);
 
@@ -238,7 +239,6 @@ public class AppointmentService {
 
         // set appointment status to CANCELED
         appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
-        appointmentRepository.save(appointment);
 
         return ResponseEntity.ok("Appointment Canceled!");
     }

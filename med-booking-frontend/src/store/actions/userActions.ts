@@ -41,3 +41,27 @@ export const checkUserAuthentication = createAsyncThunk<AuthCheckResponse>(
     return response.data;
   }
 );
+
+export const loginAdmin = createAsyncThunk<void>(
+  "user/loginAdmin",
+  async () => {
+    let port = window.location.port ? ":" + window.location.port : "";
+
+    // set the port to 8080 if it's 3000
+    if (port === ":3000") {
+      port = ":8080";
+    }
+    // redirect to the Okta login page (aka an api/<privateRoute>)
+    window.location.href = `//${window.location.hostname}${port}/api/auth/login`;
+  }
+);
+
+// export const loginPatient = createAsyncThunk<any>("user/loginPatient", async () => {
+//   const response = await axios.get<AuthCheckResponse>("api/auth/check", {
+//     withCredentials: true,
+//   });
+
+//   console.log("In Check Auth Thunk:", response.data.message);
+
+//   return response.data;
+// });

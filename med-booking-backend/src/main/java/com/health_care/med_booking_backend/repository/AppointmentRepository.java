@@ -28,4 +28,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("doctorId") Long doctorId,
             @Param("appointmentDate") LocalDate appointmentDate);
 
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentDate = :appointmentDate AND a.appointmentTime = :appointmentTime AND a.appointmentStatus <> 'CANCELED'")
+    Optional<Appointment> findAppointmentByDoctorIdAndAppointmentDateAndAppointmentTime(
+            @Param("doctorId") Long doctorId,
+            @Param("appointmentDate") LocalDate appointmentDate,
+            @Param("appointmentTime") LocalTime appointmentTime);
+
 }

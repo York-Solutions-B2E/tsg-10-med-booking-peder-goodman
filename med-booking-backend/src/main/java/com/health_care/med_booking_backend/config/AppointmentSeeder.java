@@ -49,7 +49,7 @@ public class AppointmentSeeder {
                 LocalTime appointmentTime = appointmentDateTime.toLocalTime();
 
                 // Select the visit type (80% IN_PERSON)
-                VisitType visitType = random.nextInt(100) < 80 ? VisitType.IN_PERSON : VisitType.TELEHELTH;
+                VisitType visitType = random.nextInt(100) < 80 ? VisitType.IN_PERSON : VisitType.TELEHEALTH;
 
                 // Select the appointment status should be BOOKED by default
                 AppointmentStatus status = AppointmentStatus.BOOKED;
@@ -59,10 +59,9 @@ public class AppointmentSeeder {
                     status = AppointmentStatus.CANCELED;
                 }
 
-                // The appointment can either be with the main doctor or sometimes another
-                // doctor
-                Doctor doctor = (i < numAppointments - 2 || random.nextInt(100) < 80) ? mainDoctor
-                        : getRandomOtherDoctor(doctors, mainDoctor);
+                // The appointment can either be with the main doctor or another doctor (50%
+                // each)
+                Doctor doctor = random.nextInt(100) < 50 ? mainDoctor : getRandomOtherDoctor(doctors, mainDoctor);
 
                 appointments.add(new Appointment(patient, doctor, appointmentDate, appointmentTime, visitType, status));
             }

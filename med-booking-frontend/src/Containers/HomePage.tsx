@@ -11,9 +11,8 @@ import { store } from "../store/store";
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const { userDetails, isUserAuthenticated } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { userDetails, isUserAuthenticated, isPatientAuthenticated } =
+    useSelector((state: RootState) => state.user);
 
   const userRole = userDetails?.role;
   const [showSignup, setShowSignup] = useState(false);
@@ -23,7 +22,7 @@ export const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    if (isUserAuthenticated) {
+    if (isUserAuthenticated || isPatientAuthenticated) {
       if (userRole === "ADMIN") {
         navigate("/admin");
       } else if (userRole === "PATIENT") {

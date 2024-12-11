@@ -12,4 +12,16 @@ declare global {
     logoutUrl: string;
     idToken: string;
   }
+
+  interface PatientLoginRequest {
+    email: string;
+    birthdate: string;
+  }
+  
+  interface PatientSignupRequest {
+    firstName: string;
+    lastName: string;
+    email: string;
+    birthdate: string;
+  }
 }

@@ -5,7 +5,7 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 
 export const logoutUser = createAsyncThunk<LogoutResponse>(
-  "user/logoutUser",
+  "admin/logoutUser",
   async () => {
     // get the xsrf token from the cookies
     const xsrfToken = cookies.get("XSRF-TOKEN");
@@ -37,6 +37,50 @@ export const checkUserAuthentication = createAsyncThunk<AuthCheckResponse>(
     });
 
     console.log("In Check Auth Thunk:", response.data.message);
+
+    return response.data;
+  }
+);
+
+export const loginAdmin = createAsyncThunk<void>(
+  "admin/loginAdmin",
+  async () => {
+    let port = window.location.port ? ":" + window.location.port : "";
+
+    // set the port to 8080 if it's 3000
+    if (port === ":3000") {
+      port = ":8080";
+    }
+    // redirect to the Okta login page (aka an api/<privateRoute>)
+    window.location.href = `//${window.location.hostname}${port}/api/auth/login`;
+  }
+);
+
+export const loginPatient = createAsyncThunk(
+  "patient/loginPatient",
+  async (body: PatientLoginRequest) => {
+    const response = await axios.post<any>("api/patients/login", body, {
+      withCredentials: true,
+    });
+
+    console.log("In Patient Login Thunk:", response.data);
+
+    return response.data;
+  }
+);
+
+export const signupPatient = createAsyncThunk(
+  "patient/signupPatient",
+  async (body: PatientSignupRequest) => {
+    const response = await axios.post<PatientDetails>(
+      "api/patients/create",
+      body,
+      {
+        withCredentials: true,
+      }
+    );
+
+    console.log("In Patient Login Thunk:", response.data);
 
     return response.data;
   }

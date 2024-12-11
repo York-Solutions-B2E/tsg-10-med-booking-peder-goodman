@@ -1,13 +1,14 @@
 package com.health_care.med_booking_backend.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.health_care.med_booking_backend.dto.requests.PatientRequest;
 import com.health_care.med_booking_backend.model.Patient;
 import com.health_care.med_booking_backend.repository.PatientRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -26,12 +27,13 @@ public class PatientService {
     }
 
     // Add New Patient
-    public ResponseEntity<String> createNewPatient(PatientRequest newPatientRequest) {
+    public Patient createNewPatient(PatientRequest newPatientRequest) {
         Optional<Patient> doesPatientEmailExist = patientRepository.findPatientByEmail(newPatientRequest.getEmail());
 
         // validate patient exists in the DB
         if (doesPatientEmailExist.isPresent()) {
-            return ResponseEntity.badRequest().body("Email already exists");
+//            return ResponseEntity.badRequest().body("Email already exists");
+            new IllegalStateException("Email already exists");
         }
 
         String firstName = newPatientRequest.getFirstName();
@@ -44,7 +46,11 @@ public class PatientService {
 
         patientRepository.save(newPatient);
 
-        return ResponseEntity.ok("Patient Created");
+        // add empty array so patientAppointments value doesn't return null
+        newPatient.setPatientAppointments(new ArrayList<>());
+
+        return newPatient;
+
 
     }
 

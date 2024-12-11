@@ -6,7 +6,7 @@ import DefaultNav from "./DefaultNav";
 import PatientNav from "./PatientNav";
 
 export default function NavBar() {
-  const { isUserAuthenticated, userDetails } = useSelector(
+  const { isPatientAuthenticated, isUserAuthenticated, userDetails } = useSelector(
     (state: AppState) => state.user
   );
   const userRole = userDetails?.role;
@@ -14,15 +14,15 @@ export default function NavBar() {
   let navDisplay = <DefaultNav />;
 
   if (userRole === "ADMIN") {
-    navDisplay = <AdminNav isUserAuthenticated={isUserAuthenticated} />;
+    navDisplay = <AdminNav isUserAuthenticated={isUserAuthenticated} isPatientAuthenticated={isPatientAuthenticated} />;
   } else if (userRole === "PATIENT") {
-    navDisplay = <PatientNav isUserAuthenticated={isUserAuthenticated} />;
+    navDisplay = <PatientNav isUserAuthenticated={isPatientAuthenticated} isPatientAuthenticated={isPatientAuthenticated} />;
   } else {
     navDisplay = <DefaultNav />;
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, position: "fixed",  top: 0, width: "100%", zIndex: 100}}>
       <AppBar position="static">{navDisplay}</AppBar>
     </Box>
   );

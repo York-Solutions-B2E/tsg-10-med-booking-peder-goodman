@@ -5,19 +5,22 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { AdminLoginButton } from "../buttons/AdminLoginButton";
 import { AdminLogoutButton } from "../buttons/AdminLogoutButton";
+import { useDispatch } from "react-redux";
+import { resetUserState } from "../../store/reducers/userReducer";
+import { PatientLogoutButton } from "../buttons/PatientLogoutButton";
 
 export default function AdminNav(props: NavigationProps) {
-  const { isUserAuthenticated } = props;
+  const { isPatientAuthenticated } = props;
   const navigate = useNavigate();
 
-  const handleClickViewDoctorList = () => {
+  const handleClickViewAppointmentList = () => {
     // navigate to admin home (aka /admin)
-    navigate("/admin");
+    navigate("/my-appointments");
   };
 
-  const handleClickAddDoctor = () => {
+  const handleClickAddAppointment = () => {
     // navigate to admin home (aka /admin)
-    navigate("/add-doctor");
+    navigate("/create-appointment");
   };
 
   return (
@@ -25,20 +28,20 @@ export default function AdminNav(props: NavigationProps) {
       <Toolbar>
         <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickViewDoctorList}
+          onClick={handleClickViewAppointmentList}
         >
-          View Doctor List
+          View Your Appointments
         </Button>
         <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickAddDoctor}
+          onClick={handleClickAddAppointment}
         >
-          Add Doctor
+          Add Appointment
         </Button>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           HealthCare.com
         </Typography>
-        {isUserAuthenticated ? <AdminLogoutButton /> : <AdminLoginButton />}
+        {isPatientAuthenticated ? <PatientLogoutButton /> : <></>}
       </Toolbar>
     </Box>
   );

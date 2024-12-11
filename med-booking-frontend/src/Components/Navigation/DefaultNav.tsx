@@ -19,7 +19,7 @@ export default function DefaultNav() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Toolbar>
-        <Button
+        {/* <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
           onClick={handleClickMyAppointments}
         >
@@ -30,7 +30,7 @@ export default function DefaultNav() {
           onClick={handleClickCreateAppointment}
         >
           Create Appointment
-        </Button>
+        </Button> */}
 
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           HealthCare.com

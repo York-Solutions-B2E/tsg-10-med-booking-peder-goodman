@@ -18,6 +18,7 @@ declare global {
 
   interface PatientDetails extends UserDetails {
     birthdate: string;
+    patientAppointments: Appointment[];
   }
 
   type Role = "ADMIN" | "PATIENT" | null;
@@ -43,10 +44,10 @@ declare global {
     patient: PatientDetails;
     doctor: DoctorDetails;
     specialization: Specialization;
-    date: string;
-    time: string;
+    appointmentDate: string;
+    appointmentTime: string;
     visitType: VisitType;
-    status: AppointmentStatus;
+    appointmentStatus: AppointmentStatus;
   }
 
   type VisitType = "IN_PERSON" | "TELEHEALTH";

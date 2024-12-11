@@ -26,10 +26,4 @@ const validateDateIsInPast = (selectedDate: Dayjs | null) => {
   return false;
 };
 
-const calculateAge = (date: string | Dayjs) => {
-  const today = dayjs();
-  const birthdate = dayjs(date);
-  return today.diff(birthdate, "year");
-};
-
-export { validateDateIsInPast, validateEmail, calculateAge };
+export { validateDateIsInPast, validateEmail };

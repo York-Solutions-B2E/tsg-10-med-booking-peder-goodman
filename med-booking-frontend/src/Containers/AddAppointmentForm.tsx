@@ -7,5 +7,5 @@ export const AddAppointmentForm = () => {
     store.dispatch(checkUserAuthentication());
   }, []);
 
-  return <div>AddAppointmentForm</div>;
+  return <div>This will likely get deleted soon! </div>;
 };

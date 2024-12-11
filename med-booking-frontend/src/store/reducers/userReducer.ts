@@ -18,8 +18,9 @@ const initialState: UserState = {
     fullName: "", // ? add a method to get the full name? or just use firstName + lastName
     email: "",
     role: null,
-    birthdate: "",
-    oktaId: "",
+    birthdate: "", // will be empty for admin
+    oktaId: "", // will be empty for patient
+    patientAppointments: [] // will be empty for admin
   },
   errorMessage: null,
 };

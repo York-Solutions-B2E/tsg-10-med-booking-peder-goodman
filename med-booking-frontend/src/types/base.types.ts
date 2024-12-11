@@ -29,7 +29,7 @@ declare global {
     id: string;
     firstName: string;
     lastName: string;
-    specialty: Specialization;
+    specialization: Specialization;
   }
 
   interface Specialization {
@@ -43,7 +43,6 @@ declare global {
     id: string;
     patient: PatientDetails;
     doctor: DoctorDetails;
-    specialization: Specialization;
     appointmentDate: string;
     appointmentTime: string;
     visitType: VisitType;
@@ -54,3 +53,17 @@ declare global {
 
   type AppointmentStatus = "CONFIRMED" | "CANCELLED" | "COMPLETED";
 }
+
+/**  
+ import AddIcon from "@mui/icons-material/Add";
+
+    <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={handleOpen}
+      >
+        Add Appointment
+      </Button>
+
+ */

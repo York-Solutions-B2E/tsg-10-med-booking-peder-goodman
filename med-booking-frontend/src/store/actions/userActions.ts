@@ -1,9 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Cookies } from "react-cookie";
-import { store } from "../store";
-import { resetUserState } from "../reducers/userReducer";
-import { useDispatch } from "react-redux";
 
 const cookies = new Cookies();
 
@@ -61,9 +58,22 @@ export const loginAdmin = createAsyncThunk<void>(
 
 export const loginPatient = createAsyncThunk(
   "patient/loginPatient",
-  async (body: LoginRequest) => {
-    const response = await axios.post<any>(
-      "api/patients/login",
+  async (body: PatientLoginRequest) => {
+    const response = await axios.post<any>("api/patients/login", body, {
+      withCredentials: true,
+    });
+
+    console.log("In Patient Login Thunk:", response.data);
+
+    return response.data;
+  }
+);
+
+export const signupPatient = createAsyncThunk(
+  "patient/signupPatient",
+  async (body: PatientSignupRequest) => {
+    const response = await axios.post<PatientDetails>(
+      "api/patients/create",
       body,
       {
         withCredentials: true,
@@ -75,5 +85,3 @@ export const loginPatient = createAsyncThunk(
     return response.data;
   }
 );
-
-

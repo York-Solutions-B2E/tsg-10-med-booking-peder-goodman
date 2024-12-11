@@ -4,7 +4,7 @@ import {
   checkUserAuthentication,
   loginPatient,
   logoutUser,
-  // signupPatient,
+  signupPatient,
 } from "../actions/userActions";
 
 const initialState: UserState = {
@@ -33,7 +33,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     adminLogoutCases(builder);
     userAuthenticationCases(builder);
-    // patientSignupCases(builder);
+    patientSignupCases(builder);
     patientLoginCases(builder);
   },
 });
@@ -97,12 +97,33 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
   });
   builder.addCase(loginPatient.rejected, (state, action) => {
     console.log("loginPatient.rejected payload: ", action.payload);
-    state.isUserAuthenticated = false;
+    state.isPatientAuthenticated = false;
     state.error = action.payload;
     state.loadingAuth = false;
   });
 };
 
+const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
+  builder.addCase(signupPatient.pending, (state, action) => {
+    // Clears any previous errors and set loading
+    state.errorMessage = null;
+    state.isLoading = true;
+  });
+  builder.addCase(signupPatient.fulfilled, (state, action) => {
+    console.log("loginPatient.fulfilled payload: ", action.payload);
+    // If user is authenticated, set the user details
+    state.isPatientAuthenticated = true;
+    state.userDetails = action.payload;
+    // Clear any previous errors and set loading to false
+    state.errorMessage = null;
+    state.isLoading = false;
+  });
+  builder.addCase(signupPatient.rejected, (state, action) => {
+    state.isPatientAuthenticated = false;
+    state.error = action.payload;
+    state.loadingAuth = false;
+  });
+};
 
 // export any actions in the reducer (not counting extraReducers)
 export const { resetUserState } = userSlice.actions;

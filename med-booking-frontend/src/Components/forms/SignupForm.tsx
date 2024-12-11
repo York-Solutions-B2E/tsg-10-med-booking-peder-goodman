@@ -5,6 +5,8 @@ import CustomButton from "../inputs/CustomButton";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { CustomTextField } from "../inputs/CustomTextInput";
 
+import { signupPatient } from "../../store/actions/userActions";
+import { store } from "../../store/store";
 import {
   validateDateIsInPast,
   validateEmail,
@@ -50,7 +52,7 @@ export const SignupForm = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      handleClickLoginButton();
+      handleClickSignupButton();
     }
   };
 
@@ -83,18 +85,23 @@ export const SignupForm = () => {
   };
 
   // * Form submission
-  const handleClickLoginButton = () => {
-    const patientLoginData = {
+  const handleClickSignupButton = () => {
+    if (!birthDate) {
+      setBirthDateErrorMessage("Birth date is required");
+      return;
+    }
+
+    const patientSignupData = {
       firstName,
       lastName,
       email,
-      birthDate: birthDate?.format("YYYY-MM-DD"),
+      birthdate: birthDate.format("YYYY-MM-DD"),
     };
 
     if (validateForm()) {
       console.log("submitting form");
-      console.log(patientLoginData);
-      // store.dispatch(signupPatient(email, birthDate?.format("YYYY-MM-DD")));
+      console.log(patientSignupData);
+      store.dispatch(signupPatient(patientSignupData));
     }
   };
 
@@ -146,7 +153,7 @@ export const SignupForm = () => {
           onChange={handleDateChange}
         />
 
-        <CustomButton buttonText="Signup" onClick={handleClickLoginButton} />
+        <CustomButton buttonText="Signup" onClick={handleClickSignupButton} />
 
         {/* <CustomAlert message="Error Logging in" /> */}
       </FormControl>

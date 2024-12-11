@@ -64,9 +64,9 @@ export const LoginForm = () => {
       return;
     }
 
-    const patientLoginData: LoginRequest = {
+    const patientLoginData: PatientLoginRequest = {
       email,
-      birthDate: birthDate.format("YYYY-MM-DD"),
+      birthdate: birthDate.format("YYYY-MM-DD"),
     };
 
     if (validateForm()) {

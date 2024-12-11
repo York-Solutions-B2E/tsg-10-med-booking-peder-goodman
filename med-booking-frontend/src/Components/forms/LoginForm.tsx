@@ -5,6 +5,8 @@ import CustomButton from "../inputs/CustomButton";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { CustomTextField } from "../inputs/CustomTextInput";
 
+import { loginPatient } from "../../store/actions/userActions";
+import { store } from "../../store/store";
 import {
   validateDateIsInPast,
   validateEmail,
@@ -49,7 +51,7 @@ export const LoginForm = () => {
     }
 
     if (!isBirthDateValid) {
-      setBirthDateErrorMessage("Invalid Date");
+      setBirthDateErrorMessage("Birth date must be in the past");
     }
 
     return isEmailValid && isBirthDateValid;
@@ -57,15 +59,20 @@ export const LoginForm = () => {
 
   // * Form submission
   const handleClickLoginButton = () => {
-    const patientLoginData = {
+    if (!birthDate) {
+      setBirthDateErrorMessage("Birth date is required");
+      return;
+    }
+
+    const patientLoginData: LoginRequest = {
       email,
-      birthDate: birthDate?.format("YYYY-MM-DD"),
+      birthDate: birthDate.format("YYYY-MM-DD"),
     };
 
     if (validateForm()) {
       console.log("submitting form");
       console.log(patientLoginData);
-      // store.dispatch(loginPatient(email, birthDate?.format("YYYY-MM-DD")));
+      store.dispatch(loginPatient(patientLoginData));
     }
   };
 

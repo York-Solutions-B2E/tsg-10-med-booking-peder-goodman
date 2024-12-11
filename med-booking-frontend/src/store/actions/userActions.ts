@@ -1,11 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { store } from "../store";
+import { resetUserState } from "../reducers/userReducer";
+import { useDispatch } from "react-redux";
 
 const cookies = new Cookies();
 
 export const logoutUser = createAsyncThunk<LogoutResponse>(
-  "user/logoutUser",
+  "admin/logoutUser",
   async () => {
     // get the xsrf token from the cookies
     const xsrfToken = cookies.get("XSRF-TOKEN");
@@ -43,7 +46,7 @@ export const checkUserAuthentication = createAsyncThunk<AuthCheckResponse>(
 );
 
 export const loginAdmin = createAsyncThunk<void>(
-  "user/loginAdmin",
+  "admin/loginAdmin",
   async () => {
     let port = window.location.port ? ":" + window.location.port : "";
 
@@ -56,12 +59,21 @@ export const loginAdmin = createAsyncThunk<void>(
   }
 );
 
-// export const loginPatient = createAsyncThunk<any>("user/loginPatient", async () => {
-//   const response = await axios.get<AuthCheckResponse>("api/auth/check", {
-//     withCredentials: true,
-//   });
+export const loginPatient = createAsyncThunk(
+  "patient/loginPatient",
+  async (body: LoginRequest) => {
+    const response = await axios.post<any>(
+      "api/patients/login",
+      body,
+      {
+        withCredentials: true,
+      }
+    );
 
-//   console.log("In Check Auth Thunk:", response.data.message);
+    console.log("In Patient Login Thunk:", response.data);
 
-//   return response.data;
-// });
+    return response.data;
+  }
+);
+
+

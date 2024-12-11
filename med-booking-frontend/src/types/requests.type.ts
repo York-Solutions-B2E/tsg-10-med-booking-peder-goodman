@@ -12,4 +12,9 @@ declare global {
     logoutUrl: string;
     idToken: string;
   }
+
+  interface LoginRequest {
+    email: string;
+    birthDate: string;
+  }
 }

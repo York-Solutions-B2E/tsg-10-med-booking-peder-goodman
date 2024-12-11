@@ -174,15 +174,13 @@ public class AppointmentService {
         // If doctor, date, or time has changed, validate & update new details
         if (hasDoctorChanged || hasDateChanged || hasTimeChanged) {
 
-            if (hasDateChanged || hasTimeChanged) {
-                // check if doctor is available on the requested date & time
-                Optional<Appointment> isDoctorAvailableOnRequestedDateTime = appointmentValidations
-                        .isDoctorAvailable(updatedDoctorId, updatedAppointmentDate, updatedAppointmentTime)
-                        .filter(appointment -> !appointment.getId().equals(updatedAppointmentId));
+            // check if doctor is available on the requested date & time
+            Optional<Appointment> isDoctorAvailableOnRequestedDateTime = appointmentValidations
+                    .isDoctorAvailable(updatedDoctorId, updatedAppointmentDate, updatedAppointmentTime)
+                    .filter(appointment -> !appointment.getId().equals(updatedAppointmentId));
 
-                if (isDoctorAvailableOnRequestedDateTime.isPresent()) {
-                    return ResponseEntity.badRequest().body("Doctor is not available on the requested date & time!");
-                }
+            if (isDoctorAvailableOnRequestedDateTime.isPresent()) {
+                return ResponseEntity.badRequest().body("Doctor is not available on the requested date & time!");
             }
 
             // checks if Patient/Doctor/AppointmentDate is valid. filters out updated

@@ -9,7 +9,7 @@ export default function NavBar() {
   const { isPatientAuthenticated, isUserAuthenticated, userDetails } = useSelector(
     (state: AppState) => state.user
   );
-  const userRole = userDetails.role;
+  const userRole = userDetails?.role;
 
   let navDisplay = <DefaultNav />;
 

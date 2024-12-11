@@ -8,5 +8,11 @@ declare global {
 
   type ProtectedRouteProps = {
     requiredRole: Role;
+  };
+
+  interface GenericModalProps {
+    open: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
   }
 }

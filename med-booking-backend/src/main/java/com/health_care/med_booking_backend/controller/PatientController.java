@@ -38,7 +38,7 @@ public class PatientController {
 
     // Add New Patient
     @PostMapping(path = "/create")
-    public ResponseEntity<String> createNewPatient(@RequestBody PatientRequest newPatientRequest) {
+    public Patient createNewPatient(@RequestBody PatientRequest newPatientRequest) {
         return patientService.createNewPatient(newPatientRequest);
     }
 

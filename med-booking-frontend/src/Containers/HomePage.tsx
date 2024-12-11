@@ -82,12 +82,13 @@ export const HomePage = () => {
   };
 
   const termsMessaging = showSignup ? "signing up" : "signing in";
+  const headerMessaging = showSignup ? "Patient Sign-up" : "Patient Sign-in";
 
   return (
     <>
       <Box sx={homePageStyling}>
         <Card sx={loginCardStyling}>
-          <h1 style={{ marginTop: "0px" }}>Patient Sign-in</h1>
+          <h1 style={{ marginTop: "0px" }}>{headerMessaging}</h1>
           {showSignup ? <NewUserPrompt /> : <ExistingUserPrompt />}
           {showSignup ? <SignupForm /> : <LoginForm />}
           <p style={{ margin: "16px 32px" }}>

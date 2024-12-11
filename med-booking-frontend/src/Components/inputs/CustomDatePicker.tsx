@@ -6,6 +6,7 @@ const CustomDatePicker = (props: any) => {
 
   const datePickerStyling = {
     marginBottom: "10px",
+    backgroundColor: "white",
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">

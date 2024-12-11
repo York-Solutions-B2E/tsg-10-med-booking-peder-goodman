@@ -69,12 +69,20 @@ export const LoginForm = () => {
     }
   };
 
+  const formContainerStyling = {
+    width: "80%",
+  };
+
+  const formStyling = {
+    width: "100%",
+  };
+
   return (
-    <Box>
+    <Box sx={formContainerStyling}>
       <FormHelperText id="my-helper-text">
         We'll never share your email.
       </FormHelperText>
-      <FormControl sx={{ width: "400px" }} onKeyDown={handleKeyDown}>
+      <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
         <CustomTextField
           id="login-email-input"
           label="email address"

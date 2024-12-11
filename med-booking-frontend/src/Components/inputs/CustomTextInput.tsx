@@ -6,6 +6,7 @@ export const CustomTextField = (props: any) => {
 
   const textFieldStyling = {
     marginBottom: "10px",
+    backgroundColor: "white",
   };
   return (
     <TextField

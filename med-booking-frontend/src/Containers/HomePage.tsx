@@ -1,6 +1,6 @@
 // aka login
 
-import { Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -32,11 +32,37 @@ export const HomePage = () => {
     }
   }, [isUserAuthenticated, userRole]);
 
+  const homePageStyling = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
   const loginCardStyling = {
-    maxWidth: "400px",
-    margin: "60px auto 20px",
-    padding: "30px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    maxWidth: "450px",
+    margin: "100px auto 20px",
+    padding: "48px 0px",
+
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     boxShadow: "0px 0px 30px 5px rgba(0,0,0,0.14)",
+    borderRadius: "10px",
+  };
+
+  const backgroundImage = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100vh",
+    backgroundImage:
+      // "url(https://blog.cincinnatichildrens.org/wp-content/uploads/2023/09/blog-fall.jpg)",
+      "url(https://www.healthpartners.com/content/dam/brand-identity/photography/stock/lifestyle/family/getty1350125891-3000x2000.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    zIndex: -1,
   };
 
   const ExistingUserPrompt = () => {
@@ -60,20 +86,23 @@ export const HomePage = () => {
 
   return (
     <>
-      <Card sx={loginCardStyling}>
-        <h1>Patient Sign-in</h1>
-        {showSignup ? <NewUserPrompt /> : <ExistingUserPrompt />}
-        {showSignup ? <SignupForm /> : <LoginForm />}
-        <p>
-          By {termsMessaging}, you agree to accept our{" "}
-          <a
-            href="https://genius.com/Rick-astley-never-gonna-give-you-up-lyrics"
-            target="_blank"
-          >
-            terms and conditions.
-          </a>
-        </p>
-      </Card>
+      <Box sx={homePageStyling}>
+        <Card sx={loginCardStyling}>
+          <h1 style={{ marginTop: "0px" }}>Patient Sign-in</h1>
+          {showSignup ? <NewUserPrompt /> : <ExistingUserPrompt />}
+          {showSignup ? <SignupForm /> : <LoginForm />}
+          <p style={{ margin: "16px 32px" }}>
+            By {termsMessaging}, you agree to accept our{" "}
+            <a
+              href="https://genius.com/Rick-astley-never-gonna-give-you-up-lyrics"
+              target="_blank"
+            >
+              terms and conditions.
+            </a>
+          </p>
+        </Card>
+      </Box>
+      <Box sx={backgroundImage} />
     </>
   );
 };

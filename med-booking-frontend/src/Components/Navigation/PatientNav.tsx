@@ -30,7 +30,7 @@ export default function AdminNav(props: NavigationProps) {
           sx={{ color: "inherit", textTransform: "capitalize" }}
           onClick={handleClickViewAppointmentList}
         >
-          View Your Appoingments
+          View Your Appointments
         </Button>
         <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}

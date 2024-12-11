@@ -13,8 +13,15 @@ declare global {
     idToken: string;
   }
 
-  interface LoginRequest {
+  interface PatientLoginRequest {
     email: string;
-    birthDate: string;
+    birthdate: string;
+  }
+  
+  interface PatientSignupRequest {
+    firstName: string;
+    lastName: string;
+    email: string;
+    birthdate: string;
   }
 }

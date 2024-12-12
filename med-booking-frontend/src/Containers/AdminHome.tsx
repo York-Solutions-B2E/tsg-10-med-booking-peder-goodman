@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
+import CreateAppointmentModalButton from "../Components/buttons/CreateAppointmentModalButton";
+import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
+import AddDoctorModalButton from "../Components/buttons/AddDoctorModalButton";
 
 const AdminHome = () => {
   const { userDetails, isLoading, isUserAuthenticated } = useSelector(
@@ -11,31 +14,18 @@ const AdminHome = () => {
 
   useEffect(() => {
     store.dispatch(checkUserAuthentication());
+    // store.dispatch(getAllDoctors());
   }, []);
 
-  const message = isUserAuthenticated ? (
-    <h2>Welcome, {userDetails?.firstName}!</h2>
-  ) : (
-    <p>Please log in.</p>
-  );
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const appointmentPageStyling = {
+    padding: "30px 60px",
+  };
 
   return (
-    <div>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "90vh",
-        }}
-      >
-        {message}
-      </Box>
-    </div>
+    <Box sx={appointmentPageStyling}>
+      <AddDoctorModalButton />
+      <DoctorDataGrid />
+    </Box>
   );
 };
 

@@ -3,45 +3,36 @@ import { Box, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
-import {
-  validateDateIsInPast,
-  validateEmail,
-} from "../../utils/validationFunctions";
-import CustomDatePicker from "../inputs/CustomDatePicker";
+import { useSelector } from "react-redux";
+import { CustomDropdownInput } from "../inputs/CustomDropdownInput";
 import { CustomTextField } from "../inputs/CustomTextInput";
 
 export const AddDoctorForm = (props: any) => {
-  const { onSubmit, onCancel } = props; // ! change to correct function names
-
+  const { onSubmit, onCancel } = props;
+  const availableSpecializations = useSelector(
+    (state: RootState) => state.medicalOptions.availableSpecializations
+  );
   console.log("AddDoctorForm props", props);
-  
 
   // * Form state
-  const [email, setEmail] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
-  const [birthDateErrorMessage, setBirthDateErrorMessage] = useState("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState<
+    Specialization | ""
+  >("");
+  const [
+    selectSpecializationErrorMessage,
+    setSelectSpecializationErrorMessage,
+  ] = useState("");
   const [firstName, setFirstName] = useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastName, setLastName] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
 
   // * Event handlers
-  const handleUpdateEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    setEmailErrorMessage("");
-  };
-
-  const handleDateChange = (newValue: any) => {
-    setBirthDate(newValue);
-    setBirthDateErrorMessage("");
-  };
-
-  const handleLeaveEmailField = () => {
-    if (!validateEmail(email)) {
-      setEmailErrorMessage("Invalid Email");
+  const handleSelectSpecializationChange = (newValue: Specialization | "") => {
+    if (newValue && typeof newValue !== "string") {
+      setSelectedSpecialization(newValue);
+      setSelectSpecializationErrorMessage("");
     }
   };
 
@@ -63,45 +54,37 @@ export const AddDoctorForm = (props: any) => {
 
   // * Form validation
   const validateForm = () => {
-    const isBirthDateValid = validateDateIsInPast(birthDate);
+    const isSpecializationValid = selectedSpecialization !== "";
     const isFirstNameValid = firstName.length > 0;
     const isLastNameValid = lastName.length > 0;
 
-    if (!isBirthDateValid) {
-      setBirthDateErrorMessage("Invalid Date");
+    if (!isSpecializationValid) {
+      setSelectSpecializationErrorMessage("Please Select a Specialization");
     }
 
     if (!isFirstNameValid) {
-      setFirstNameErrorMessage("Please enter your first name");
+      setFirstNameErrorMessage("Please enter the Doctor's first name");
     }
 
     if (!isLastNameValid) {
-      setLastNameErrorMessage("Please enter your last name");
+      setLastNameErrorMessage("Please enter the Doctor's last name");
     }
 
-    return (
-      isBirthDateValid && isFirstNameValid && isLastNameValid
-    );
+    return isSpecializationValid && isFirstNameValid && isLastNameValid;
   };
 
   // * Form submission
   const handleSubmit = () => {
-    if (!birthDate) {
-      setBirthDateErrorMessage("Birth date is required");
-      return;
-    }
-
-    const createAppointmentData = {
+    const addDoctorData = {
       firstName,
       lastName,
-      email,
-      birthdate: birthDate.format("YYYY-MM-DD"),
+      selectedSpecialization,
     };
 
     if (validateForm()) {
       console.log("submitting form");
-      console.log(createAppointmentData);
-      onSubmit(createAppointmentData);
+      console.log(addDoctorData);
+      onSubmit(addDoctorData);
       // store.dispatch(signupPatient(patientSignupData));
     }
   };
@@ -133,8 +116,7 @@ export const AddDoctorForm = (props: any) => {
 
   // hidden button for testing
   const hiddenButton = () => {
-    setBirthDate(dayjs("1998-02-25"));
-    setEmail("newemail1@email.com");
+    setSelectedSpecialization({ id: 1, name: "Cardiology" });
     setFirstName("Jerry");
     setLastName("Fisher");
   };
@@ -176,13 +158,16 @@ export const AddDoctorForm = (props: any) => {
             errorMessage={lastNameErrorMessage}
           />
 
-          <CustomDatePicker
-            errorMessage={birthDateErrorMessage}
-            birthDate={birthDate}
-            onChange={handleDateChange}
-            label="Birth Date"
+          {/* <InputLabel id={`select-specialization-input-label`}>Specialization</InputLabel> */}
+          <CustomDropdownInput
+            inputId="select-specialization-input"
+            label="Specialization"
+            selectedValue={selectedSpecialization}
+            onChange={handleSelectSpecializationChange}
+            dropdownOptions={availableSpecializations}
+            errorMessage={selectSpecializationErrorMessage}
           />
-          {/* <CustomAlert message="Error Logging in" /> */}
+          {/* <FormHelperText>{selectSpecializationErrorMessage}</FormHelperText> */}
 
           <Button
             autoFocus

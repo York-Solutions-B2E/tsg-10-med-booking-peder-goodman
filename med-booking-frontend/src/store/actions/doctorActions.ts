@@ -16,7 +16,7 @@ export const getSpecializationsAndDoctors = createAsyncThunk<any>(
 
     console.log(
       "In getSpecializationsAndDoctors Thunk:",
-      response.data.message
+      response.data
     );
 
     return response.data;

@@ -41,8 +41,8 @@ const getSpecializationsAndDoctorsCases = (
     );
 
     // Set the lists of specializations and doctors options
-    state.specializations = action.payload.specializations;
-    state.doctors = action.payload.doctors;
+    state.availableSpecializations = action.payload.specializations;
+    state.availableDoctors = action.payload.doctors;
 
     // Clear any previous errors and set loading to false
     state.errorMessage = null;
@@ -53,7 +53,7 @@ const getSpecializationsAndDoctorsCases = (
       "getSpecializationsAndDoctors.rejected payload: ",
       action.payload
     );
-    state.error = action.payload;
+    state.errorMessage = action.payload;
     state.isLoading = false;
   });
 };
@@ -75,7 +75,7 @@ const getDoctorAvailabilityCases = (builder: ActionReducerMapBuilder<any>) => {
   });
   builder.addCase(getDoctorAvailability.rejected, (state, action) => {
     console.log("getDoctorAvailability.rejected payload: ", action.payload);
-    state.error = action.payload;
+    state.errorMessage = action.payload;
     state.isLoading = false;
   });
 };

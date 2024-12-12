@@ -1,28 +1,31 @@
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
-import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
-import Box from "@mui/material/Box";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import dayjs, { Dayjs } from "dayjs";
-import * as React from "react";
-import { useSelector } from "react-redux";
-import { calculateAge } from "../../utils/helperFunctions";
-import EditAppointmentModalButton from "../buttons/EditAppointmentModalButton";
-
-
-
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { useState } from "react";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
-const { appointment } = props;
+  const { appointment } = props;
+  const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
 
-  const handleCancelClick = (appointment: Appointment) => {
+  const handleCancelClick = () => {
     console.log("clicked cancel id", appointment.id);
     console.log("clicked cancel patient", appointment.patient.fullName);
     console.log("clicked cancel doctor", appointment.doctor.firstName);
     console.log(
       "clicked cancel specialization",
-      appointment.doctor.specialization.name
-    );
+      appointment.doctor.specialization.name);
+      setConfirmCancelOpen(true)
+  };
+
+
+  // * Confirmation Modal handlers
+  const handleCloseConfirmCancelModal = () => {
+    setConfirmCancelOpen(false);
+  };
+
+  const handleConfirmCancel = () => {
+    setConfirmCancelOpen(false);
   };
 
   return (
@@ -35,8 +38,16 @@ const { appointment } = props;
         }
         label="Cancel"
         className="textPrimary"
-        onClick={() => handleCancelClick(appointment)}
+        onClick={handleCancelClick}
         color="error"
+      />
+      <ConfirmationModal
+        color="error"
+        message="Are you sure you want to cancel this appointment?"
+        open={confirmCancelOpen}
+        handleCancel={handleCloseConfirmCancelModal}
+        handleConfirm={handleConfirmCancel}
+        confirmButtonText="Yes"
       />
     </>
   );

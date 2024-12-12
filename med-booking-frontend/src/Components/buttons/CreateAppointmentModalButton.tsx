@@ -80,6 +80,7 @@ export default function CreateAppointmentModalButton() {
         </LargeFormModalWrapper>
       )}
       <ConfirmationModal
+        color="success"
         message="Is everything you provided accurate?"
         open={confirmSubmitOpen}
         handleCancel={handleCloseConfirmSubmitModal}
@@ -87,6 +88,7 @@ export default function CreateAppointmentModalButton() {
         confirmButtonText="Submit"
       />
       <ConfirmationModal
+        color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}
         handleCancel={handleCloseConfirmCancelModal}

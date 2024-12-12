@@ -14,8 +14,8 @@ import { validateDateIsInFuture } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
+import { TimeDropdownInput } from "../inputs/TimeDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
-import { CustomTimePicker } from "../inputs/CustomTimePicker";
 
 export const CreateAppointmentForm = (props: any) => {
   // * State
@@ -41,6 +41,8 @@ export const CreateAppointmentForm = (props: any) => {
   const [selectedDoctor, setDoctorSelection] = useState<DoctorDetails | "">("");
   const [selectedDoctorErrorMessage, setSelectedDoctorErrorMessage] = useState("");
   const [filteredDoctors, setFilteredDoctors] = useState<DoctorDetails[]>([]);
+  // Unavailable Times
+  const [unavailableTimes, setUnavailableTimes] = useState<string[]>([]);
 
   // * Event handlers
   const handleUpdateVisitTypeChange = (newValue: VisitType | "") => {
@@ -81,6 +83,7 @@ export const CreateAppointmentForm = (props: any) => {
     if (newValue !== "") {
       // fetch selected doctor availability
       store.dispatch(getDoctorAvailability(newValue.id));
+      console.log("selectedDoctorAvailability", selectedDoctorAvailability);
     }
     // clear appointment time if doctor selection changes
     setAppointmentTime(null);
@@ -219,24 +222,29 @@ export const CreateAppointmentForm = (props: any) => {
             errorMessage={selectedDoctorErrorMessage}
           />
 
-          <CustomDatePicker
-            disabled={selectedDoctor === ""}
-            errorMessage={appointmentDateErrorMessage}
-            birthDate={appointmentDate}
-            onChange={handleAppointmentDateChange}
-            label="Appointment Date"
-            disablePast={true}
-          />
+          <Box sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+            <CustomDatePicker
+              disabled={selectedDoctor === ""}
+              errorMessage={appointmentDateErrorMessage}
+              birthDate={appointmentDate}
+              onChange={handleAppointmentDateChange}
+              label="Appointment Date"
+              disablePast={true}
+            />
 
-          {/* convert to time selector field */}
-          <CustomTimePicker
-            disabled={selectedDoctor === ""}
-            errorMessage={appointmentTimeErrorMessage}
-            birthDate={appointmentTime}
-            onChange={handleAppointmentTimeChange}
-            label="Appointment Time"
-            disablePast={true}
-          />
+            {/* convert to time selector field */}
+            <TimeDropdownInput
+              doctorAvailability={selectedDoctorAvailability}
+              disabled={appointmentDate === null}
+              inputId={""}
+              selectedValue={appointmentTime}
+              label="Appointment Time"
+              errorMessage={appointmentTimeErrorMessage}
+              // dropdownOptions={[]}
+              onChange={handleAppointmentTimeChange}
+              selectedDate={appointmentDate}
+            />
+          </Box>
 
           <VisitTypeDropdownInput
             inputId={"visit-type-input"}

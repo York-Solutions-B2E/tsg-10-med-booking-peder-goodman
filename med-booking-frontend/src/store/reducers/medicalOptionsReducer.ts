@@ -1,15 +1,12 @@
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
-import {
-  getDoctorAvailability,
-  getSpecializationsAndDoctors,
-} from "../actions/doctorActions";
+import { getDoctorAvailability, getSpecializationsAndDoctors } from "../actions/doctorActions";
 
 const initialState: MedicalOptionsState = {
   isLoading: false,
   availableSpecializations: [],
   availableDoctors: [],
-  selectedDoctorAvailability: {},
+  selectedDoctorAvailability: null,
   visitTypes: ["IN_PERSON", "TELEHEALTH"],
   errorMessage: null,
 };
@@ -26,9 +23,7 @@ const medicalOptionsSlice = createSlice({
   },
 });
 
-const getSpecializationsAndDoctorsCases = (
-  builder: ActionReducerMapBuilder<any>
-) => {
+const getSpecializationsAndDoctorsCases = (builder: ActionReducerMapBuilder<any>) => {
   builder.addCase(getSpecializationsAndDoctors.pending, (state, action) => {
     // Clears any previous errors and set loading
     state.errorMessage = null;

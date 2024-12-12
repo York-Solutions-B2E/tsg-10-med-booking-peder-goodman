@@ -16,4 +16,10 @@ declare global {
     onSubmit: (data: any) => void;
     children: React.ReactNode;
   }
+
+  interface AppointmentModalButtonProps {
+
+    appointment: Appointment;
+  
+  }
 }

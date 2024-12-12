@@ -1,16 +1,10 @@
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
-import EditIcon from "@mui/icons-material/Edit";
-import { Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import dayjs, { Dayjs } from "dayjs";
-import * as React from "react";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { calculateAge } from "../../utils/helperFunctions";
-
-
-
-
+import CancelAppointmentModalButton from "../buttons/CancelAppointmentModalButton";
+import EditAppointmentModalButton from "../buttons/EditAppointmentModalButton";
 
 // ******** Columns headers and data
 const columns: GridColDef[] = [
@@ -97,6 +91,13 @@ const columns: GridColDef[] = [
     editable: true,
   },
   {
+    field: "visitType",
+    headerName: "Visit Type",
+    type: "string",
+    width: 100,
+    editable: true,
+  },
+  {
     field: "actions",
     type: "actions",
     headerName: "Actions",
@@ -105,68 +106,22 @@ const columns: GridColDef[] = [
     getActions: (params: GridRowParams) => {
       const appointment = params.row as Appointment;
       return [
-        <GridActionsCellItem
-          icon={
-            <Tooltip title="Edit Appointment">
-              <EditIcon />
-            </Tooltip>
-          }
-          label="Save"
-          sx={{
-            color: "primary.main",
-          }}
-          onClick={() => handleEditClick(appointment)}
-        />,
-        <GridActionsCellItem
-          icon={
-            <Tooltip title="Cancel Appointment">
-              <DoNotDisturbIcon />
-            </Tooltip>
-          }
-          label="Cancel"
-          className="textPrimary"
-          onClick={() => handleCancelClick(appointment)}
-          color="error"
-        />,
+        <EditAppointmentModalButton appointment={appointment} />,
+        <CancelAppointmentModalButton appointment={appointment} />,
       ];
     },
   },
 ];
-
-
-const handleEditClick = (appointment: Appointment) => {
-  console.log("clicked edit id", appointment.id);
-  console.log("clicked cancel patient", appointment.patient.fullName);
-  console.log("clicked cancel doctor", appointment.doctor.firstName);
-  console.log("clicked cancel specialization", appointment.doctor.specialization.name);
-};
-const handleCancelClick = (appointment: Appointment) => {
-  console.log("clicked cancel id", appointment.id);
-  console.log("clicked cancel patient", appointment.patient.fullName);
-  console.log("clicked cancel doctor", appointment.doctor.firstName);
-  console.log("clicked cancel specialization", appointment.doctor.specialization.name);
-};
-
+// END ******** Columns headers and data
 
 // ******** FUNCTION START
 export default function PatientAppointmentDataGrid() {
   const patientDetails = useSelector(
     (state: RootState) => state.user.userDetails as PatientDetails
   );
-  const {
-    id,
-    firstName,
-    lastName,
-    email,
-    role,
-    birthdate,
-    patientAppointments,
-  } = patientDetails;
+  const { patientAppointments } = patientDetails;
 
   console.log("patientAppointments", patientAppointments);
-  
-
-  const [rows, setRows] = React.useState(patientAppointments);
 
   return (
     <Box sx={{ height: 400, width: "100%" }}>

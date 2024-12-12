@@ -22,4 +22,10 @@ declare global {
     appointment: Appointment;
   
   }
+
+  interface DoctorModalButtonProps {
+
+    doctor: DoctorDetails;
+  
+  }
 }

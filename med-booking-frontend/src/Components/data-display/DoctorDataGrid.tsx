@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
-import CancelAppointmentModalButton from "../buttons/CancelAppointmentModalButton";
-import EditAppointmentModalButton from "../buttons/EditAppointmentModalButton";
+import DeleteDoctorModalButton from "../buttons/DeleteDoctorModalButton";
+import EditDoctorModalButton from "../buttons/EditDoctorModalButton";
 
 // ******** Columns headers and data
 const columns: GridColDef[] = [
@@ -52,10 +52,10 @@ const columns: GridColDef[] = [
     width: 100,
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
-      const appointment = params.row as Appointment;
+      const doctor = params.row as DoctorDetails;
       return [
-        <EditAppointmentModalButton appointment={appointment} />,
-        <CancelAppointmentModalButton appointment={appointment} />,
+        <EditDoctorModalButton doctor={doctor} />,
+        <DeleteDoctorModalButton doctor={doctor} />,
       ];
     },
   },

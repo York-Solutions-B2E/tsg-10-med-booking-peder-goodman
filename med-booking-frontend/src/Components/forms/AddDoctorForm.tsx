@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { CustomTextField } from "../inputs/CustomTextInput";
-import { CustomDropdownInput } from "../inputs/SpecializationDropdownInput";
+import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 
 export const AddDoctorForm = (props: any) => {
   const { onSubmit, onCancel } = props;
@@ -143,7 +143,7 @@ export const AddDoctorForm = (props: any) => {
             errorMessage={lastNameErrorMessage}
           />
 
-          <CustomDropdownInput
+          <SpecializationDropdownInput
             inputId="select-specialization-input"
             label="Specialization"
             selectedValue={selectedSpecialization}

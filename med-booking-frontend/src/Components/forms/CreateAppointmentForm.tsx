@@ -6,39 +6,44 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import dayjs, { Dayjs } from "dayjs";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { validateDateIsInPast } from "../../utils/validationFunctions";
+import { getDoctorAvailability } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
+import { validateDateIsInFuture } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
-import { CustomTextField } from "../inputs/CustomTextInput";
+import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
+import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
+import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
 
 export const CreateAppointmentForm = (props: any) => {
+  // * State
   const { onSubmit, onCancel } = props; // ! change to correct function names
   const { userDetails } = useSelector((state: RootState) => state.user);
+  const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
 
-  // * Form state
-  const [visitTypeSelection, setVisitTypeSelection] = useState("");
+  // * Initial Form state
+  // Visit Type
+  const [visitTypeSelection, setVisitTypeSelection] = useState<VisitType | "">("");
   const [visitTypeErrorMessage, setVisitTypeErrorMessage] = useState("");
 
+  // Appointment Date
   const [appointmentDate, setAppointmentDate] = useState<Dayjs | null>(null);
-  const [appointmentDateErrorMessage, setAppointmentDateErrorMessage] =
-    useState("");
-
+  const [appointmentDateErrorMessage, setAppointmentDateErrorMessage] = useState("");
+  // Appointment Time
   const [appointmentTime, setAppointmentTime] = useState<Dayjs | null>(null);
-  const [appointmentTimeErrorMessage, setAppointmentTimeErrorMessage] =
-    useState("");
-
-  const [specialization, setSpecialization] = useState("");
-  const [specializationErrorMessage, setSpecializationErrorMessage] =
-    useState("");
-
-  const [doctorSelection, setDoctorSelection] = useState("");
-  const [doctorSelectionErrorMessage, setDoctorSelectionErrorMessage] =
-    useState("");
+  const [appointmentTimeErrorMessage, setAppointmentTimeErrorMessage] = useState("");
+  // Specialization
+  const [selectedSpecialization, setSelectedSpecialization] = useState<Specialization | "">("");
+  const [selectedSpecializationErrorMessage, setSelectSpecializationErrorMessage] = useState("");
+  // Doctor
+  const [selectedDoctor, setDoctorSelection] = useState<DoctorDetails | "">("");
+  const [selectedDoctorErrorMessage, setSelectedDoctorErrorMessage] = useState("");
+  const [filteredDoctors, setFilteredDoctors] = useState<DoctorDetails[]>([]);
 
   // * Event handlers
-  const handleUpdateVisitTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setVisitTypeSelection(e.target.value);
+  const handleUpdateVisitTypeChange = (newValue: VisitType | "") => {
+    setVisitTypeSelection(newValue);
     setVisitTypeErrorMessage("");
   };
 
@@ -52,18 +57,31 @@ export const CreateAppointmentForm = (props: any) => {
     setAppointmentTimeErrorMessage("");
   };
 
-  const handleUpdateSpecializationChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSpecialization(e.target.value);
-    setSpecializationErrorMessage("");
+  const handleSelectSpecializationChange = (newValue: Specialization | "") => {
+    // set selected specialization
+    setSelectedSpecialization(newValue);
+    setSelectSpecializationErrorMessage("");
+
+    // filter doctors based on selected specialization
+    if (newValue !== "") {
+      setFilteredDoctors(availableDoctors.filter((doctor) => doctor.specialization.id === newValue.id));
+    }
+    // clear filtered doctors if specialization is deselected
+    if (newValue === "") {
+      setFilteredDoctors([]);
+    }
   };
 
-  const handleUpdateDoctorSelectionChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setDoctorSelection(e.target.value);
-    setDoctorSelectionErrorMessage("");
+  const handleSelectedDoctorChange = (newValue: DoctorDetails | "") => {
+    setDoctorSelection(newValue);
+    setSelectedDoctorErrorMessage("");
+    // get doctor availability
+    if (newValue !== "") {
+      // fetch selected doctor availability
+      store.dispatch(getDoctorAvailability(newValue.id));
+    }
+    // clear appointment time if doctor selection changes
+    setAppointmentTime(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -74,11 +92,21 @@ export const CreateAppointmentForm = (props: any) => {
 
   // * Form validation
   const validateForm = () => {
+    console.log("IN VALIDATE FORM");
+    console.log("Date", appointmentDate);
+    console.log("Time", appointmentTime);
+
     const isVisitTypeValid = visitTypeSelection.length > 0;
-    const isAppointmentDateValid = !validateDateIsInPast(appointmentDate);
-    const isAppointmentTimeValid = !validateDateIsInPast(appointmentDate);
-    const isSpecializationValid = specialization.length > 0;
-    const isDoctorValid = doctorSelection.length > 0;
+    const isAppointmentDateValid = validateDateIsInFuture(appointmentDate);
+    const isAppointmentTimeValid = validateDateIsInFuture(appointmentTime);
+    const isSpecializationValid = selectedSpecialization !== "";
+    const isDoctorValid = selectedDoctor !== "";
+
+    console.log("isVisitTypeValid", isVisitTypeValid);
+    console.log("isAppointmentDateValid", isAppointmentDateValid);
+    console.log("isAppointmentTimeValid", isAppointmentTimeValid);
+    console.log("isSpecializationValid", isSpecializationValid);
+    console.log("isDoctorValid", isDoctorValid);
 
     if (!isVisitTypeValid) {
       setVisitTypeErrorMessage("Visit Type is required");
@@ -87,48 +115,42 @@ export const CreateAppointmentForm = (props: any) => {
     if (!isAppointmentDateValid) {
       setAppointmentDateErrorMessage("Invalid Date");
     }
+
     if (!isAppointmentTimeValid) {
       setAppointmentTimeErrorMessage("Invalid Time");
     }
 
     if (!isSpecializationValid) {
-      setSpecializationErrorMessage("Please select a Specialization");
+      setSelectSpecializationErrorMessage("Please select a Specialization");
     }
 
     if (!isDoctorValid) {
-      setDoctorSelectionErrorMessage("Please select a Doctor");
+      setSelectedDoctorErrorMessage("Please select a Doctor");
     }
 
     // return true if all fields are valid
-    return (
-      isVisitTypeValid &&
-      isAppointmentDateValid &&
-      isAppointmentTimeValid &&
-      isSpecializationValid &&
-      isDoctorValid
-    );
+    return isVisitTypeValid && isAppointmentDateValid && isAppointmentTimeValid && isSpecializationValid && isDoctorValid;
   };
 
   // * Form submission
   const handleSubmit = () => {
-    if (!appointmentDate) {
-      setAppointmentDateErrorMessage("Appointment date is required");
-      return;
-    }
-    if (!appointmentTime) {
-      setAppointmentTimeErrorMessage("Appointment Time is required");
+    const isFormValid = validateForm();
+
+    if (!appointmentDate || !appointmentTime) {
+      !appointmentDate && setAppointmentDateErrorMessage("Appointment date is required");
+      !appointmentTime && setAppointmentTimeErrorMessage("Appointment Time is required");
       return;
     }
 
     const createAppointmentData = {
       patient: userDetails,
-      doctor: doctorSelection, // contains specialization
+      doctor: selectedDoctor, // contains specialization
       appointmentDate: appointmentDate.format("YYYY-MM-DD"),
       appointmentTime: appointmentTime.format("HH:mm"),
       visitType: visitTypeSelection,
     };
 
-    if (validateForm()) {
+    if (isFormValid) {
       // Pass data to parent component
       onSubmit(createAppointmentData);
     }
@@ -153,21 +175,16 @@ export const CreateAppointmentForm = (props: any) => {
   // hidden button for testing
   const hiddenButton = () => {
     setAppointmentDate(dayjs("1998-02-25"));
-    setVisitTypeSelection("newemail1@email.com");
-    setSpecialization("Jerry");
-    setDoctorSelection("Fisher");
+    // setVisitTypeSelection("newemail1@email.com");
+    // setSpecialization("Jery");
+    // setDoctorSelection("Fisher");
   };
 
   return (
     <>
       <AppBar sx={{ position: "relative", marginBottom: "60px" }}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onCancel}
-            aria-label="close"
-          >
+          <IconButton edge="start" color="inherit" onClick={onCancel} aria-label="close">
             <CloseIcon />
           </IconButton>
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
@@ -176,32 +193,32 @@ export const CreateAppointmentForm = (props: any) => {
         </Toolbar>
       </AppBar>
       <Box sx={formContainerStyling}>
-        {/* <div onClick={hiddenButton}>autofill</div> */}
         <Box>
           <Typography>Creating an Appointment for::</Typography>
           <Typography>Patient details go here</Typography>
         </Box>
         <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
-          {/* convert to dropdown selector field */}
-          <CustomTextField
-            id="specialization-selection-input"
-            label="Specialization Selection"
-            value={specialization}
-            onChange={handleUpdateSpecializationChange}
-            placeholder="Jerry"
-            errorMessage={specializationErrorMessage}
+          <SpecializationDropdownInput
+            inputId="select-specialization-input"
+            label="Select Specialization"
+            selectedValue={selectedSpecialization}
+            onChange={handleSelectSpecializationChange}
+            dropdownOptions={availableSpecializations}
+            errorMessage={selectedSpecializationErrorMessage}
           />
 
-          {/* convert to dropdown selector field */}
-          <CustomTextField
-            id="doctor-selection-input"
-            label="Doctor Selection"
-            value={doctorSelection}
-            onChange={handleUpdateDoctorSelectionChange}
-            placeholder="Smith"
-            errorMessage={doctorSelectionErrorMessage}
+          <DoctorDropdownInput
+            disabled={selectedSpecialization === ""}
+            inputId="select-specialization-input"
+            label="Select Doctor"
+            selectedValue={selectedDoctor}
+            onChange={handleSelectedDoctorChange}
+            dropdownOptions={filteredDoctors}
+            errorMessage={selectedDoctorErrorMessage}
           />
+
           <CustomDatePicker
+            disabled={selectedDoctor === ""}
             errorMessage={appointmentDateErrorMessage}
             birthDate={appointmentDate}
             onChange={handleAppointmentDateChange}
@@ -211,28 +228,24 @@ export const CreateAppointmentForm = (props: any) => {
 
           {/* convert to time selector field */}
           <CustomDatePicker
+            disabled={selectedDoctor === ""}
             errorMessage={appointmentTimeErrorMessage}
             birthDate={appointmentTime}
             onChange={handleAppointmentTimeChange}
-            label="Appointment Date"
+            label="Appointment Time"
             disablePast={true}
           />
 
-          {/* convert to dropdown selector field */}
-          <CustomTextField
-            id="visit-type-input"
+          <VisitTypeDropdownInput
+            inputId={"visit-type-input"}
+            selectedValue={visitTypeSelection}
             label="Visit Type"
-            value={visitTypeSelection}
-            onChange={handleUpdateVisitTypeChange}
-            placeholder="email@example.com"
             errorMessage={visitTypeErrorMessage}
+            dropdownOptions={["IN_PERSON", "TELEHEALTH"]}
+            onChange={handleUpdateVisitTypeChange}
           />
-          <Button
-            autoFocus
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-          >
+
+          <Button autoFocus onClick={handleSubmit} variant="contained" color="primary">
             Confirm Appointment
           </Button>
         </FormControl>

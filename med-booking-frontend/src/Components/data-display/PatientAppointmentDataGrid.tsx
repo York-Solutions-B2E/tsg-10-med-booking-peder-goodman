@@ -6,7 +6,7 @@ import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x
 import dayjs, { Dayjs } from "dayjs";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { calculateAge } from "../utils/helperFunctions";
+import { calculateAge } from "../../utils/helperFunctions";
 
 
 
@@ -147,7 +147,9 @@ const handleCancelClick = (appointment: Appointment) => {
   console.log("clicked cancel specialization", appointment.doctor.specialization.name);
 };
 
-export default function CustomDataGrid() {
+
+// ******** FUNCTION START
+export default function PatientAppointmentDataGrid() {
   const patientDetails = useSelector(
     (state: RootState) => state.user.userDetails as PatientDetails
   );

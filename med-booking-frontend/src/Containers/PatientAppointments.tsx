@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import CreateAppointmentModalButton from "../Components/buttons/CreateAppointmentModalButton";
-import CustomDataGrid from "../Components/PatientAppointmentDataGrid";
+import CustomDataGrid from "../Components/data-display/PatientAppointmentDataGrid";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 

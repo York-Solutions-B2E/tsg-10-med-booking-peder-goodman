@@ -4,16 +4,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { AdminLoginButton } from "../buttons/AdminLoginButton";
+import { log } from "console";
 
 export default function DefaultNav() {
   const navigate = useNavigate();
 
-  const handleClickMyAppointments = () => {
-    navigate("/my-appointments");
-  };
-
-  const handleClickCreateAppointment = () => {
-    navigate("/create-appointment");
+  const handleClickHome = () => {
+    console.log("Home clicked");
+    // navigate("/my-appointments");
   };
 
   return (
@@ -21,17 +19,10 @@ export default function DefaultNav() {
       <Toolbar>
         {/* <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickMyAppointments}
+          onClick={handleClickHome}
         >
-          My Appointments
-        </Button>
-        <Button
-          sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickCreateAppointment}
-        >
-          Create Appointment
+          Home
         </Button> */}
-
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           HealthCare.com
         </Typography>

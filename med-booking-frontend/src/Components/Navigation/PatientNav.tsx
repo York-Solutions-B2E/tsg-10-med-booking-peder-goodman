@@ -3,10 +3,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import { AdminLoginButton } from "../buttons/AdminLoginButton";
-import { AdminLogoutButton } from "../buttons/AdminLogoutButton";
-import { useDispatch } from "react-redux";
-import { resetUserState } from "../../store/reducers/userReducer";
 import { PatientLogoutButton } from "../buttons/PatientLogoutButton";
 
 export default function AdminNav(props: NavigationProps) {
@@ -18,25 +14,25 @@ export default function AdminNav(props: NavigationProps) {
     navigate("/my-appointments");
   };
 
-  const handleClickAddAppointment = () => {
-    // navigate to admin home (aka /admin)
-    navigate("/create-appointment");
+  const handleClickHome = () => {
+    console.log("Home clicked");
+    // navigate("/my-appointments");
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Toolbar>
+        {/* <Button
+          sx={{ color: "inherit", textTransform: "capitalize" }}
+          onClick={handleClickHome}
+        >
+          Home
+        </Button> */}
         <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
           onClick={handleClickViewAppointmentList}
         >
           View Your Appointments
-        </Button>
-        <Button
-          sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickAddAppointment}
-        >
-          Add Appointment
         </Button>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           HealthCare.com

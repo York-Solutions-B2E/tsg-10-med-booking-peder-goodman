@@ -18,14 +18,20 @@ declare global {
   }
 
   interface AppointmentModalButtonProps {
-
     appointment: Appointment;
-  
   }
 
   interface DoctorModalButtonProps {
-
     doctor: DoctorDetails;
-  
+  }
+
+  interface CustomDropdownInputProps {
+    inputId: string;
+    selectedValue: Specialization | "";
+    label: string;
+    errorMessage: string | null;
+    dropdownOptions: Specialization[];
+    onBlur?: () => void;
+    onChange: (selectedObject: Specialization | "") => void;
   }
 }

@@ -4,7 +4,7 @@ export {};
 declare global {
   // ** User
   interface UserDetails {
-    id: string;
+    id: number | null;
     firstName: string;
     lastName: string;
     fullName: string;
@@ -26,14 +26,14 @@ declare global {
   // ** Doctors & Specializations
 
   interface DoctorDetails {
-    id: string;
+    id: number ;
     firstName: string;
     lastName: string;
     specialization: Specialization;
   }
 
   interface Specialization {
-    id: string;
+    id: number;
     name: string;
   }
 
@@ -44,7 +44,7 @@ declare global {
   // ** Appointments
 
   interface Appointment {
-    id: string;
+    id: number;
     patient: PatientDetails;
     doctor: DoctorDetails;
     appointmentDate: string;
@@ -54,7 +54,7 @@ declare global {
   }
 
   interface DoctorAppointment {
-    id: string;
+    id: number;
     patient: PatientDetails;
     appointmentDate: string;
     appointmentTime: string;

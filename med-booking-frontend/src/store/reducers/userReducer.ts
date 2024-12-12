@@ -12,7 +12,7 @@ const initialState: UserState = {
   isUserAuthenticated: false,
   isPatientAuthenticated: false,
   userDetails: {
-    id: "",
+    id: null,
     firstName: "",
     lastName: "",
     fullName: "", // ? add a method to get the full name? or just use firstName + lastName

@@ -2,7 +2,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const CustomDatePicker = (props: any) => {
-  const { label, birthDate, onChange, errorMessage } = props;
+  const { label, birthDate, onChange, errorMessage, disableFuture, disablePast} = props;
 
   const datePickerStyling = {
     marginBottom: "10px",
@@ -21,7 +21,8 @@ const CustomDatePicker = (props: any) => {
         label={label}
         value={birthDate}
         onChange={onChange}
-        disableFuture
+        disablePast={disablePast}
+        disableFuture={disableFuture}
       />
     </LocalizationProvider>
   );

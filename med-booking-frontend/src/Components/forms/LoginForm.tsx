@@ -111,6 +111,7 @@ export const LoginForm = () => {
           birthDate={birthDate}
           onChange={handleDateChange}
           label="Birth Date"
+          disableFuture={true}
         />
 
         <CustomButton buttonText="Login" onClick={handleClickLoginButton} />

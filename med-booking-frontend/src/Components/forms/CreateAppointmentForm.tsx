@@ -7,11 +7,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
+import { useSelector } from "react-redux";
 import { validateDateIsInPast } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { CustomTextField } from "../inputs/CustomTextInput";
-import PatientAppointmentDataGrid from "../data-display/PatientAppointmentDataGrid";
-import { useSelector } from "react-redux";
 
 export const CreateAppointmentForm = (props: any) => {
   const { onSubmit, onCancel } = props; // ! change to correct function names
@@ -130,10 +129,8 @@ export const CreateAppointmentForm = (props: any) => {
     };
 
     if (validateForm()) {
-      console.log("submitting form");
-      console.log(createAppointmentData);
+      // Pass data to parent component
       onSubmit(createAppointmentData);
-      // store.dispatch(signupPatient(patientSignupData));
     }
   };
 

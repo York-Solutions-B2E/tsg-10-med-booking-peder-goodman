@@ -14,11 +14,6 @@ export const getSpecializationsAndDoctors = createAsyncThunk<any>(
       }
     );
 
-    console.log(
-      "In getSpecializationsAndDoctors Thunk:",
-      response.data
-    );
-
     return response.data;
   }
 );
@@ -29,8 +24,6 @@ export const getDoctorAvailability = createAsyncThunk<any, number>(
     const response = await axios.get<any>(`api/doctors/get/${doctorId}`, {
       withCredentials: true,
     });
-
-    console.log("In getDoctorAvailability Thunk:", response.data);
 
     return response.data;
   }

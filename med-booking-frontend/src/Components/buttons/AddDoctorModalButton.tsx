@@ -1,17 +1,15 @@
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
-import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
-import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 import { AddDoctorForm } from "../forms/AddDoctorForm";
+import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
 export default function AddDoctorModalButton() {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState(null);
+  const [addDoctorFormData, setAddDoctorFormData] = useState(null);
 
   // * Form Modal handlers
   const handleOpenAppointmentFormModal = () => {
@@ -23,7 +21,7 @@ export default function AddDoctorModalButton() {
   };
 
   const handleSubmission = (data: any) => {
-    setAppointmentFormData(data);
+    setAddDoctorFormData(data);
     setConfirmSubmitOpen(true);
   };
 
@@ -44,8 +42,8 @@ export default function AddDoctorModalButton() {
   const handleConfirmSubmit = () => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // * Submit appointment form data to backend
+    console.log("Add Doctor Form Data Submitted:", addDoctorFormData);
+    // TODO: Submit Add Doctor data to backend
     // store.dispatch(createAppointment(appointmentFormData));
   };
 

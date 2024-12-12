@@ -36,8 +36,6 @@ export const checkUserAuthentication = createAsyncThunk<AuthCheckResponse>(
       withCredentials: true,
     });
 
-    console.log("In Check Auth Thunk:", response.data.message);
-
     return response.data;
   }
 );
@@ -63,8 +61,6 @@ export const loginPatient = createAsyncThunk(
       withCredentials: true,
     });
 
-    console.log("In Patient Login Thunk:", response.data);
-
     return response.data;
   }
 );
@@ -79,8 +75,6 @@ export const signupPatient = createAsyncThunk(
         withCredentials: true,
       }
     );
-
-    console.log("In Patient Login Thunk:", response.data);
 
     return response.data;
   }

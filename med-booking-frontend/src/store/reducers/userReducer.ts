@@ -20,7 +20,7 @@ const initialState: UserState = {
     role: null,
     birthdate: "", // will be empty for admin
     oktaId: "", // will be empty for patient
-    patientAppointments: [] // will be empty for admin
+    patientAppointments: [], // will be empty for admin
   },
   errorMessage: null,
 };
@@ -64,7 +64,6 @@ const userAuthenticationCases = (builder: ActionReducerMapBuilder<any>) => {
       state.userDetails = action.payload.userDetails;
     } else if (state.isPatientAuthenticated) {
       // If user is a patient, set the patient details, do nothing
-      console.log("User is a patient");
     } else {
       // If user is not authenticated, clear the user details
       state.isUserAuthenticated = false;
@@ -88,7 +87,6 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = true;
   });
   builder.addCase(loginPatient.fulfilled, (state, action) => {
-    console.log("loginPatient.fulfilled payload: ", action.payload);
     // If user is authenticated, set the user details
     state.isPatientAuthenticated = true;
     state.userDetails = action.payload;
@@ -97,7 +95,6 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = false;
   });
   builder.addCase(loginPatient.rejected, (state, action) => {
-    console.log("loginPatient.rejected payload: ", action.payload);
     state.isPatientAuthenticated = false;
     state.errorMessage = action.payload;
     state.isLoading = false;
@@ -111,7 +108,6 @@ const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = true;
   });
   builder.addCase(signupPatient.fulfilled, (state, action) => {
-    console.log("loginPatient.fulfilled payload: ", action.payload);
     // If user is authenticated, set the user details
     state.isPatientAuthenticated = true;
     state.userDetails = action.payload;

@@ -1,8 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 
 const validateEmail = (email: string) => {
-  console.log("email: ", email);
-
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   if (email && email != "" && email.match(emailPattern)) {

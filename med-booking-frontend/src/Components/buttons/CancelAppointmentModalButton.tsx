@@ -1,31 +1,27 @@
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { useState } from "react";
+import { ConfirmationModal } from "../modals/ConfirmationModal";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
 
-  const handleCancelClick = () => {
-    console.log("clicked cancel id", appointment.id);
-    console.log("clicked cancel patient", appointment.patient.fullName);
-    console.log("clicked cancel doctor", appointment.doctor.firstName);
-    console.log(
-      "clicked cancel specialization",
-      appointment.doctor.specialization.name);
-      setConfirmCancelOpen(true)
+  const handleCancelClickButton = () => {
+    setConfirmCancelOpen(true);
   };
-
 
   // * Confirmation Modal handlers
-  const handleCloseConfirmCancelModal = () => {
+  const dismissConfirmation = () => {
     setConfirmCancelOpen(false);
   };
 
-  const handleConfirmCancel = () => {
+  const submitConfirmation = () => {
     setConfirmCancelOpen(false);
+    console.log("Appointment Cancelled:", appointment.id);
+    // TODO: Submit cancel appointment to backend
+    // store.dispatch(cancelAppointment(appointment.id));
   };
 
   return (
@@ -38,15 +34,15 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         }
         label="Cancel"
         className="textPrimary"
-        onClick={handleCancelClick}
+        onClick={handleCancelClickButton}
         color="error"
       />
       <ConfirmationModal
         color="error"
         message="Are you sure you want to cancel this appointment?"
         open={confirmCancelOpen}
-        handleCancel={handleCloseConfirmCancelModal}
-        handleConfirm={handleConfirmCancel}
+        handleCancel={dismissConfirmation}
+        handleConfirm={submitConfirmation}
         confirmButtonText="Yes"
       />
     </>

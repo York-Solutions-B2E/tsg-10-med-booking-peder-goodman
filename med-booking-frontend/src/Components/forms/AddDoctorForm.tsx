@@ -13,7 +13,6 @@ export const AddDoctorForm = (props: any) => {
   const availableSpecializations = useSelector(
     (state: RootState) => state.medicalOptions.availableSpecializations
   );
-  console.log("AddDoctorForm props", props);
 
   // * Form state
   const [selectedSpecialization, setSelectedSpecialization] = useState<
@@ -82,10 +81,8 @@ export const AddDoctorForm = (props: any) => {
     };
 
     if (validateForm()) {
-      console.log("submitting form");
-      console.log(addDoctorData);
+      // passes data to parent component
       onSubmit(addDoctorData);
-      // store.dispatch(signupPatient(patientSignupData));
     }
   };
 

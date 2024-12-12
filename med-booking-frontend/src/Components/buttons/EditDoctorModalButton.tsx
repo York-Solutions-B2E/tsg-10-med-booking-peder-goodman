@@ -12,13 +12,9 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState(null);
+  const [editDoctorFormData, setAppointmentFormData] = useState(null);
 
   // * Form Modal handlers
-  const handleOpenAppointmentFormModal = () => {
-    setOpenForm(true);
-  };
-
   const handleCancelSubmission = () => {
     setConfirmCancelOpen(true);
   };
@@ -45,15 +41,14 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const handleConfirmSubmit = () => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // * Submit appointment form data to backend
-    // store.dispatch(createAppointment(appointmentFormData));
+    console.log("Doctor Form Data Submitted:", editDoctorFormData);
+    // TODO Submit edit doctor form data to backend
+    // store.dispatch(updateDoctor(editDoctorFormData));
   };
 
-  const handleEditClick = (doctor: DoctorDetails) => {
+  const handleOpenEditDoctorForm = (doctor: DoctorDetails) => {
     console.log("clicked cancel id", doctor.id);
-    // console.log("clicked cancel doctor", doctor);
-    // console.log("clicked cancel specialization", doctor.specialization.name);
+    // TODO: Set initial form data
     setOpenForm(true);
   };
 
@@ -69,7 +64,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
         sx={{
           color: "primary.main",
         }}
-        onClick={() => handleEditClick(doctor)}
+        onClick={() => handleOpenEditDoctorForm(doctor)}
       />
 
       <LargeFormModalWrapper

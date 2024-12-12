@@ -11,7 +11,6 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
 
   // if the userRole is not falsy or userRole is the wrong role, redirect to the home page
   if (!userRole || userRole != requiredRole) {
-    console.log("redirecting to home");
     return <Navigate to="/home" replace />;
   }
 

@@ -68,8 +68,6 @@ export default function DoctorDataGrid() {
     (state: RootState) => state.medicalOptions.availableDoctors
   );
 
-  console.log("availableDoctors", availableDoctors);
-
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid

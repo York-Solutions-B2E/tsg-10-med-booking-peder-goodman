@@ -1,10 +1,10 @@
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
+import { useState } from "react";
 import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
-import { useState } from "react";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
@@ -15,10 +15,6 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const [appointmentFormData, setAppointmentFormData] = useState(null);
 
   // * Form Modal handlers
-  const handleOpenAppointmentFormModal = () => {
-    setOpenForm(true);
-  };
-
   const handleCancelSubmission = () => {
     setConfirmCancelOpen(true);
   };
@@ -46,18 +42,13 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
     console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // * Submit appointment form data to backend
-    // store.dispatch(createAppointment(appointmentFormData));
+    // TODO: Submit EDIT appointment form data to backend
+    // store.dispatch(updateAppointment(appointmentFormData));
   };
 
-  const handleEditClick = (appointment: Appointment) => {
+  const handleOpenEditAppointmentForm = (appointment: Appointment) => {
     console.log("clicked edit id", appointment.id);
-    console.log("clicked cancel patient", appointment.patient.fullName);
-    console.log("clicked cancel doctor", appointment.doctor.firstName);
-    console.log(
-      "clicked cancel specialization",
-      appointment.doctor.specialization.name
-    );
+    // TODO: Set initial form data
     setOpenForm(true);
   };
 
@@ -73,7 +64,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         sx={{
           color: "primary.main",
         }}
-        onClick={() => handleEditClick(appointment)}
+        onClick={() => handleOpenEditAppointmentForm(appointment)}
       />
 
       <LargeFormModalWrapper
@@ -81,6 +72,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         onSubmit={handleSubmission}
         onCancel={handleCancelSubmission}
       >
+        {/* TODO replace with EditAppointmentForm */}
         <CreateAppointmentForm />
       </LargeFormModalWrapper>
 

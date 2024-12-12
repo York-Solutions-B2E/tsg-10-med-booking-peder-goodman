@@ -70,8 +70,7 @@ export const LoginForm = () => {
     };
 
     if (validateForm()) {
-      console.log("submitting form");
-      console.log(patientLoginData);
+      // Login patient
       store.dispatch(loginPatient(patientLoginData));
     }
   };
@@ -98,7 +97,7 @@ export const LoginForm = () => {
       <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
         <CustomTextField
           id="login-email-input"
-          label="Email Eddress"
+          label="Email Address"
           value={email}
           onChange={handleUpdateEmailChange}
           onBlur={handleLeaveEmailField}

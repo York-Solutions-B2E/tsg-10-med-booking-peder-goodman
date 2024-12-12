@@ -3,11 +3,11 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { AddDoctorForm } from "../forms/AddDoctorForm";
 import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
-import { ConfirmationModal } from "./ConfirmationModal";
-import { FullScreenFormModalWrapper } from "./FullScreenFormModalWrapper";
-import { LargeFormModalWrapper } from "./LargeFormModalWrapper";
+import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
+import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
-export default function CreateAppointmentModal() {
+export default function CreateAppointmentModalButton() {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);

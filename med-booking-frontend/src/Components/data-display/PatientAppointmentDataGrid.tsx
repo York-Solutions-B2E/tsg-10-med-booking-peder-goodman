@@ -12,9 +12,7 @@ const columns: GridColDef[] = [
     field: "id",
     headerName: "Id",
     type: "number",
-    // flex: 1,
     width: 60,
-    // minWidth: 60,
     align: "left",
     headerAlign: "left",
     editable: false,
@@ -22,8 +20,7 @@ const columns: GridColDef[] = [
   {
     field: "firstName",
     headerName: "First Name",
-    flex: 1,
-    width: 120,
+    width: 100,
     editable: false,
     renderCell: (params: { row: Appointment }) => {
       return params.row.patient.firstName;
@@ -32,8 +29,7 @@ const columns: GridColDef[] = [
   {
     field: "LastName",
     headerName: "Last Name",
-    flex: 1,
-    width: 120,
+    width: 100,
     editable: false,
     renderCell: (params: { row: Appointment }) => {
       return params.row.patient.lastName;
@@ -63,9 +59,8 @@ const columns: GridColDef[] = [
   },
   {
     field: "doctor",
-    flex: 1,
     headerName: "Doctor",
-    width: 200,
+    width: 170,
     editable: true,
     renderCell: (params: { row: Appointment }) => {
       return (
@@ -76,7 +71,7 @@ const columns: GridColDef[] = [
   {
     field: "specialization",
     headerName: "Specialization",
-    width: 160,
+    width: 130,
     editable: true,
     // type: "singleSelect",
     renderCell: (params: { row: Appointment }) => {
@@ -87,14 +82,47 @@ const columns: GridColDef[] = [
     field: "appointmentDate",
     headerName: "Appointment Date",
     type: "string",
-    width: 140,
+    width: 180,
     editable: true,
+    renderCell: (params: { row: Appointment }) => {
+      const date = params.row.appointmentDate;
+      const time = params.row.appointmentTime;
+      const appointmentDateTime = dayjs(date, time);
+
+      return appointmentDateTime.format("MMM D, YYYY HH:MMa");
+    },
+  },
+  {
+    field: "appointmentStatus",
+    headerName: "Status",
+    type: "string",
+    width: 120,
+    editable: true,
+    renderCell: (params: { row: Appointment }) => {
+      let status = params.row.appointmentStatus;
+      let date = params.row.appointmentDate;
+      let time = params.row.appointmentTime;
+
+      if (status !== "CANCELLED") {
+        let today = dayjs();
+        let appointmentDateTime = dayjs(date + " " + time);
+        if (today.isAfter(appointmentDateTime)) {
+          return "COMPLETED";
+        }
+      }
+
+      if (status === "CANCELLED") {
+        return "CANCELLED";
+      }
+
+      return params.row.appointmentStatus;
+    },
   },
   {
     field: "visitType",
     headerName: "Visit Type",
     type: "string",
-    width: 100,
+    width: 120,
     editable: true,
   },
   {

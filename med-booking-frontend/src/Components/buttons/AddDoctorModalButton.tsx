@@ -57,7 +57,7 @@ export default function AddDoctorModalButton() {
         startIcon={<AddIcon />}
         onClick={handleOpenAppointmentFormModal}
       >
-        Add Appointment
+        Add New Doctor
       </Button>
       {/* Testing modal sizes. will be fullscreen modal*/}
 

@@ -1,8 +1,7 @@
-import { DialogContent } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { forwardRef, ReactElement, Ref } from "react";
+import { cloneElement, forwardRef, ReactElement, Ref } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -13,17 +12,18 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function LargeGenericModal(props: GenericModalProps) {
-  const { open, onClose, children } = props;
+export function FullScreenFormModalWrapper(props: GenericModalProps) {
+  const { open, onCancel, onSubmit, children } = props;
 
   return (
     <Dialog
-      maxWidth="lg"
+      fullScreen
       open={open}
-      onClose={onClose}
+      onClose={onCancel}
       TransitionComponent={Transition}
     >
-      <DialogContent>{children}</DialogContent>
+      {/* Clone Element and pass props along  */}
+      {cloneElement(children as ReactElement, { open, onCancel, onSubmit })}
     </Dialog>
   );
 }

@@ -12,7 +12,8 @@ declare global {
 
   interface GenericModalProps {
     open: boolean;
-    onClose: () => void;
+    onCancel: () => void;
+    onSubmit: (data: any) => void;
     children: React.ReactNode;
   }
 }

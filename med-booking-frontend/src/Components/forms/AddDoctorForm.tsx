@@ -5,23 +5,16 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
-import { CustomDropdownInput } from "../inputs/CustomDropdownInput";
 import { CustomTextField } from "../inputs/CustomTextInput";
+import { CustomDropdownInput } from "../inputs/SpecializationDropdownInput";
 
 export const AddDoctorForm = (props: any) => {
   const { onSubmit, onCancel } = props;
-  const availableSpecializations = useSelector(
-    (state: RootState) => state.medicalOptions.availableSpecializations
-  );
+  const availableSpecializations = useSelector((state: RootState) => state.medicalOptions.availableSpecializations);
 
   // * Form state
-  const [selectedSpecialization, setSelectedSpecialization] = useState<
-    Specialization | ""
-  >("");
-  const [
-    selectSpecializationErrorMessage,
-    setSelectSpecializationErrorMessage,
-  ] = useState("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState<Specialization | "">("");
+  const [selectSpecializationErrorMessage, setSelectSpecializationErrorMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastName, setLastName] = useState("");
@@ -125,12 +118,7 @@ export const AddDoctorForm = (props: any) => {
           <Typography sx={{ ml: 2 }} variant="h6" component="div">
             Add New Doctor
           </Typography>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onCancel}
-            aria-label="close"
-          >
+          <IconButton edge="start" color="inherit" onClick={onCancel} aria-label="close">
             <CloseIcon />
           </IconButton>
         </Box>
@@ -155,7 +143,6 @@ export const AddDoctorForm = (props: any) => {
             errorMessage={lastNameErrorMessage}
           />
 
-          {/* <InputLabel id={`select-specialization-input-label`}>Specialization</InputLabel> */}
           <CustomDropdownInput
             inputId="select-specialization-input"
             label="Specialization"
@@ -164,14 +151,8 @@ export const AddDoctorForm = (props: any) => {
             dropdownOptions={availableSpecializations}
             errorMessage={selectSpecializationErrorMessage}
           />
-          {/* <FormHelperText>{selectSpecializationErrorMessage}</FormHelperText> */}
 
-          <Button
-            autoFocus
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-          >
+          <Button autoFocus onClick={handleSubmit} variant="contained" color="primary">
             save
           </Button>
         </FormControl>

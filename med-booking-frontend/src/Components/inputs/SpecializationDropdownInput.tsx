@@ -1,22 +1,8 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 export const CustomDropdownInput = (props: CustomDropdownInputProps) => {
-  const {
-    inputId,
-    selectedValue,
-    label,
-    errorMessage,
-    dropdownOptions,
-    onBlur,
-    onChange,
-  } = props;
+  const { inputId, selectedValue, label, errorMessage, dropdownOptions, onBlur, onChange } = props;
 
   const dropdownFieldStyling = {
     backgroundColor: "white",
@@ -24,9 +10,7 @@ export const CustomDropdownInput = (props: CustomDropdownInputProps) => {
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedId = Number(event.target.value);
-    const selectedObject = dropdownOptions.find(
-      (option: Specialization) => option.id === selectedId
-    );
+    const selectedObject = dropdownOptions.find((option: Specialization) => option.id === selectedId);
 
     onChange(selectedObject || "");
   };

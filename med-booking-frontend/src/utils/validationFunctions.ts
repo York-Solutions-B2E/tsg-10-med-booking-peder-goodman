@@ -24,4 +24,18 @@ const validateDateIsInPast = (selectedDate: Dayjs | null) => {
   return false;
 };
 
-export { validateDateIsInPast, validateEmail };
+const validateDateIsInFuture = (selectedDate: Dayjs | null) => {
+  const currentDate = dayjs();
+
+  if (!selectedDate) {
+    return false;
+  }
+
+  if (selectedDate > currentDate) {
+    return true;
+  }
+
+  return false;
+};
+
+export { validateDateIsInFuture, validateDateIsInPast, validateEmail };

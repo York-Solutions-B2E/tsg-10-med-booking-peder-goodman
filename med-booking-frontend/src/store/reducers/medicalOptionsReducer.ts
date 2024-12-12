@@ -5,10 +5,10 @@ import {
   getSpecializationsAndDoctors,
 } from "../actions/doctorActions";
 
-const initialState: any = {
+const initialState: MedicalOptionsState = {
   isLoading: false,
-  specializations: [],
-  doctorsList: [],
+  availableSpecializations: [],
+  availableDoctors: [],
   selectedDoctorAvailability: {},
   visitTypes: ["IN_PERSON", "TELEHEALTH"],
   errorMessage: null,

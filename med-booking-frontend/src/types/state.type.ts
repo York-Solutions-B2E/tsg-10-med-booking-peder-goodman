@@ -21,6 +21,8 @@ declare global {
     isLoading: boolean;
     availableSpecializations: Specialization[];
     availableDoctors: DoctorDetails[];
+    selectedDoctorAvailability: DoctorAvailability | {};
+    visitTypes: VisitType[];
     errorMessage: string | null;
   }
 

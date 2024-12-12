@@ -37,6 +37,10 @@ declare global {
     name: string;
   }
 
+  interface DoctorAvailability extends DoctorDetails {
+    selectedDoctorAvailability: DoctorAppointment[];
+  }
+
   // ** Appointments
 
   interface Appointment {
@@ -49,6 +53,14 @@ declare global {
     appointmentStatus: AppointmentStatus;
   }
 
+  interface DoctorAppointment {
+    id: string;
+    patient: PatientDetails;
+    appointmentDate: string;
+    appointmentTime: string;
+    visitType: VisitType;
+    appointmentStatus: AppointmentStatus;
+  }
   type VisitType = "IN_PERSON" | "TELEHEALTH";
 
   type AppointmentStatus = "CONFIRMED" | "CANCELLED" | "COMPLETED";

@@ -7,9 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.health_care.med_booking_backend.dto.DoctorDTO;
-import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
+import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
+import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.Doctor;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.repository.DoctorRepository;
@@ -121,6 +122,10 @@ public class DoctorService {
     public ResponseEntity<Doctor> getDoctorById(Long doctorId) {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new IllegalStateException("Doctor with id " + doctorId + " does not exist"));
+
+        List<Appointment> filteredAppointments = doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctorId);
+
+        doctor.setDoctorAppointments(filteredAppointments);
 
         return ResponseEntity.ok(doctor);
     }

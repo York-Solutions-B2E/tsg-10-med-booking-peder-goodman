@@ -26,7 +26,7 @@ declare global {
   // ** Doctors & Specializations
 
   interface DoctorDetails {
-    id: number ;
+    id: number;
     firstName: string;
     lastName: string;
     specialization: Specialization;

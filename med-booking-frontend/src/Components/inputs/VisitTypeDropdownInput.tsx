@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 
-export const SpecializationDropdownInput = (props: SpecializationDropdownInputProps) => {
+export const VisitTypeDropdownInput = (props: VisitTypeDropdownInputProps) => {
   const { inputId, selectedValue, label, errorMessage, dropdownOptions, onBlur, onChange } = props;
 
   const dropdownFieldStyling = {
@@ -9,10 +9,9 @@ export const SpecializationDropdownInput = (props: SpecializationDropdownInputPr
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    const selectedId = Number(event.target.value);
-    const selectedObject = dropdownOptions.find((option: Specialization) => option.id === selectedId);
+    const selectedOption = event.target.value as VisitType;
 
-    onChange(selectedObject || "");
+    onChange(selectedOption || "");
   };
 
   return (
@@ -21,7 +20,7 @@ export const SpecializationDropdownInput = (props: SpecializationDropdownInputPr
       <Select
         labelId={`${inputId}-label`}
         id={inputId}
-        value={selectedValue ? String(selectedValue.id) : ""}
+        value={selectedValue }
         onChange={handleChange}
         onBlur={onBlur}
         label={label}
@@ -33,9 +32,9 @@ export const SpecializationDropdownInput = (props: SpecializationDropdownInputPr
           <em>None</em>
         </MenuItem>
 
-        {dropdownOptions.map((option: Specialization) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.name}
+        {dropdownOptions.map((option: VisitType) => (
+          <MenuItem key={option} value={option}>
+            {option}
           </MenuItem>
         ))}
       </Select>

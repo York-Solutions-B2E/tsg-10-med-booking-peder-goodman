@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export {};
 
 declare global {
@@ -54,6 +56,17 @@ declare global {
     dropdownOptions: VisitType[];
     onBlur?: () => void;
     onChange: (selectedObject: VisitType | "") => void;
+  }
+
+  interface TimeDropdownInputProps {
+    inputId: string;
+    label: string;
+    disabled: boolean;
+    selectedDate: Dayjs | null;
+    errorMessage: string;
+    doctorAvailability: DoctorAvailability | null;
+    selectedValue: Dayjs | null;
+    onChange: (value: Dayjs | null) => void;
   }
 
   interface CustomDatePickerProps {

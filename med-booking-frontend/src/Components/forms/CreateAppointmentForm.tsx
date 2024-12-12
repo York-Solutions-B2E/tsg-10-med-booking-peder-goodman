@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, FormControl } from "@mui/material";
+import { backdropClasses, Box, FormControl } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -114,6 +114,7 @@ export const CreateAppointmentForm = (props: any) => {
     // width: "80%",
     display: "flex",
     justifyContent: "center",
+    backgroundColor: "transparent",
   };
 
   const formStyling = {

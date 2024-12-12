@@ -1,22 +1,11 @@
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { AddDoctorForm } from "../forms/AddDoctorForm";
+import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
 import { ConfirmationModal } from "./ConfirmationModal";
-import { FormModal } from "./FormModal";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import { FullScreenFormModalWrapper } from "./FullScreenFormModalWrapper";
+import { LargeFormModalWrapper } from "./LargeFormModalWrapper";
 
 export default function CreateAppointmentModal() {
   const [openForm, setOpenForm] = useState(false);
@@ -60,6 +49,8 @@ export default function CreateAppointmentModal() {
     // store.dispatch(createAppointment(appointmentFormData));
   };
 
+  const fullScreen = true;
+
   return (
     <div>
       <Button
@@ -70,12 +61,24 @@ export default function CreateAppointmentModal() {
       >
         Add Appointment
       </Button>
-
-      <FormModal
-        open={openForm}
-        onCancel={handleCancelSubmission}
-        onSubmit={handleSubmission}
-      />
+      {/* Testing modal sizes. will be fullscreen modal*/}
+      {fullScreen ? (
+        <FullScreenFormModalWrapper
+          open={openForm}
+          onCancel={handleCancelSubmission}
+          onSubmit={handleSubmission}
+        >
+          <CreateAppointmentForm />
+        </FullScreenFormModalWrapper>
+      ) : (
+        <LargeFormModalWrapper
+          open={openForm}
+          onSubmit={handleSubmission}
+          onCancel={handleCancelSubmission}
+        >
+          <AddDoctorForm />
+        </LargeFormModalWrapper>
+      )}
       <ConfirmationModal
         message="Is everything you provided accurate?"
         open={confirmSubmitOpen}

@@ -65,4 +65,13 @@ declare global {
     disableFuture?: boolean;
     disablePast?: boolean;
   }
+  interface CustomTimePickerProps {
+    label: string;
+    birthDate: any;
+    disabled?: boolean;
+    onChange: (date: any) => void;
+    errorMessage: string;
+    disableFuture?: boolean;
+    disablePast?: boolean;
+  }
 }

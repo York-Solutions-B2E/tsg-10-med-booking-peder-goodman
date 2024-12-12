@@ -15,6 +15,7 @@ import CustomDatePicker from "../inputs/CustomDatePicker";
 import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
+import { CustomTimePicker } from "../inputs/CustomTimePicker";
 
 export const CreateAppointmentForm = (props: any) => {
   // * State
@@ -50,6 +51,7 @@ export const CreateAppointmentForm = (props: any) => {
   const handleAppointmentDateChange = (newValue: any) => {
     setAppointmentDate(newValue);
     setAppointmentDateErrorMessage("");
+    setAppointmentTime(null);
   };
 
   const handleAppointmentTimeChange = (newValue: any) => {
@@ -227,7 +229,7 @@ export const CreateAppointmentForm = (props: any) => {
           />
 
           {/* convert to time selector field */}
-          <CustomDatePicker
+          <CustomTimePicker
             disabled={selectedDoctor === ""}
             errorMessage={appointmentTimeErrorMessage}
             birthDate={appointmentTime}

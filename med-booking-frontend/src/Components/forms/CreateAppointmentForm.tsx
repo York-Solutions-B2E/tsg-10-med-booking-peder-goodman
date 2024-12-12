@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { backdropClasses, Box, FormControl } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -7,51 +7,64 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
-import {
-  validateDateIsInPast,
-  validateEmail,
-} from "../../utils/validationFunctions";
+import { validateDateIsInPast } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { CustomTextField } from "../inputs/CustomTextInput";
+import PatientAppointmentDataGrid from "../data-display/PatientAppointmentDataGrid";
+import { useSelector } from "react-redux";
 
 export const CreateAppointmentForm = (props: any) => {
   const { onSubmit, onCancel } = props; // ! change to correct function names
+  const { userDetails } = useSelector((state: RootState) => state.user);
 
   // * Form state
-  const [email, setEmail] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
-  const [birthDateErrorMessage, setBirthDateErrorMessage] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+  const [visitTypeSelection, setVisitTypeSelection] = useState("");
+  const [visitTypeErrorMessage, setVisitTypeErrorMessage] = useState("");
+
+  const [appointmentDate, setAppointmentDate] = useState<Dayjs | null>(null);
+  const [appointmentDateErrorMessage, setAppointmentDateErrorMessage] =
+    useState("");
+
+  const [appointmentTime, setAppointmentTime] = useState<Dayjs | null>(null);
+  const [appointmentTimeErrorMessage, setAppointmentTimeErrorMessage] =
+    useState("");
+
+  const [specialization, setSpecialization] = useState("");
+  const [specializationErrorMessage, setSpecializationErrorMessage] =
+    useState("");
+
+  const [doctorSelection, setDoctorSelection] = useState("");
+  const [doctorSelectionErrorMessage, setDoctorSelectionErrorMessage] =
+    useState("");
 
   // * Event handlers
-  const handleUpdateEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    setEmailErrorMessage("");
+  const handleUpdateVisitTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVisitTypeSelection(e.target.value);
+    setVisitTypeErrorMessage("");
   };
 
-  const handleDateChange = (newValue: any) => {
-    setBirthDate(newValue);
-    setBirthDateErrorMessage("");
+  const handleAppointmentDateChange = (newValue: any) => {
+    setAppointmentDate(newValue);
+    setAppointmentDateErrorMessage("");
   };
 
-  const handleLeaveEmailField = () => {
-    if (!validateEmail(email)) {
-      setEmailErrorMessage("Invalid Email");
-    }
+  const handleAppointmentTimeChange = (newValue: any) => {
+    setAppointmentTime(newValue);
+    setAppointmentTimeErrorMessage("");
   };
 
-  const handleUpdateFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFirstName(e.target.value);
-    setFirstNameErrorMessage("");
+  const handleUpdateSpecializationChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
+    setSpecialization(e.target.value);
+    setSpecializationErrorMessage("");
   };
 
-  const handleUpdateLastNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLastName(e.target.value);
-    setLastNameErrorMessage("");
+  const handleUpdateDoctorSelectionChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
+    setDoctorSelection(e.target.value);
+    setDoctorSelectionErrorMessage("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -62,44 +75,58 @@ export const CreateAppointmentForm = (props: any) => {
 
   // * Form validation
   const validateForm = () => {
-    const isEmailValid = validateEmail(email);
-    const isBirthDateValid = validateDateIsInPast(birthDate);
-    const isFirstNameValid = firstName.length > 0;
-    const isLastNameValid = lastName.length > 0;
+    const isVisitTypeValid = visitTypeSelection.length > 0;
+    const isAppointmentDateValid = !validateDateIsInPast(appointmentDate);
+    const isAppointmentTimeValid = !validateDateIsInPast(appointmentDate);
+    const isSpecializationValid = specialization.length > 0;
+    const isDoctorValid = doctorSelection.length > 0;
 
-    if (!isEmailValid) {
-      setEmailErrorMessage("Invalid Email");
+    if (!isVisitTypeValid) {
+      setVisitTypeErrorMessage("Visit Type is required");
     }
 
-    if (!isBirthDateValid) {
-      setBirthDateErrorMessage("Invalid Date");
+    if (!isAppointmentDateValid) {
+      setAppointmentDateErrorMessage("Invalid Date");
+    }
+    if (!isAppointmentTimeValid) {
+      setAppointmentTimeErrorMessage("Invalid Time");
     }
 
-    if (!isFirstNameValid) {
-      setFirstNameErrorMessage("Please enter your first name");
+    if (!isSpecializationValid) {
+      setSpecializationErrorMessage("Please select a Specialization");
     }
 
-    if (!isLastNameValid) {
-      setLastNameErrorMessage("Please enter your last name");
+    if (!isDoctorValid) {
+      setDoctorSelectionErrorMessage("Please select a Doctor");
     }
 
+    // return true if all fields are valid
     return (
-      isEmailValid && isBirthDateValid && isFirstNameValid && isLastNameValid
+      isVisitTypeValid &&
+      isAppointmentDateValid &&
+      isAppointmentTimeValid &&
+      isSpecializationValid &&
+      isDoctorValid
     );
   };
 
   // * Form submission
   const handleSubmit = () => {
-    if (!birthDate) {
-      setBirthDateErrorMessage("Birth date is required");
+    if (!appointmentDate) {
+      setAppointmentDateErrorMessage("Appointment date is required");
+      return;
+    }
+    if (!appointmentTime) {
+      setAppointmentTimeErrorMessage("Appointment Time is required");
       return;
     }
 
     const createAppointmentData = {
-      firstName,
-      lastName,
-      email,
-      birthdate: birthDate.format("YYYY-MM-DD"),
+      patient: userDetails,
+      doctor: doctorSelection, // contains specialization
+      appointmentDate: appointmentDate.format("YYYY-MM-DD"),
+      appointmentTime: appointmentTime.format("HH:mm"),
+      visitType: visitTypeSelection,
     };
 
     if (validateForm()) {
@@ -113,7 +140,9 @@ export const CreateAppointmentForm = (props: any) => {
   const formContainerStyling = {
     // width: "80%",
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "transparent",
   };
 
@@ -126,10 +155,10 @@ export const CreateAppointmentForm = (props: any) => {
 
   // hidden button for testing
   const hiddenButton = () => {
-    setBirthDate(dayjs("1998-02-25"));
-    setEmail("newemail1@email.com");
-    setFirstName("Jerry");
-    setLastName("Fisher");
+    setAppointmentDate(dayjs("1998-02-25"));
+    setVisitTypeSelection("newemail1@email.com");
+    setSpecialization("Jerry");
+    setDoctorSelection("Fisher");
   };
 
   return (
@@ -147,67 +176,68 @@ export const CreateAppointmentForm = (props: any) => {
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Create Appointment
           </Typography>
-          <Button autoFocus color="inherit" onClick={handleSubmit}>
-            save
-          </Button>
         </Toolbar>
       </AppBar>
       <Box sx={formContainerStyling}>
         {/* <div onClick={hiddenButton}>autofill</div> */}
+        <Box>
+          <Typography>Creating an Appointment for::</Typography>
+          <Typography>Patient details go here</Typography>
+        </Box>
         <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
+          {/* convert to dropdown selector field */}
           <CustomTextField
-            id="signup-email-input"
-            label="Email Address"
-            value={email}
-            onChange={handleUpdateEmailChange}
-            onBlur={handleLeaveEmailField}
-            placeholder="email@example.com"
-            errorMessage={emailErrorMessage}
-          />
-
-          <CustomTextField
-            id="signup-first-name-input"
-            label="First Name"
-            value={firstName}
-            onChange={handleUpdateFirstNameChange}
+            id="specialization-selection-input"
+            label="Specialization Selection"
+            value={specialization}
+            onChange={handleUpdateSpecializationChange}
             placeholder="Jerry"
-            errorMessage={firstNameErrorMessage}
+            errorMessage={specializationErrorMessage}
           />
 
+          {/* convert to dropdown selector field */}
           <CustomTextField
-            id="signup-last-name-input"
-            label="Last Name"
-            value={lastName}
-            onChange={handleUpdateLastNameChange}
+            id="doctor-selection-input"
+            label="Doctor Selection"
+            value={doctorSelection}
+            onChange={handleUpdateDoctorSelectionChange}
             placeholder="Smith"
-            errorMessage={lastNameErrorMessage}
+            errorMessage={doctorSelectionErrorMessage}
           />
-
-          <CustomTextField
-            id="signup-first-name-input"
-            label="First Name"
-            value={firstName}
-            onChange={handleUpdateFirstNameChange}
-            placeholder="Jerry"
-            errorMessage={firstNameErrorMessage}
-          />
-
-          <CustomTextField
-            id="signup-last-name-input"
-            label="Last Name"
-            value={lastName}
-            onChange={handleUpdateLastNameChange}
-            placeholder="Smith"
-            errorMessage={lastNameErrorMessage}
-          />
-
           <CustomDatePicker
-            errorMessage={birthDateErrorMessage}
-            birthDate={birthDate}
-            onChange={handleDateChange}
-            label="Birth Date"
+            errorMessage={appointmentDateErrorMessage}
+            birthDate={appointmentDate}
+            onChange={handleAppointmentDateChange}
+            label="Appointment Date"
+            disablePast={true}
           />
-          {/* <CustomAlert message="Error Logging in" /> */}
+
+          {/* convert to time selector field */}
+          <CustomDatePicker
+            errorMessage={appointmentTimeErrorMessage}
+            birthDate={appointmentTime}
+            onChange={handleAppointmentTimeChange}
+            label="Appointment Date"
+            disablePast={true}
+          />
+
+          {/* convert to dropdown selector field */}
+          <CustomTextField
+            id="visit-type-input"
+            label="Visit Type"
+            value={visitTypeSelection}
+            onChange={handleUpdateVisitTypeChange}
+            placeholder="email@example.com"
+            errorMessage={visitTypeErrorMessage}
+          />
+          <Button
+            autoFocus
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+          >
+            Confirm Appointment
+          </Button>
         </FormControl>
       </Box>
     </>

@@ -12,14 +12,15 @@ const initialState: UserState = {
   isUserAuthenticated: false,
   isPatientAuthenticated: false,
   userDetails: {
-    id: "",
+    id: null,
     firstName: "",
     lastName: "",
     fullName: "", // ? add a method to get the full name? or just use firstName + lastName
     email: "",
     role: null,
-    birthdate: "",
-    oktaId: "",
+    birthdate: "", // will be empty for admin
+    oktaId: "", // will be empty for patient
+    patientAppointments: [] // will be empty for admin
   },
   errorMessage: null,
 };
@@ -75,8 +76,8 @@ const userAuthenticationCases = (builder: ActionReducerMapBuilder<any>) => {
   });
   builder.addCase(checkUserAuthentication.rejected, (state, action) => {
     state.isUserAuthenticated = false;
-    state.error = action.error.message;
-    state.loadingAuth = false;
+    state.errorMessage = action.error.message;
+    state.isLoading = false;
   });
 };
 
@@ -98,8 +99,8 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
   builder.addCase(loginPatient.rejected, (state, action) => {
     console.log("loginPatient.rejected payload: ", action.payload);
     state.isPatientAuthenticated = false;
-    state.error = action.payload;
-    state.loadingAuth = false;
+    state.errorMessage = action.payload;
+    state.isLoading = false;
   });
 };
 
@@ -120,8 +121,8 @@ const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
   });
   builder.addCase(signupPatient.rejected, (state, action) => {
     state.isPatientAuthenticated = false;
-    state.error = action.payload;
-    state.loadingAuth = false;
+    state.errorMessage = action.payload;
+    state.isLoading = false;
   });
 };
 

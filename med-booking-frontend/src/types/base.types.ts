@@ -4,7 +4,7 @@ export {};
 declare global {
   // ** User
   interface UserDetails {
-    id: string;
+    id: number | null;
     firstName: string;
     lastName: string;
     fullName: string;
@@ -26,31 +26,56 @@ declare global {
   // ** Doctors & Specializations
 
   interface DoctorDetails {
-    id: string;
+    id: number ;
     firstName: string;
     lastName: string;
-    specialty: Specialization;
+    specialization: Specialization;
   }
 
   interface Specialization {
-    id: string;
+    id: number;
     name: string;
+  }
+
+  interface DoctorAvailability extends DoctorDetails {
+    selectedDoctorAvailability: DoctorAppointment[];
   }
 
   // ** Appointments
 
   interface Appointment {
-    id: string;
+    id: number;
     patient: PatientDetails;
     doctor: DoctorDetails;
-    specialization: Specialization;
     appointmentDate: string;
     appointmentTime: string;
     visitType: VisitType;
     appointmentStatus: AppointmentStatus;
   }
 
+  interface DoctorAppointment {
+    id: number;
+    patient: PatientDetails;
+    appointmentDate: string;
+    appointmentTime: string;
+    visitType: VisitType;
+    appointmentStatus: AppointmentStatus;
+  }
   type VisitType = "IN_PERSON" | "TELEHEALTH";
 
   type AppointmentStatus = "CONFIRMED" | "CANCELLED" | "COMPLETED";
 }
+
+/**  
+ import AddIcon from "@mui/icons-material/Add";
+
+    <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={handleOpen}
+      >
+        Add Appointment
+      </Button>
+
+ */

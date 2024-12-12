@@ -1,5 +1,5 @@
 import { Box, FormControl, FormHelperText } from "@mui/material";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
 import CustomButton from "../inputs/CustomButton";
 import CustomDatePicker from "../inputs/CustomDatePicker";
@@ -113,9 +113,17 @@ export const SignupForm = () => {
     width: "100%",
   };
 
+  // hidden button for testing
+const hiddenButton = () => {
+  setBirthDate(dayjs("1998-02-25"))
+  setEmail("newemail1@email.com")
+  setFirstName("Jerry")
+  setLastName("Fisher")
+}
+
   return (
     <Box sx={formContainerStyling}>
-      <FormHelperText id="my-helper-text">
+      <FormHelperText id="email-helper-text" onClick={hiddenButton}>
         We'll never share your email.
       </FormHelperText>
       <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
@@ -151,6 +159,8 @@ export const SignupForm = () => {
           errorMessage={birthDateErrorMessage}
           birthDate={birthDate}
           onChange={handleDateChange}
+          label="Birth Date"
+          disableFuture={true}
         />
 
         <CustomButton buttonText="Signup" onClick={handleClickSignupButton} />

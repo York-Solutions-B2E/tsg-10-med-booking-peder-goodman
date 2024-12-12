@@ -1,4 +1,4 @@
-// Ipmort redux tools
+// Import redux tools
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
@@ -17,14 +17,12 @@ import {
 
 // Import reducers
 import userReducer from "./reducers/userReducer";
-// import appointmentsReducer from "./reducers/appointmentsReducer";
-// import medicalOptionsReducer from "./reducers/doctorsReducer";
+import medicalOptionsReducer from "./reducers/medicalOptionsReducer";
 
 // combine all reducers in store
 const rootReducer = combineReducers({
   user: userReducer, // admin or user details
-  // appointments: appointmentsReducer, // list of patient appointments
-  // medicalOptions: medicalOptionsReducer, // list of doctors and specialties
+  medicalOptions: medicalOptionsReducer, // list of doctors and specialties and availability
 });
 
 // configure persistent store

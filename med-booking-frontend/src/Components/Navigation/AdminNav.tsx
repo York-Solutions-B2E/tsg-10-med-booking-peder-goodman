@@ -15,25 +15,25 @@ export default function AdminNav(props: NavigationProps) {
     navigate("/admin");
   };
 
-  const handleClickAddDoctor = () => {
-    // navigate to admin home (aka /admin)
-    navigate("/add-doctor");
+  const handleClickHome = () => {
+    console.log("Home clicked");
+    // navigate("/my-appointments");
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Toolbar>
+        {/* <Button
+          sx={{ color: "inherit", textTransform: "capitalize" }}
+          onClick={handleClickHome}
+        >
+          Home
+        </Button> */}
         <Button
           sx={{ color: "inherit", textTransform: "capitalize" }}
           onClick={handleClickViewDoctorList}
         >
           View Doctor List
-        </Button>
-        <Button
-          sx={{ color: "inherit", textTransform: "capitalize" }}
-          onClick={handleClickAddDoctor}
-        >
-          Add Doctor
         </Button>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           HealthCare.com

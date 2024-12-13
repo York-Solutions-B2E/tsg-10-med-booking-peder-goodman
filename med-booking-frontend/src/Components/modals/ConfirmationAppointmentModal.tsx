@@ -20,14 +20,11 @@ export function ConfirmationAppointmentModal(props: ConfirmationAppointmentModal
   if (!appointment) {
     return null;
   }
-  console.log("in confirmation modal", appointment.appointmentTime);
   const patient = appointment.patient;
   const doctor = appointment.doctor;
   const appointmentDate = dayjs(appointment.appointmentDate).format("MMM DD, YYYY");
   const appointmentTime = dayjs(appointment.appointmentDate + appointment.appointmentTime).format("hh:mm a");
   const visitType = appointment.visitType;
-
-  console.log("in confirmation modal", appointment);
 
   return (
     <>

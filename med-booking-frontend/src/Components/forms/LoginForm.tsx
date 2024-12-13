@@ -7,10 +7,7 @@ import { CustomTextField } from "../inputs/CustomTextInput";
 
 import { loginPatient } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import {
-  validateDateIsInPast,
-  validateEmail,
-} from "../../utils/validationFunctions";
+import { validateDateIsInPast, validateEmail } from "../../utils/validationFunctions";
 
 export const LoginForm = () => {
   // * Form state
@@ -85,8 +82,8 @@ export const LoginForm = () => {
 
   // hidden button for testing
   const hiddenButton = () => {
-    setBirthDate(dayjs("1983-08-10"));
-    setEmail("reed.stone@example.com");
+    setBirthDate(dayjs("1995-11-25"));
+    setEmail("aspen.grove@example.com");
   };
 
   return (
@@ -105,13 +102,7 @@ export const LoginForm = () => {
           errorMessage={emailErrorMessage}
         />
 
-        <CustomDatePicker
-          errorMessage={birthDateErrorMessage}
-          birthDate={birthDate}
-          onChange={handleDateChange}
-          label="Birth Date"
-          disableFuture={true}
-        />
+        <CustomDatePicker errorMessage={birthDateErrorMessage} birthDate={birthDate} onChange={handleDateChange} label="Birth Date" disableFuture={true} />
 
         <CustomButton buttonText="Login" onClick={handleClickLoginButton} />
 

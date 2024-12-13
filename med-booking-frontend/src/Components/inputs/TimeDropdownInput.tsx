@@ -21,8 +21,6 @@ export const TimeDropdownInput = (props: TimeDropdownInputProps) => {
     let updatedDateTime = dayjs();
     if (selectedDate) {
       updatedDateTime = selectedDate.hour(selectedTime.hour()).minute(selectedTime.minute());
-      console.log("selectedDate", selectedDate);
-      console.log("updatedDateTime", updatedDateTime);
       onChange(updatedDateTime);
     }
   };
@@ -30,7 +28,7 @@ export const TimeDropdownInput = (props: TimeDropdownInputProps) => {
   // Filter out unavailable time slots
   const filterAvailableSlots = (slots: string[], bookedTimes: DoctorAvailability, appointmentDate: Dayjs) => {
     const today = dayjs();
-    console.log("In Filter, today", today);
+    // console.log("In Filter, today", today);
 
     // get todays date
     // get the selected date for the appointment

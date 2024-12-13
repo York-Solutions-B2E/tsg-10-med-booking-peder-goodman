@@ -45,7 +45,6 @@ export default function AddDoctorModalButton() {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
     console.log("Add Doctor Form Data Submitted:", addDoctorFormData);
-    // TODO: Submit Add Doctor data to backend
     await store.dispatch(createDoctor(addDoctorFormData as DoctorRequest));
     store.dispatch(getSpecializationsAndDoctors());
   };

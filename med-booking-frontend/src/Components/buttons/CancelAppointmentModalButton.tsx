@@ -1,17 +1,33 @@
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { cancelAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
+  // const [showCancelButton, setShowCancelButton] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    if (appointment.appointmentStatus === "CANCELED") {
+      setIsButtonDisabled(true);
+    }
+
+    const isAppointmentDateInThePast = dayjs(appointment.appointmentDate + appointment.appointmentTime).isBefore(dayjs());
+
+    if (isAppointmentDateInThePast) {
+      setIsButtonDisabled(true);
+    }
+  }, []);
 
   const handleCancelClickButton = () => {
     setConfirmCancelOpen(true);
@@ -32,6 +48,7 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   return (
     <>
       <GridActionsCellItem
+        disabled={isButtonDisabled}
         icon={
           <Tooltip title="Cancel Appointment">
             <DoNotDisturbIcon />

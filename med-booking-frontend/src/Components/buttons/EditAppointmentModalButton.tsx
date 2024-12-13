@@ -1,10 +1,15 @@
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { updateAppointment } from "../../store/actions/appointmentActions";
+import { getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
 import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
+import { getPatientDetails } from "../../store/actions/userActions";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
@@ -12,7 +17,21 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState(null);
+  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | null>(null);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    if (appointment.appointmentStatus === "CANCELED") {
+      setIsButtonDisabled(true);
+    }
+
+    const isAppointmentDateInThePast = dayjs(appointment.appointmentDate + appointment.appointmentTime).isBefore(dayjs());
+
+    if (isAppointmentDateInThePast) {
+      setIsButtonDisabled(true);
+    }
+  }, []);
 
   // * Form Modal handlers
   const handleCancelSubmission = () => {
@@ -38,23 +57,36 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setOpenForm(false);
   };
 
-  const handleConfirmSubmit = () => {
+  const handleConfirmSubmit = async () => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
     console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // TODO: Submit EDIT appointment form data to backend
-    // store.dispatch(updateAppointment(appointmentFormData));
+
+    const updatedAppointment: AppointmentRequest = {
+      id: appointment?.id,
+      doctor: appointmentFormData?.doctor as DoctorDetails,
+      patient: appointmentFormData?.patient as PatientDetails,
+      appointmentDate: appointmentFormData?.appointmentDate as string,
+      appointmentTime: appointmentFormData?.appointmentTime as string,
+      visitType: appointmentFormData?.visitType as VisitType,
+    };
+
+    await store.dispatch(updateAppointment(updatedAppointment as Appointment));
+
+    // TODO: If error, show error message here
+    // Refresh the doctor list
+    store.dispatch(getPatientDetails(appointmentFormData?.patient.id as number));
   };
 
   const handleOpenEditAppointmentForm = (appointment: Appointment) => {
-    console.log("clicked edit id", appointment.id);
-    // TODO: Set initial form data
+    setAppointmentFormData(appointment);
     setOpenForm(true);
   };
 
   return (
     <>
       <GridActionsCellItem
+        disabled={isButtonDisabled}
         icon={
           <Tooltip title="Edit Appointment">
             <EditIcon />
@@ -68,8 +100,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
       />
 
       <LargeFormModalWrapper open={openForm} onSubmit={handleSubmission} onCancel={handleCancelSubmission}>
-        {/* TODO replace with EditAppointmentForm */}
-        <AddAppointmentForm />
+        <AddAppointmentForm formData={appointmentFormData} isEditing={true} />
       </LargeFormModalWrapper>
 
       <ConfirmationModal

@@ -2,10 +2,15 @@ import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { cancelAppointment } from "../../store/actions/appointmentActions";
+import { getPatientDetails } from "../../store/actions/userActions";
+import { store } from "../../store/store";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
 
   const handleCancelClickButton = () => {
@@ -17,11 +22,11 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setConfirmCancelOpen(false);
   };
 
-  const submitConfirmation = () => {
+  const submitConfirmation = async () => {
     setConfirmCancelOpen(false);
-    console.log("Appointment Cancelled:", appointment.id);
-    // TODO: Submit cancel appointment to backend
-    // store.dispatch(cancelAppointment(appointment.id));
+    // Cancel the appointment and refresh the patient details
+    await store.dispatch(cancelAppointment(appointment.id));
+    store.dispatch(getPatientDetails(patientDetails.id as number));
   };
 
   return (

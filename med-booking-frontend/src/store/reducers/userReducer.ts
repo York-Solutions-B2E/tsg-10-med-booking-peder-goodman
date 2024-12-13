@@ -1,11 +1,6 @@
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
-import {
-  checkUserAuthentication,
-  loginPatient,
-  logoutUser,
-  signupPatient,
-} from "../actions/userActions";
+import { checkUserAuthentication, getPatientDetails, loginPatient, logoutUser, signupPatient } from "../actions/userActions";
 
 const initialState: UserState = {
   isLoading: false,
@@ -36,6 +31,7 @@ const userSlice = createSlice({
     userAuthenticationCases(builder);
     patientSignupCases(builder);
     patientLoginCases(builder);
+    getPatientDetailsCases(builder);
   },
 });
 
@@ -116,6 +112,27 @@ const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = false;
   });
   builder.addCase(signupPatient.rejected, (state, action) => {
+    state.isPatientAuthenticated = false;
+    state.errorMessage = action.payload;
+    state.isLoading = false;
+  });
+};
+
+const getPatientDetailsCases = (builder: ActionReducerMapBuilder<any>) => {
+  builder.addCase(getPatientDetails.pending, (state, action) => {
+    // Clears any previous errors and set loading
+    state.errorMessage = null;
+    state.isLoading = true;
+  });
+  builder.addCase(getPatientDetails.fulfilled, (state, action) => {
+    // If user is authenticated, set the user details
+    state.isPatientAuthenticated = true;
+    state.userDetails = action.payload;
+    // Clear any previous errors and set loading to false
+    state.errorMessage = null;
+    state.isLoading = false;
+  });
+  builder.addCase(getPatientDetails.rejected, (state, action) => {
     state.isPatientAuthenticated = false;
     state.errorMessage = action.payload;
     state.isLoading = false;

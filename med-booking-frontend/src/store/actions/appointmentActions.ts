@@ -10,7 +10,7 @@ export const createAppointment = createAsyncThunk<any, AppointmentRequest>("appo
 });
 
 export const updateAppointment = createAsyncThunk<any, Appointment>("appointment/update", async (body: Appointment) => {
-  const response = await axios.post<any>("api/appointments/update/details", body, {
+  const response = await axios.put<any>("api/appointments/update/details", body, {
     withCredentials: true,
   });
 
@@ -18,7 +18,7 @@ export const updateAppointment = createAsyncThunk<any, Appointment>("appointment
 });
 
 export const cancelAppointment = createAsyncThunk<any, number>("appointment/cancel", async (appointmentId: number) => {
-  const response = await axios.get<any>(`api/appointments/cancel/${appointmentId}`, {
+  const response = await axios.put<any>(`api/appointments/cancel/${appointmentId}`, {
     withCredentials: true,
   });
 

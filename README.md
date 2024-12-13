@@ -22,6 +22,13 @@ Create new app integration with the following settings
 - okta api security steps
 
 
+## Display Image
+
+To display an image in markdown, use the following syntax:
+
+![dfsfadfdsfasd](./database-schema.png)
+
+
 2. copy your Okta details into your application.properties file
 
 - okta.oauth2.issuer=OKTA_ISSUER_URL/oauth2/default

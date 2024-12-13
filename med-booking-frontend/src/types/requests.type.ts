@@ -34,6 +34,7 @@ declare global {
   }
 
   interface DoctorRequest {
+    id?: number;
     firstName: string;
     lastName: string;
     specialization: Specialization;

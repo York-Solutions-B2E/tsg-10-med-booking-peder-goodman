@@ -20,8 +20,9 @@ import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
 export const CreateAppointmentForm = (props: any) => {
   // * State
   const { onSubmit, onCancel } = props; // ! change to correct function names
-  const { userDetails } = useSelector((state: RootState) => state.user);
+  const userDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
+  const patientBirthdate = dayjs(userDetails.birthdate).format("MMM DD, YYYY");
 
   // * Initial Form state
   // Visit Type
@@ -198,9 +199,13 @@ export const CreateAppointmentForm = (props: any) => {
         </Toolbar>
       </AppBar>
       <Box sx={formContainerStyling}>
-        <Box>
-          <Typography>Creating an Appointment for::</Typography>
-          <Typography>Patient details go here</Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", margin: "0 0 30px", gap: "6px" }}>
+          <Typography variant="h4" component="div">
+            Patient Details
+          </Typography>
+          <Typography>{`Patient Name: ${userDetails.firstName} ${userDetails.lastName}`}</Typography>
+          <Typography>{`Patient Email: ${userDetails.email}`}</Typography>
+          <Typography>{`Date of Birth: ${patientBirthdate}`}</Typography>
         </Box>
         <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
           <SpecializationDropdownInput
@@ -232,7 +237,6 @@ export const CreateAppointmentForm = (props: any) => {
               disablePast={true}
             />
 
-            {/* convert to time selector field */}
             <TimeDropdownInput
               doctorAvailability={selectedDoctorAvailability}
               disabled={appointmentDate === null}

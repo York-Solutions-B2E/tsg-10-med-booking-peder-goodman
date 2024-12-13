@@ -2,14 +2,11 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { calculateAge } from "../../utils/helperFunctions";
 import CancelAppointmentModalButton from "../buttons/CancelAppointmentModalButton";
 import EditAppointmentModalButton from "../buttons/EditAppointmentModalButton";
-import { useEffect } from "react";
-
-
-
 
 // ******** Columns headers and data
 const columns: GridColDef[] = [
@@ -20,13 +17,11 @@ const columns: GridColDef[] = [
     width: 60,
     align: "left",
     headerAlign: "left",
-    editable: false,
   },
   {
     field: "fullName",
     headerName: "Patient Name",
     width: 130,
-    editable: false,
     renderCell: (params: { row: Appointment }) => {
       return params.row.patient.fullName;
     },
@@ -36,7 +31,6 @@ const columns: GridColDef[] = [
     headerName: "Date of Birth",
     type: "string",
     width: 130,
-    editable: false,
     renderCell: (params: { row: Appointment }) => {
       return dayjs(params.row.patient.birthdate).format("MMM D, YYYY");
     },
@@ -48,7 +42,6 @@ const columns: GridColDef[] = [
     width: 60,
     align: "left",
     headerAlign: "left",
-    editable: false,
     renderCell: (params: { row: Appointment }) => {
       return calculateAge(params.row.patient.birthdate);
     },
@@ -57,18 +50,14 @@ const columns: GridColDef[] = [
     field: "doctor",
     headerName: "Doctor",
     width: 170,
-    editable: true,
     renderCell: (params: { row: Appointment }) => {
       return "Dr. " + params.row.doctor.firstName + " " + params.row.doctor.lastName;
     },
   },
-
   {
     field: "specialization",
     headerName: "Specialization",
     width: 130,
-    editable: true,
-    // type: "singleSelect",
     renderCell: (params: { row: Appointment }) => {
       return params.row.doctor.specialization.name;
     },
@@ -78,12 +67,10 @@ const columns: GridColDef[] = [
     headerName: "Apt Date",
     type: "string",
     width: 100,
-    editable: true,
     renderCell: (params: { row: Appointment }) => {
       const date = params.row.appointmentDate;
       const time = params.row.appointmentTime;
       const appointmentDateTime = dayjs(date + time);
-
       return (
         <Box>
           <Typography sx={{ fontSize: 14 }}> {appointmentDateTime.format("MMM D, YY")}</Typography>
@@ -97,7 +84,6 @@ const columns: GridColDef[] = [
     headerName: "Status",
     type: "string",
     width: 120,
-    editable: true,
     renderCell: (params: { row: Appointment }) => {
       let status = params.row.appointmentStatus;
       let date = params.row.appointmentDate;
@@ -123,7 +109,6 @@ const columns: GridColDef[] = [
     headerName: "Visit Type",
     type: "string",
     width: 120,
-    editable: true,
   },
   {
     field: "actions",

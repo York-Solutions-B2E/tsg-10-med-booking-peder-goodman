@@ -4,12 +4,12 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { updateAppointment } from "../../store/actions/appointmentActions";
-import { getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
+
+import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
-import { getPatientDetails } from "../../store/actions/userActions";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;

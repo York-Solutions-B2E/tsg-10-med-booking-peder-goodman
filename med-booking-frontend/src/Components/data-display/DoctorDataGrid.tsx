@@ -8,20 +8,18 @@ import EditDoctorModalButton from "../buttons/EditDoctorModalButton";
 const columns: GridColDef[] = [
   {
     field: "id",
-    flex: 1,
+    // flex: 1,
     headerName: "Id",
     type: "number",
-    width: 60,
+    width: 30,
     align: "left",
     headerAlign: "left",
-    editable: false,
   },
   {
     field: "firstName",
     flex: 1,
     headerName: "First Name",
     width: 100,
-    editable: false,
     renderCell: (params: { row: DoctorAvailability }) => {
       return "Dr. " + params.row.firstName;
     },
@@ -31,21 +29,17 @@ const columns: GridColDef[] = [
     flex: 1,
     headerName: "Last Name",
     width: 100,
-    editable: false,
   },
   {
     flex: 1,
     field: "specialization",
     headerName: "Specialization",
     width: 130,
-    editable: true,
-    // type: "singleSelect",
     renderCell: (params: { row: DoctorAvailability }) => {
       return params.row.specialization.name;
     },
   },
   {
-    flex: 1,
     field: "actions",
     type: "actions",
     headerName: "Actions",
@@ -53,10 +47,7 @@ const columns: GridColDef[] = [
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
       const doctor = params.row as DoctorDetails;
-      return [
-        <EditDoctorModalButton doctor={doctor} />,
-        <DeleteDoctorModalButton doctor={doctor} />,
-      ];
+      return [<EditDoctorModalButton doctor={doctor} />, <DeleteDoctorModalButton doctor={doctor} />];
     },
   },
 ];
@@ -64,9 +55,7 @@ const columns: GridColDef[] = [
 
 // ******** FUNCTION START
 export default function DoctorDataGrid() {
-  const availableDoctors = useSelector(
-    (state: RootState) => state.medicalOptions.availableDoctors
-  );
+  const availableDoctors = useSelector((state: RootState) => state.medicalOptions.availableDoctors);
 
   return (
     <Box sx={{ height: 700, width: "100%" }}>

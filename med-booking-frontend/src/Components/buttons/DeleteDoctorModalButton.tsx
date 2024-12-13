@@ -3,6 +3,8 @@ import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useState } from "react";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
 
 const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
@@ -17,11 +19,11 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
     setConfirmCancelOpen(false);
   };
 
-  const submitConfirmation = () => {
+  const submitConfirmation = async () => {
     setConfirmCancelOpen(false);
     console.log("Doctor deleted:", doctor.id);
-    // TODO: Submit delete doctor to backend
-    // store.dispatch(cancelAppointment(appointment.id));
+    await store.dispatch(deleteDoctor(doctor.id));
+    store.dispatch(getSpecializationsAndDoctors());
   };
 
   return (

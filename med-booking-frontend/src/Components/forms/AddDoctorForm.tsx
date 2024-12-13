@@ -67,10 +67,10 @@ export const AddDoctorForm = (props: any) => {
 
   // * Form submission
   const handleSubmit = () => {
-    const addDoctorData = {
+    const addDoctorData: DoctorRequest = {
       firstName,
       lastName,
-      selectedSpecialization,
+      specialization: selectedSpecialization as Specialization,
     };
 
     if (validateForm()) {

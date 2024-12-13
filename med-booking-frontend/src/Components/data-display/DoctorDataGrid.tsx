@@ -69,18 +69,18 @@ export default function DoctorDataGrid() {
   );
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: 700, width: "100%" }}>
       <DataGrid
         rows={availableDoctors}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 15,
             },
           },
         }}
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[15, 30]}
         disableRowSelectionOnClick
         // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
       />

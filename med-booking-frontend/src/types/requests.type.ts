@@ -17,7 +17,7 @@ declare global {
     email: string;
     birthdate: string;
   }
-  
+
   interface PatientSignupRequest {
     firstName: string;
     lastName: string;
@@ -31,5 +31,11 @@ declare global {
     appointmentDate: string;
     appointmentTime: string;
     visitType: VisitType;
+  }
+
+  interface DoctorRequest {
+    firstName: string;
+    lastName: string;
+    specialization: Specialization;
   }
 }

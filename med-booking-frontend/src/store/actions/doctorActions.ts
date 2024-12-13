@@ -16,3 +16,25 @@ export const getDoctorAvailability = createAsyncThunk<any, number>("doctor/getAv
 
   return response.data;
 });
+
+export const createDoctor = createAsyncThunk("doctor/create", async (body: DoctorRequest) => {
+  const response = await axios.post<any>("api/doctors/create", body, {
+    withCredentials: true,
+  });
+
+  return response.data;
+});
+
+export const updateDoctor = createAsyncThunk("doctor/update", async (body: DoctorRequest) => {
+  const response = await axios.put<any>("api/doctors/edit", body, {
+    withCredentials: true,
+  });
+
+  return response.data;
+});
+
+export const deleteDoctor = createAsyncThunk<any, number>("doctor/cancel", async (doctorId: number) => {
+  const response = await axios.put<any>(`api/doctors/delete/${doctorId}`, {
+    withCredentials: true,
+  });
+});

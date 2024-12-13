@@ -42,6 +42,7 @@ export default function CreateAppointmentModalButton() {
   };
 
   const handleConfirmSubmit = () => {
+    console.log("Submitting appointment form data");
     setConfirmSubmitOpen(false);
     setOpenForm(false);
     store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));

@@ -3,13 +3,13 @@ import { Box, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { CustomTextField } from "../inputs/CustomTextInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 
 export const AddDoctorForm = (props: any) => {
-  const { onSubmit, onCancel } = props;
+  const { onSubmit, onCancel, formData, isEditing } = props;
   const availableSpecializations = useSelector((state: RootState) => state.medicalOptions.availableSpecializations);
 
   // * Form state
@@ -19,6 +19,14 @@ export const AddDoctorForm = (props: any) => {
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastName, setLastName] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (isEditing && formData) {
+      setSelectedSpecialization(formData.specialization);
+      setFirstName(formData.firstName);
+      setLastName(formData.lastName);
+    }
+  }, []);
 
   // * Event handlers
   const handleSelectSpecializationChange = (newValue: Specialization | "") => {
@@ -116,7 +124,7 @@ export const AddDoctorForm = (props: any) => {
       <Box sx={formContainerStyling}>
         <Box sx={formButtonStyling}>
           <Typography sx={{ ml: 2 }} variant="h6" component="div">
-            Add New Doctor
+            {isEditing ? "Edit Doctor" : "Add New Doctor"}
           </Typography>
           <IconButton edge="start" color="inherit" onClick={onCancel} aria-label="close">
             <CloseIcon />
@@ -153,7 +161,7 @@ export const AddDoctorForm = (props: any) => {
           />
 
           <Button autoFocus onClick={handleSubmit} variant="contained" color="primary">
-            save
+            {isEditing ? "Save Changes" : "Add Doctor"}
           </Button>
         </FormControl>
       </Box>

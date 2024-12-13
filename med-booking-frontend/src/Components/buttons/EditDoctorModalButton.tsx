@@ -2,6 +2,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useState } from "react";
+import { getSpecializationsAndDoctors, updateDoctor } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
 import { AddDoctorForm } from "../forms/AddDoctorForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
@@ -12,7 +14,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [editDoctorFormData, setAppointmentFormData] = useState(null);
+  const [editDoctorFormData, setEditDoctorFormData] = useState<DoctorRequest | null>(null);
 
   // * Form Modal handlers
   const handleCancelSubmission = () => {
@@ -20,7 +22,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   };
 
   const handleSubmission = (data: any) => {
-    setAppointmentFormData(data);
+    setEditDoctorFormData(data);
     setConfirmSubmitOpen(true);
   };
 
@@ -38,17 +40,28 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
     setOpenForm(false);
   };
 
-  const handleConfirmSubmit = () => {
+  const handleConfirmSubmit = async () => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    console.log("Doctor Form Data Submitted:", editDoctorFormData);
-    // TODO Submit edit doctor form data to backend
-    // store.dispatch(updateDoctor(editDoctorFormData));
+
+    const doctorToUpdate: DoctorRequest = {
+      id: doctor.id,
+      firstName: editDoctorFormData?.firstName || "",
+      lastName: editDoctorFormData?.lastName || "",
+      specialization: editDoctorFormData?.specialization || { id: 0, name: "" },
+    };
+
+    await store.dispatch(updateDoctor(doctorToUpdate as DoctorRequest));
+
+    // TODO: If error, show error message here
+
+    // Refresh the doctor list
+    store.dispatch(getSpecializationsAndDoctors());
   };
 
   const handleOpenEditDoctorForm = (doctor: DoctorDetails) => {
-    console.log("clicked cancel id", doctor.id);
-    // TODO: Set initial form data
+
+    setEditDoctorFormData(doctor);
     setOpenForm(true);
   };
 
@@ -67,12 +80,8 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
         onClick={() => handleOpenEditDoctorForm(doctor)}
       />
 
-      <LargeFormModalWrapper
-        open={openForm}
-        onSubmit={handleSubmission}
-        onCancel={handleCancelSubmission}
-      >
-        <AddDoctorForm />
+      <LargeFormModalWrapper open={openForm} onSubmit={handleSubmission} onCancel={handleCancelSubmission}>
+        <AddDoctorForm formData={doctor} isEditing={true} />
       </LargeFormModalWrapper>
 
       <ConfirmationModal

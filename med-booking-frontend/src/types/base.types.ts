@@ -63,7 +63,7 @@ declare global {
   }
   type VisitType = "IN_PERSON" | "TELEHEALTH";
 
-  type AppointmentStatus = "CONFIRMED" | "CANCELLED" | "COMPLETED";
+  type AppointmentStatus = "CONFIRMED" | "CANCELED";
 }
 
 /**  

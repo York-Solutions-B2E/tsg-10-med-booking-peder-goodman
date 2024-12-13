@@ -26,6 +26,7 @@ declare global {
   }
 
   interface AppointmentRequest {
+    id?: number;
     patient: PatientDetails;
     doctor: DoctorDetails;
     appointmentDate: string;

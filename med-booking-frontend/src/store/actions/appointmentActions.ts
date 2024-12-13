@@ -9,7 +9,7 @@ export const createAppointment = createAsyncThunk<any, AppointmentRequest>("appo
   return response.data;
 });
 
-export const updateAppointment = createAsyncThunk<any, Appointment>("appointment/update", async (body: Appointment) => {
+export const updateAppointment = createAsyncThunk<any, AppointmentRequest>("appointment/update", async (body: AppointmentRequest) => {
   const response = await axios.put<any>("api/appointments/update/details", body, {
     withCredentials: true,
   });

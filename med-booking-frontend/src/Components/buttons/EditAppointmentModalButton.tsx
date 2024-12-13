@@ -2,7 +2,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useState } from "react";
-import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
+import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
@@ -67,13 +67,9 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         onClick={() => handleOpenEditAppointmentForm(appointment)}
       />
 
-      <LargeFormModalWrapper
-        open={openForm}
-        onSubmit={handleSubmission}
-        onCancel={handleCancelSubmission}
-      >
+      <LargeFormModalWrapper open={openForm} onSubmit={handleSubmission} onCancel={handleCancelSubmission}>
         {/* TODO replace with EditAppointmentForm */}
-        <CreateAppointmentForm />
+        <AddAppointmentForm />
       </LargeFormModalWrapper>
 
       <ConfirmationModal

@@ -17,7 +17,7 @@ import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInp
 import { TimeDropdownInput } from "../inputs/TimeDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
 
-export const CreateAppointmentForm = (props: any) => {
+export const AddAppointmentForm = (props: any) => {
   // * State
   const { onSubmit, onCancel } = props; // ! change to correct function names
   const userDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);

@@ -1,17 +1,14 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import AddDoctorModalButton from "../Components/buttons/AddDoctorModalButton";
+import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
+import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
-import CreateAppointmentModalButton from "../Components/buttons/CreateAppointmentModalButton";
-import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
-import AddDoctorModalButton from "../Components/buttons/AddDoctorModalButton";
-import { getSpecializationsAndDoctors, getDoctorAvailability } from "../store/actions/doctorActions";
 
 const AdminHome = () => {
-  const { userDetails, isLoading, isUserAuthenticated } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { userDetails, isLoading, isUserAuthenticated } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     store.dispatch(checkUserAuthentication());

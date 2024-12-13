@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import CreateAppointmentModalButton from "../Components/buttons/CreateAppointmentModalButton";
+import AddAppointmentModalButton from "../Components/buttons/AddAppointmentModalButton";
 import PatientAppointmentDataGrid from "../Components/data-display/PatientAppointmentDataGrid";
 import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
@@ -18,7 +18,7 @@ export const PatientAppointments = () => {
 
   return (
     <Box sx={appointmentPageStyling}>
-      <CreateAppointmentModalButton />
+      <AddAppointmentModalButton />
       <PatientAppointmentDataGrid />
     </Box>
   );

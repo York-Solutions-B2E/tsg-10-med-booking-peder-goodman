@@ -5,12 +5,12 @@ import { useSelector } from "react-redux";
 import { createAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
+import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
 
-export default function CreateAppointmentModalButton() {
+export default function AddAppointmentModalButton() {
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
@@ -61,7 +61,7 @@ export default function CreateAppointmentModalButton() {
       {/* Testing modal sizes. will be fullscreen modal*/}
 
       <FullScreenFormModalWrapper open={openForm} onCancel={handleCancelSubmission} onSubmit={handleSubmission}>
-        <CreateAppointmentForm />
+        <AddAppointmentForm />
       </FullScreenFormModalWrapper>
 
       <ConfirmationAppointmentModal

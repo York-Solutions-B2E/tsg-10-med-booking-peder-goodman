@@ -26,7 +26,7 @@ declare global {
   // ** Doctors & Specializations
 
   interface DoctorDetails {
-    id: number ;
+    id: number;
     firstName: string;
     lastName: string;
     specialization: Specialization;
@@ -63,7 +63,7 @@ declare global {
   }
   type VisitType = "IN_PERSON" | "TELEHEALTH";
 
-  type AppointmentStatus = "CONFIRMED" | "CANCELLED" | "COMPLETED";
+  type AppointmentStatus = "CONFIRMED" | "CANCELED";
 }
 
 /**  

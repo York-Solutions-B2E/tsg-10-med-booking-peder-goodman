@@ -1,11 +1,6 @@
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
-import {
-  checkUserAuthentication,
-  loginPatient,
-  logoutUser,
-  signupPatient,
-} from "../actions/userActions";
+import { checkUserAuthentication, getPatientDetails, loginPatient, logoutUser, signupPatient } from "../actions/userActions";
 
 const initialState: UserState = {
   isLoading: false,
@@ -20,7 +15,7 @@ const initialState: UserState = {
     role: null,
     birthdate: "", // will be empty for admin
     oktaId: "", // will be empty for patient
-    patientAppointments: [] // will be empty for admin
+    patientAppointments: [], // will be empty for admin
   },
   errorMessage: null,
 };
@@ -36,6 +31,7 @@ const userSlice = createSlice({
     userAuthenticationCases(builder);
     patientSignupCases(builder);
     patientLoginCases(builder);
+    getPatientDetailsCases(builder);
   },
 });
 
@@ -64,7 +60,6 @@ const userAuthenticationCases = (builder: ActionReducerMapBuilder<any>) => {
       state.userDetails = action.payload.userDetails;
     } else if (state.isPatientAuthenticated) {
       // If user is a patient, set the patient details, do nothing
-      console.log("User is a patient");
     } else {
       // If user is not authenticated, clear the user details
       state.isUserAuthenticated = false;
@@ -88,7 +83,6 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = true;
   });
   builder.addCase(loginPatient.fulfilled, (state, action) => {
-    console.log("loginPatient.fulfilled payload: ", action.payload);
     // If user is authenticated, set the user details
     state.isPatientAuthenticated = true;
     state.userDetails = action.payload;
@@ -97,7 +91,6 @@ const patientLoginCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = false;
   });
   builder.addCase(loginPatient.rejected, (state, action) => {
-    console.log("loginPatient.rejected payload: ", action.payload);
     state.isPatientAuthenticated = false;
     state.errorMessage = action.payload;
     state.isLoading = false;
@@ -111,7 +104,6 @@ const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = true;
   });
   builder.addCase(signupPatient.fulfilled, (state, action) => {
-    console.log("loginPatient.fulfilled payload: ", action.payload);
     // If user is authenticated, set the user details
     state.isPatientAuthenticated = true;
     state.userDetails = action.payload;
@@ -120,6 +112,27 @@ const patientSignupCases = (builder: ActionReducerMapBuilder<any>) => {
     state.isLoading = false;
   });
   builder.addCase(signupPatient.rejected, (state, action) => {
+    state.isPatientAuthenticated = false;
+    state.errorMessage = action.payload;
+    state.isLoading = false;
+  });
+};
+
+const getPatientDetailsCases = (builder: ActionReducerMapBuilder<any>) => {
+  builder.addCase(getPatientDetails.pending, (state, action) => {
+    // Clears any previous errors and set loading
+    state.errorMessage = null;
+    state.isLoading = true;
+  });
+  builder.addCase(getPatientDetails.fulfilled, (state, action) => {
+    // If user is authenticated, set the user details
+    state.isPatientAuthenticated = true;
+    state.userDetails = action.payload;
+    // Clear any previous errors and set loading to false
+    state.errorMessage = null;
+    state.isLoading = false;
+  });
+  builder.addCase(getPatientDetails.rejected, (state, action) => {
     state.isPatientAuthenticated = false;
     state.errorMessage = action.payload;
     state.isLoading = false;

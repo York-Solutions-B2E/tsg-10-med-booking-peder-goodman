@@ -1,8 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 
 const validateEmail = (email: string) => {
-  console.log("email: ", email);
-
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   if (email && email != "" && email.match(emailPattern)) {
@@ -26,4 +24,18 @@ const validateDateIsInPast = (selectedDate: Dayjs | null) => {
   return false;
 };
 
-export { validateDateIsInPast, validateEmail };
+const validateDateIsInFuture = (selectedDate: Dayjs | null) => {
+  const currentDate = dayjs();
+
+  if (!selectedDate) {
+    return false;
+  }
+
+  if (selectedDate > currentDate) {
+    return true;
+  }
+
+  return false;
+};
+
+export { validateDateIsInFuture, validateDateIsInPast, validateEmail };

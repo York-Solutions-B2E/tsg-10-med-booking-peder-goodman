@@ -2,6 +2,7 @@ package com.health_care.med_booking_backend.config;
 
 import java.io.IOException;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Spring Security 6 doesn't set a XSRF-TOKEN cookie by default.
  * This solution is
- * <a href="https://github.com/spring-projects/spring-security/issues/12141#issuecomment-1321345077">
+ * <a href=
+ * "https://github.com/spring-projects/spring-security/issues/12141#issuecomment-1321345077">
  * recommended by Spring Security.</a>
  */
 public class CookieCsrfFilter extends OncePerRequestFilter {
@@ -22,8 +24,8 @@ public class CookieCsrfFilter extends OncePerRequestFilter {
      * {@inheritDoc}
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Set the XSRF-TOKEN cookie from the CsrfToken in the request attributes
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         // set the XSRF-TOKEN cookie in the response headers

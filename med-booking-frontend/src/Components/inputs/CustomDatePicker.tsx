@@ -1,8 +1,10 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const CustomDatePicker = (props: any) => {
-  const { label, birthDate, onChange, errorMessage, disableFuture, disablePast} = props;
+
+
+const CustomDatePicker = (props: CustomDatePickerProps) => {
+  const { label, birthDate, disabled, onChange, errorMessage, disableFuture, disablePast } = props;
 
   const datePickerStyling = {
     marginBottom: "10px",
@@ -11,6 +13,7 @@ const CustomDatePicker = (props: any) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
       <DatePicker
+        disabled={disabled}
         slotProps={{
           textField: {
             error: errorMessage ? true : false, // Bolean

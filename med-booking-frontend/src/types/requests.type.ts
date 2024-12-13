@@ -17,11 +17,27 @@ declare global {
     email: string;
     birthdate: string;
   }
-  
+
   interface PatientSignupRequest {
     firstName: string;
     lastName: string;
     email: string;
     birthdate: string;
+  }
+
+  interface AppointmentRequest {
+    id?: number;
+    patient: PatientDetails;
+    doctor: DoctorDetails;
+    appointmentDate: string;
+    appointmentTime: string;
+    visitType: VisitType;
+  }
+
+  interface DoctorRequest {
+    id?: number;
+    firstName: string;
+    lastName: string;
+    specialization: Specialization;
   }
 }

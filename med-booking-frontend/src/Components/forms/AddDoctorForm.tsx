@@ -3,30 +3,30 @@ import { Box, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CustomDropdownInput } from "../inputs/CustomDropdownInput";
 import { CustomTextField } from "../inputs/CustomTextInput";
+import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 
 export const AddDoctorForm = (props: any) => {
-  const { onSubmit, onCancel } = props;
-  const availableSpecializations = useSelector(
-    (state: RootState) => state.medicalOptions.availableSpecializations
-  );
-  console.log("AddDoctorForm props", props);
+  const { onSubmit, onCancel, formData, isEditing } = props;
+  const availableSpecializations = useSelector((state: RootState) => state.medicalOptions.availableSpecializations);
 
   // * Form state
-  const [selectedSpecialization, setSelectedSpecialization] = useState<
-    Specialization | ""
-  >("");
-  const [
-    selectSpecializationErrorMessage,
-    setSelectSpecializationErrorMessage,
-  ] = useState("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState<Specialization | "">("");
+  const [selectSpecializationErrorMessage, setSelectSpecializationErrorMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastName, setLastName] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (isEditing && formData) {
+      setSelectedSpecialization(formData.specialization);
+      setFirstName(formData.firstName);
+      setLastName(formData.lastName);
+    }
+  }, []);
 
   // * Event handlers
   const handleSelectSpecializationChange = (newValue: Specialization | "") => {
@@ -75,17 +75,15 @@ export const AddDoctorForm = (props: any) => {
 
   // * Form submission
   const handleSubmit = () => {
-    const addDoctorData = {
+    const addDoctorData: DoctorRequest = {
       firstName,
       lastName,
-      selectedSpecialization,
+      specialization: selectedSpecialization as Specialization,
     };
 
     if (validateForm()) {
-      console.log("submitting form");
-      console.log(addDoctorData);
+      // passes data to parent component
       onSubmit(addDoctorData);
-      // store.dispatch(signupPatient(patientSignupData));
     }
   };
 
@@ -126,14 +124,9 @@ export const AddDoctorForm = (props: any) => {
       <Box sx={formContainerStyling}>
         <Box sx={formButtonStyling}>
           <Typography sx={{ ml: 2 }} variant="h6" component="div">
-            Add New Doctor
+            {isEditing ? "Edit Doctor" : "Add New Doctor"}
           </Typography>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onCancel}
-            aria-label="close"
-          >
+          <IconButton edge="start" color="inherit" onClick={onCancel} aria-label="close">
             <CloseIcon />
           </IconButton>
         </Box>
@@ -158,8 +151,7 @@ export const AddDoctorForm = (props: any) => {
             errorMessage={lastNameErrorMessage}
           />
 
-          {/* <InputLabel id={`select-specialization-input-label`}>Specialization</InputLabel> */}
-          <CustomDropdownInput
+          <SpecializationDropdownInput
             inputId="select-specialization-input"
             label="Specialization"
             selectedValue={selectedSpecialization}
@@ -167,15 +159,9 @@ export const AddDoctorForm = (props: any) => {
             dropdownOptions={availableSpecializations}
             errorMessage={selectSpecializationErrorMessage}
           />
-          {/* <FormHelperText>{selectSpecializationErrorMessage}</FormHelperText> */}
 
-          <Button
-            autoFocus
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-          >
-            save
+          <Button autoFocus onClick={handleSubmit} variant="contained" color="primary">
+            {isEditing ? "Save Changes" : "Add Doctor"}
           </Button>
         </FormControl>
       </Box>

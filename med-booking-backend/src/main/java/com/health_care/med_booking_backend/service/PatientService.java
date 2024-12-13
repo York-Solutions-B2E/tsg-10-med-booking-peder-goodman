@@ -32,8 +32,7 @@ public class PatientService {
 
         // validate patient exists in the DB
         if (doesPatientEmailExist.isPresent()) {
-//            return ResponseEntity.badRequest().body("Email already exists");
-            new IllegalStateException("Email already exists");
+            throw new IllegalStateException("Email already exists");
         }
 
         String firstName = newPatientRequest.getFirstName();
@@ -50,7 +49,6 @@ public class PatientService {
         newPatient.setPatientAppointments(new ArrayList<>());
 
         return newPatient;
-
 
     }
 

@@ -11,7 +11,7 @@ export default function DefaultNav() {
 
   const handleClickHome = () => {
     console.log("Home clicked");
-    // navigate("/my-appointments");
+    // navigate("/home");
   };
 
   return (

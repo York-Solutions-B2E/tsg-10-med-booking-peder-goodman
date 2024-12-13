@@ -99,8 +99,7 @@ export const SignupForm = () => {
     };
 
     if (validateForm()) {
-      console.log("submitting form");
-      console.log(patientSignupData);
+      // Signup patient
       store.dispatch(signupPatient(patientSignupData));
     }
   };

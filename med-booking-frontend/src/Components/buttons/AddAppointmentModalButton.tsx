@@ -1,15 +1,21 @@
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
+import { useSelector } from "react-redux";
+import { createAppointment } from "../../store/actions/appointmentActions";
+import { getPatientDetails } from "../../store/actions/userActions";
+import { store } from "../../store/store";
+import { AddAppointmentForm } from "../forms/AddAppointmentForm";
+import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
 
-export default function CreateAppointmentModalButton() {
+export default function AddAppointmentModalButton() {
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState(null);
+  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | null>(null);
 
   // * Form Modal handlers
   const handleOpenAppointmentFormModal = () => {
@@ -39,42 +45,34 @@ export default function CreateAppointmentModalButton() {
     setOpenForm(false);
   };
 
-  const handleConfirmSubmit = () => {
+  const handleConfirmSubmit = async () => {
+    console.log("Submitting appointment form data");
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // * Submit appointment form data to backend
-    // store.dispatch(createAppointment(appointmentFormData));
+    await store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
+    store.dispatch(getPatientDetails(patientDetails.id as number));
   };
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleOpenAppointmentFormModal}
-      >
+      <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleOpenAppointmentFormModal}>
         Add Appointment
       </Button>
       {/* Testing modal sizes. will be fullscreen modal*/}
 
-      <FullScreenFormModalWrapper
-        open={openForm}
-        onCancel={handleCancelSubmission}
-        onSubmit={handleSubmission}
-      >
-        <CreateAppointmentForm />
+      <FullScreenFormModalWrapper open={openForm} onCancel={handleCancelSubmission} onSubmit={handleSubmission}>
+        <AddAppointmentForm />
       </FullScreenFormModalWrapper>
 
-      <ConfirmationModal
+      <ConfirmationAppointmentModal
+        appointment={appointmentFormData as AppointmentRequest}
         color="success"
-        message="Is everything you provided accurate?"
         open={confirmSubmitOpen}
         handleCancel={handleCloseConfirmSubmitModal}
         handleConfirm={handleConfirmSubmit}
         confirmButtonText="Submit"
       />
+
       <ConfirmationModal
         color="error"
         message="Are you sure you want to cancel?"

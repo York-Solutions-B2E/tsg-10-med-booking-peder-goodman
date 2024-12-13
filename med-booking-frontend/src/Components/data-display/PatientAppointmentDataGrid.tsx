@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import dayjs from "dayjs";
@@ -5,6 +6,10 @@ import { useSelector } from "react-redux";
 import { calculateAge } from "../../utils/helperFunctions";
 import CancelAppointmentModalButton from "../buttons/CancelAppointmentModalButton";
 import EditAppointmentModalButton from "../buttons/EditAppointmentModalButton";
+import { useEffect } from "react";
+
+
+
 
 // ******** Columns headers and data
 const columns: GridColDef[] = [
@@ -18,28 +23,29 @@ const columns: GridColDef[] = [
     editable: false,
   },
   {
-    field: "firstName",
-    headerName: "First Name",
-    width: 100,
+    field: "fullName",
+    headerName: "Patient Name",
+    width: 130,
     editable: false,
     renderCell: (params: { row: Appointment }) => {
-      return params.row.patient.firstName;
+      return params.row.patient.fullName;
     },
   },
   {
-    field: "LastName",
-    headerName: "Last Name",
-    width: 100,
+    field: "birthdate",
+    headerName: "Date of Birth",
+    type: "string",
+    width: 130,
     editable: false,
     renderCell: (params: { row: Appointment }) => {
-      return params.row.patient.lastName;
+      return dayjs(params.row.patient.birthdate).format("MMM D, YYYY");
     },
   },
   {
     field: "age",
     headerName: "Age",
     type: "number",
-    width: 70,
+    width: 60,
     align: "left",
     headerAlign: "left",
     editable: false,
@@ -48,26 +54,15 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "birthdate",
-    headerName: "Date of Birth",
-    type: "string",
-    width: 140,
-    editable: false,
-    renderCell: (params: { row: Appointment }) => {
-      return dayjs(params.row.patient.birthdate).format("MMM D, YYYY");
-    },
-  },
-  {
     field: "doctor",
     headerName: "Doctor",
     width: 170,
     editable: true,
     renderCell: (params: { row: Appointment }) => {
-      return (
-        "Dr. " + params.row.doctor.firstName + " " + params.row.doctor.lastName
-      );
+      return "Dr. " + params.row.doctor.firstName + " " + params.row.doctor.lastName;
     },
   },
+
   {
     field: "specialization",
     headerName: "Specialization",
@@ -80,16 +75,21 @@ const columns: GridColDef[] = [
   },
   {
     field: "appointmentDate",
-    headerName: "Appointment Date",
+    headerName: "Apt Date",
     type: "string",
-    width: 180,
+    width: 100,
     editable: true,
     renderCell: (params: { row: Appointment }) => {
       const date = params.row.appointmentDate;
       const time = params.row.appointmentTime;
-      const appointmentDateTime = dayjs(date, time);
+      const appointmentDateTime = dayjs(date + time);
 
-      return appointmentDateTime.format("MMM D, YYYY HH:MMa");
+      return (
+        <Box>
+          <Typography sx={{ fontSize: 14 }}> {appointmentDateTime.format("MMM D, YY")}</Typography>
+          <Typography sx={{ fontSize: 16 }}>{appointmentDateTime.format("HH:mma")}</Typography>
+        </Box>
+      );
     },
   },
   {
@@ -103,7 +103,7 @@ const columns: GridColDef[] = [
       let date = params.row.appointmentDate;
       let time = params.row.appointmentTime;
 
-      if (status !== "CANCELLED") {
+      if (status !== "CANCELED") {
         let today = dayjs();
         let appointmentDateTime = dayjs(date + " " + time);
         if (today.isAfter(appointmentDateTime)) {
@@ -111,8 +111,8 @@ const columns: GridColDef[] = [
         }
       }
 
-      if (status === "CANCELLED") {
-        return "CANCELLED";
+      if (status === "CANCELED") {
+        return "CANCELED";
       }
 
       return params.row.appointmentStatus;
@@ -133,10 +133,7 @@ const columns: GridColDef[] = [
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
       const appointment = params.row as Appointment;
-      return [
-        <EditAppointmentModalButton appointment={appointment} />,
-        <CancelAppointmentModalButton appointment={appointment} />,
-      ];
+      return [<EditAppointmentModalButton appointment={appointment} />, <CancelAppointmentModalButton appointment={appointment} />];
     },
   },
 ];
@@ -144,26 +141,26 @@ const columns: GridColDef[] = [
 
 // ******** FUNCTION START
 export default function PatientAppointmentDataGrid() {
-  const patientDetails = useSelector(
-    (state: RootState) => state.user.userDetails as PatientDetails
-  );
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const { patientAppointments } = patientDetails;
 
-  console.log("patientAppointments", patientAppointments);
+  useEffect(() => {
+    console.log("patientAppointments", patientAppointments);
+  }, [patientAppointments]);
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: 700, width: "100%" }}>
       <DataGrid
         rows={patientAppointments}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[10, 25, 50]}
         disableRowSelectionOnClick
         // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
       />

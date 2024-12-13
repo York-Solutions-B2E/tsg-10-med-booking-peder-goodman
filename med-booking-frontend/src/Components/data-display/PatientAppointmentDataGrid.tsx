@@ -63,9 +63,7 @@ const columns: GridColDef[] = [
     width: 170,
     editable: true,
     renderCell: (params: { row: Appointment }) => {
-      return (
-        "Dr. " + params.row.doctor.firstName + " " + params.row.doctor.lastName
-      );
+      return "Dr. " + params.row.doctor.firstName + " " + params.row.doctor.lastName;
     },
   },
   {
@@ -87,9 +85,8 @@ const columns: GridColDef[] = [
     renderCell: (params: { row: Appointment }) => {
       const date = params.row.appointmentDate;
       const time = params.row.appointmentTime;
-      const appointmentDateTime = dayjs(date, time);
-
-      return appointmentDateTime.format("MMM D, YYYY HH:MMa");
+      const appointmentDateTime = dayjs(date + time);
+      return appointmentDateTime.format("MMM D, YYYY HH:mma");
     },
   },
   {
@@ -133,10 +130,7 @@ const columns: GridColDef[] = [
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
       const appointment = params.row as Appointment;
-      return [
-        <EditAppointmentModalButton appointment={appointment} />,
-        <CancelAppointmentModalButton appointment={appointment} />,
-      ];
+      return [<EditAppointmentModalButton appointment={appointment} />, <CancelAppointmentModalButton appointment={appointment} />];
     },
   },
 ];
@@ -144,9 +138,7 @@ const columns: GridColDef[] = [
 
 // ******** FUNCTION START
 export default function PatientAppointmentDataGrid() {
-  const patientDetails = useSelector(
-    (state: RootState) => state.user.userDetails as PatientDetails
-  );
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const { patientAppointments } = patientDetails;
 
   return (

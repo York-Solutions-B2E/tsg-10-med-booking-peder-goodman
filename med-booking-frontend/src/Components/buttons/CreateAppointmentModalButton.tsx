@@ -1,13 +1,17 @@
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { createAppointment } from "../../store/actions/appointmentActions";
+import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
+import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
 
 export default function CreateAppointmentModalButton() {
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
@@ -41,11 +45,12 @@ export default function CreateAppointmentModalButton() {
     setOpenForm(false);
   };
 
-  const handleConfirmSubmit = () => {
+  const handleConfirmSubmit = async () => {
     console.log("Submitting appointment form data");
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
+    await store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
+    store.dispatch(getPatientDetails(patientDetails.id as number));
   };
 
   return (
@@ -59,14 +64,15 @@ export default function CreateAppointmentModalButton() {
         <CreateAppointmentForm />
       </FullScreenFormModalWrapper>
 
-      <ConfirmationModal
+      <ConfirmationAppointmentModal
+        appointment={appointmentFormData as AppointmentRequest}
         color="success"
-        message="Is everything you provided accurate?"
         open={confirmSubmitOpen}
         handleCancel={handleCloseConfirmSubmitModal}
         handleConfirm={handleConfirmSubmit}
         confirmButtonText="Submit"
       />
+
       <ConfirmationModal
         color="error"
         message="Are you sure you want to cancel?"

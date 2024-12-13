@@ -141,19 +141,21 @@ export default function PatientAppointmentDataGrid() {
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const { patientAppointments } = patientDetails;
 
+
+
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: 700, width: "100%" }}>
       <DataGrid
         rows={patientAppointments}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[10, 25, 50]}
         disableRowSelectionOnClick
         // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
       />

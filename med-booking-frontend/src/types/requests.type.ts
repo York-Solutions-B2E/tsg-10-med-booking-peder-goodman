@@ -31,6 +31,5 @@ declare global {
     appointmentDate: string;
     appointmentTime: string;
     visitType: VisitType;
-    appointmentStatus: AppointmentStatus;
   }
 }

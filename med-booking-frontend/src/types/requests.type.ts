@@ -24,4 +24,13 @@ declare global {
     email: string;
     birthdate: string;
   }
+
+  interface AppointmentRequest {
+    patient: PatientDetails;
+    doctor: DoctorDetails;
+    appointmentDate: string;
+    appointmentTime: string;
+    visitType: VisitType;
+    appointmentStatus: AppointmentStatus;
+  }
 }

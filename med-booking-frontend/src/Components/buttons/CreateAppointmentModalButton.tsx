@@ -1,6 +1,8 @@
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { createAppointment } from "../../store/actions/appointmentActions";
+import { store } from "../../store/store";
 import { CreateAppointmentForm } from "../forms/CreateAppointmentForm";
 import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
@@ -9,7 +11,7 @@ export default function CreateAppointmentModalButton() {
   const [openForm, setOpenForm] = useState(false);
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState(null);
+  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | null>(null);
 
   // * Form Modal handlers
   const handleOpenAppointmentFormModal = () => {
@@ -42,28 +44,17 @@ export default function CreateAppointmentModalButton() {
   const handleConfirmSubmit = () => {
     setConfirmSubmitOpen(false);
     setOpenForm(false);
-    console.log("Appointment Form Data Submitted:", appointmentFormData);
-    // TODO: Submit appointment form data to backend
-    // store.dispatch(createAppointment(appointmentFormData));
+    store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
   };
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleOpenAppointmentFormModal}
-      >
+      <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleOpenAppointmentFormModal}>
         Add Appointment
       </Button>
       {/* Testing modal sizes. will be fullscreen modal*/}
 
-      <FullScreenFormModalWrapper
-        open={openForm}
-        onCancel={handleCancelSubmission}
-        onSubmit={handleSubmission}
-      >
+      <FullScreenFormModalWrapper open={openForm} onCancel={handleCancelSubmission} onSubmit={handleSubmission}>
         <CreateAppointmentForm />
       </FullScreenFormModalWrapper>
 

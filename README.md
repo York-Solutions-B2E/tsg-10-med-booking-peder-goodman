@@ -39,39 +39,63 @@ The Med Booking Application is a web-based platform designed to facilitate the b
    cp src/main/resources/application.properties.example src/main/resources/application.properties
    ```
 
-3. Set up the environment variables in the [.env](http://_vscodecontentref_/0) file.
+3. Set up the environment variables in an .env file in the ROOT directory.
+
+```properties
+
+# PostgreSQL Database Configuration
+POSTGRES_DB=med-booking-database ## your_databse_name
+POSTGRES_USER=postgres  ## your_databse_username
+POSTGRES_PASSWORD=password123  ## your_databse_password
+
+# Spring Boot Configuration
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/med-booking-database  ## your_databse_name
+SPRING_DATASOURCE_USERNAME=postgres    ## your_databse_username
+SPRING_DATASOURCE_PASSWORD=password123    ## your_databse_password
+
+# Okta Configuration
+OKTA_OAUTH2_ISSUER=https://dev-60111992.okta.com/oauth2/default
+OKTA_OAUTH2_CLIENT_ID=0oaljqjczlQ1bN7ZI5d7
+OKTA_OAUTH2_CLIENT_SECRET=W2YgKwUTgqAKHSnTZHL1Y7_OJDf4xfiSSALGUah52pAx_YgvX5qVBU8q6S-qROY1
+
+```
 
 4. Add your Okta details to the `application.properties` file:
 
    ```properties
-   # Database settings
-   spring.datasource.url=jdbc\:postgresql\://localhost\:5432/new-md-booking-db
-   spring.datasource.username=
-   spring.datasource.password=
-   spring.jpa.hibernate.ddl-auto=update
-   spring.jpa.show-sql=true
-   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-   spring.jpa.properties.hibernate.format_sql=true
-   server.error.include-message=always
 
-    # Full Todo App settings
-    okta.oauth2.issuer=https\://dev-60111992.okta.com/oauth2/default
-    okta.oauth2.client-id=0oaljqjczlQ1bN7ZI5d7
-    okta.oauth2.client-secret=W2YgKwUTgqAKHSnTZHL1Y7_OJDf4xfiSSALGUah52pAx_YgvX5qVBU8q6S-qROY1
-    okta.oauth2.redirect-uri=http\://localhost\:8080/login/oauth2/code/okta
-    okta.oauth2.scopes=openid,profile,offline_access
    ```
+
+# application.properties file
+
+# Database settings
+
+spring.datasource.url=${SPRING_DATASOURCE_URL}
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+server.error.include-message=always
+
+# Okta settings
+
+okta.oauth2.issuer=${OKTA_OAUTH2_ISSUER}
+okta.oauth2.client-id=${OKTA_OAUTH2_CLIENT_ID}
+okta.oauth2.client-secret=${OKTA_OAUTH2_CLIENT_SECRET}
+okta.oauth2.scopes=openid,profile,offline_access
+
+````
 
 5. Run the backend server:
-   ```sh
-   ./mvnw spring-boot:run
-   ```
+```sh
+./mvnw spring-boot:run
+````
 
 ### Running with Docker
 
-Tobe implimented
-
-
+To be implemented
 
 ## Okta Setup
 

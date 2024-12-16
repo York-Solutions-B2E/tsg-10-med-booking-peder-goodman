@@ -21,7 +21,6 @@ import com.health_care.med_booking_backend.service.DoctorService;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/doctors")
-
 public class DoctorController {
 
     @Autowired

@@ -44,6 +44,7 @@ export function ConfirmationAppointmentModal(props: ConfirmationAppointmentModal
           <Typography>{`Appt Date: ${appointmentDate}`}</Typography>
           <Typography>{`Appt Time: ${appointmentTime}`}</Typography>
           <Typography>{`Visit Type: ${visitType}`}</Typography>
+          {visitType == "IN_PERSON" && <Typography>{`Please Arrive 15 minutes before your appointment starts`}</Typography>}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>

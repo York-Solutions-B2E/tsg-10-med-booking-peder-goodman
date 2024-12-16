@@ -1,0 +1,9 @@
+.bashrc
+*.DS_Store
+static
+staticfiles
+static_collected
+
+med-booking-frontend/node_modules
+med-booking-frontend/build
+med-booking-frontend/.DS_Store

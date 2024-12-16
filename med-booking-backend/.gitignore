@@ -34,4 +34,3 @@ build/
 
 ### app settings ###
 .env
-application.properties

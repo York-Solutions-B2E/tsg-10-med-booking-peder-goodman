@@ -1,5 +1,10 @@
 package com.health_care.med_booking_backend.service;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -7,19 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -224,10 +220,9 @@ public class DoctorServiceTest {
         ResponseEntity<DoctorSpecializationListResponse> response = doctorService.getListOfDoctorsAndSpecializations();
 
         // Assert
-        assertNotNull(response);
         assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(mockSpecializations, response.getBody().getSpecializations());
-        // assertEquals(mockDoctorDTOs, response.getBody().getDoctors());
 
         verify(specializationRepository, times(1)).findAll();
         verify(doctorRepository, times(1)).findAll();
@@ -253,9 +248,9 @@ public class DoctorServiceTest {
         ResponseEntity<DoctorSpecializationListResponse> response = doctorService.getListOfDoctorsAndSpecializations();
 
         // Assert
-        assertNotNull(response);
-        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        // ? what are these errors still shwing up when there is a check for notNull?!?
         assertEquals(mockSpecializations, response.getBody().getSpecializations());
         assertThat(response.getBody().getDoctors()).hasSize(2);
         assertThat(response.getBody().getDoctors()).usingRecursiveFieldByFieldElementComparator()

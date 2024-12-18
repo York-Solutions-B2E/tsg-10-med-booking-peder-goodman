@@ -28,117 +28,109 @@ import com.health_care.med_booking_backend.model.VisitType;
 @DataJpaTest
 public class DoctorRepositoryTest {
 
-    @Mock
-    private DoctorRepository doctorRepository;
-    @Mock
-    private SpecializationRepository specializationRepository;
-    @Mock
-    private AppointmentRepository appointmentRepository;
-    @Mock
-    private PatientRepository patientRepository;
+        @Mock
+        private DoctorRepository doctorRepository;
+        @Mock
+        private SpecializationRepository specializationRepository;
+        @Mock
+        private AppointmentRepository appointmentRepository;
+        @Mock
+        private PatientRepository patientRepository;
 
-    private Doctor doctor1;
-    private Doctor doctor2;
-    private Specialization cardiology;
-    private Specialization orthopedics;
-    private Patient patient1;
-    private Patient patient2;
+        private Doctor doctor1;
+        private Doctor doctor2;
+        private Specialization cardiology;
+        private Specialization orthopedics;
+        private Patient patient1;
+        private Patient patient2;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+        @BeforeEach
+        void setUp() {
+                MockitoAnnotations.openMocks(this);
 
-        // Add common test data
-        cardiology = new Specialization("Cardiology");
-        orthopedics = new Specialization("Orthopedics");
-        doctor1 = new Doctor("John", "Doe", cardiology);
-        doctor2 = new Doctor("Jane", "Smith", orthopedics);
-        patient1 = new Patient("Alice", "Brown", "alice@gmail.com", LocalDate.parse("1990-07-12"));
-        patient2 = new Patient("Corey", "Goodman", "corey@gmail.com", LocalDate.parse("1988-12-22"));
+                // Add common test data
+                cardiology = new Specialization("Cardiology");
+                orthopedics = new Specialization("Orthopedics");
+                doctor1 = new Doctor("John", "Doe", cardiology);
+                doctor2 = new Doctor("Jane", "Smith", orthopedics);
+                patient1 = new Patient("Alice", "Brown", "alice@gmail.com", LocalDate.parse("1990-07-12"));
+                patient2 = new Patient("Corey", "Goodman", "corey@gmail.com", LocalDate.parse("1988-12-22"));
+        }
 
-        when(specializationRepository.save(cardiology)).thenReturn(cardiology);
-        when(specializationRepository.save(orthopedics)).thenReturn(orthopedics);
-        when(doctorRepository.save(doctor1)).thenReturn(doctor1);
-        when(doctorRepository.save(doctor2)).thenReturn(doctor2);
-        when(patientRepository.save(patient1)).thenReturn(patient1);
-        when(patientRepository.save(patient2)).thenReturn(patient2);
-    }
+        void setUpAppointments() {
+                // Arrange
+                Appointment appointment1 = new Appointment(patient1, doctor1, LocalDate.now(), LocalTime.now(),
+                                VisitType.IN_PERSON, AppointmentStatus.BOOKED);
+                Appointment appointment3 = new Appointment(patient1, doctor1, LocalDate.now().plusDays(2),
+                                LocalTime.now(),
+                                VisitType.IN_PERSON, AppointmentStatus.BOOKED);
+                when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor1.getId()))
+                                .thenReturn(Arrays.asList(appointment1, appointment3));
+        }
 
-    void setUpAppointments() {
-        // Arrange
-        Appointment appointment1 = new Appointment(patient1, doctor1, LocalDate.now(), LocalTime.now(),
-                VisitType.IN_PERSON, AppointmentStatus.BOOKED);
-        Appointment appointment2 = new Appointment(patient2, doctor1, LocalDate.now().plusDays(1), LocalTime.now(),
-                VisitType.IN_PERSON, AppointmentStatus.CANCELED);
-        Appointment appointment3 = new Appointment(patient1, doctor1, LocalDate.now().plusDays(2), LocalTime.now(),
-                VisitType.IN_PERSON, AppointmentStatus.BOOKED);
-        when(appointmentRepository.save(appointment1)).thenReturn(appointment1);
-        when(appointmentRepository.save(appointment2)).thenReturn(appointment2);
-        when(appointmentRepository.save(appointment3)).thenReturn(appointment3);
-        when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor1.getId()))
-                .thenReturn(Arrays.asList(appointment1, appointment3));
-    }
+        // * Test the findAppointmentsByDoctorIdAndNotBooked method
+        @Test
+        void testFindAppointmentsByDoctorIdAndNotBooked_returnsEmptyList() {
+                // Arrange
+                when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor2.getId()))
+                                .thenReturn(Collections.emptyList());
 
-    // * Test the findAppointmentsByDoctorIdAndNotBooked method
-    @Test
-    void testFindAppointmentsByDoctorIdAndNotBooked_returnsEmptyList() {
-        // Arrange
-        when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor2.getId()))
-                .thenReturn(Collections.emptyList());
+                // Act
+                List<Appointment> appointments = doctorRepository
+                                .findAppointmentsByDoctorIdAndNotBooked(doctor2.getId());
 
-        // Act
-        List<Appointment> appointments = doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor2.getId());
+                // Assert
+                assertThat(appointments).isEmpty(); // Assuming no appointments are booked initially
+        }
 
-        // Assert
-        assertThat(appointments).isEmpty(); // Assuming no appointments are booked initially
-    }
+        @Test
+        void testFindAppointmentsByDoctorIdAndNotBooked_skipsCanceledAppointments() {
+                // Arrange
+                // add appointments to the mock repository
+                setUpAppointments();
 
-    @Test
-    void testFindAppointmentsByDoctorIdAndNotBooked_skipsCanceledAppointments() {
-        // Arrange
-        // add appointments to the mock repository
-        setUpAppointments();
+                // Act
+                List<Appointment> appointments = doctorRepository
+                                .findAppointmentsByDoctorIdAndNotBooked(doctor1.getId());
 
-        // Act
-        List<Appointment> appointments = doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor1.getId());
+                // Assert
+                assertThat(appointments).hasSize(2);
+                assertThat(appointments).extracting(Appointment::getAppointmentStatus)
+                                .doesNotContain(AppointmentStatus.CANCELED);
+                assertThat(appointments).extracting(Appointment::getAppointmentStatus)
+                                .containsOnly(AppointmentStatus.BOOKED);
+        }
 
-        // Assert
-        assertThat(appointments).hasSize(2);
-        assertThat(appointments).extracting(Appointment::getAppointmentStatus)
-                .doesNotContain(AppointmentStatus.CANCELED);
-        assertThat(appointments).extracting(Appointment::getAppointmentStatus).containsOnly(AppointmentStatus.BOOKED);
-    }
+        // * Test the findDoctorByFirstNameAndLastNameAndSpecialization method
+        // test that doctor is found
+        @Test
+        void testFindDoctorByFirstNameAndLastNameAndSpecialization_returnsDoctor() {
+                // Arrange
+                when(doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization("John", "Doe", cardiology))
+                                .thenReturn(Optional.of(doctor1));
 
-    // * Test the findDoctorByFirstNameAndLastNameAndSpecialization method
-    // test that doctor is found
-    @Test
-    void testFindDoctorByFirstNameAndLastNameAndSpecialization_returnsDoctor() {
-        // Arrange
-        when(doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization("John", "Doe", cardiology))
-                .thenReturn(Optional.of(doctor1));
+                // Act
+                Optional<Doctor> foundDoctor = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(
+                                "John", "Doe", cardiology);
 
-        // Act
-        Optional<Doctor> foundDoctor = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(
-                "John", "Doe", cardiology);
+                // Assert
+                assertThat(foundDoctor).isPresent();
+                assertThat(foundDoctor.get().getFirstName()).isEqualTo("John");
+                assertThat(foundDoctor.get().getLastName()).isEqualTo("Doe");
+                assertThat(foundDoctor.get().getSpecialization().getName()).isEqualTo("Cardiology");
+        }
 
-        // Assert
-        assertThat(foundDoctor).isPresent();
-        assertThat(foundDoctor.get().getFirstName()).isEqualTo("John");
-        assertThat(foundDoctor.get().getLastName()).isEqualTo("Doe");
-        assertThat(foundDoctor.get().getSpecialization().getName()).isEqualTo("Cardiology");
-    }
+        // test that doctor is not found
+        @Test
+        void testFindDoctorByFirstNameAndLastNameAndSpecialization_returnsIsEmpty() {
+                // Arrange
+                when(doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization("Jermey", "Smith", cardiology))
+                                .thenReturn(Optional.empty());
+                // Act
+                Optional<Doctor> foundDoctor = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(
+                                "Jermey", "Smith", cardiology);
 
-    // test that doctor is not found
-    @Test
-    void testFindDoctorByFirstNameAndLastNameAndSpecialization_returnsIsEmpty() {
-        // Arrange
-        when(doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization("Jermey", "Smith", cardiology))
-                .thenReturn(Optional.empty());
-        // Act
-        Optional<Doctor> foundDoctor = doctorRepository.findDoctorByFirstNameAndLastNameAndSpecialization(
-                "Jermey", "Smith", cardiology);
-
-        // Assert
-        assertThat(foundDoctor).isEmpty();
-    }
+                // Assert
+                assertThat(foundDoctor).isEmpty();
+        }
 }

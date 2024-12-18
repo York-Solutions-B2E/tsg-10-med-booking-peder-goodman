@@ -43,8 +43,8 @@ public class Doctor {
     @JsonIgnoreProperties("doctor")
     private List<Appointment> doctorAppointments;
 
-    // ! This constructor isn't used! the one with 3 parameters is used instead. 
-    // ! Testing pointed out that I could remove this constructor.
+    // ? This constructor isn't used! the one with 3 parameters is used instead. 
+    // ? Testing pointed out that I could remove this constructor.
     public Doctor(String firstName, String lastName, Specialization specialization,
             List<Appointment> doctorAppointments) {
         this.firstName = firstName;

@@ -67,6 +67,9 @@ public class DoctorService {
 
         Doctor existingDoctor = doctor.get();
 
+        // ? this seems to be partial coverage and I can't seem to figure out why
+        // ? It triggers correctly on a test that I run, and the return is covered, so
+        // ? wouldn't that mean that all items in the if conditional are covered?
         // If doctor is the same as the one in the database, send bad request!
         if (existingDoctor.getFirstName().equals(updatedFirstName)
                 && existingDoctor.getLastName().equals(updatedLastName)

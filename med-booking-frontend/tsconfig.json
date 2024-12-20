@@ -19,11 +19,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"],
+    "types": ["jest", "node"],
     "typeRoots": ["./node_modules/@types"]
   },
   "include": [
-    "src/**/*.ts", "src/**/*.tsx"
+    "src/**/*.ts", "src/**/*.tsx", "./jest.setup.ts", "tests/**/*.ts", "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules",

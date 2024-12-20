@@ -8,7 +8,7 @@ import { updateAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { AddAppointmentForm } from "../forms/AddAppointmentForm";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
@@ -103,7 +103,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         <AddAppointmentForm formData={appointmentFormData} isEditing={true} />
       </LargeFormModalWrapper>
 
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="success"
         message="Is everything you provided accurate?"
         open={confirmSubmitOpen}
@@ -111,7 +111,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         handleConfirm={handleConfirmSubmit}
         confirmButtonText="Submit"
       />
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

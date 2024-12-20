@@ -2,9 +2,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useState } from "react";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
@@ -39,7 +39,7 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
         onClick={handleCancelClickButton}
         color="error"
       />
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Deleting a doctor is irreversible, are you sure?"
         open={confirmCancelOpen}

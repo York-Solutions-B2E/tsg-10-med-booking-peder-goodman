@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
 import { AddDoctorForm } from "../forms/AddDoctorForm";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
 export default function AddDoctorModalButton() {
@@ -60,7 +60,7 @@ export default function AddDoctorModalButton() {
         <AddDoctorForm />
       </LargeFormModalWrapper>
 
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="success"
         message="Is everything you provided accurate?"
         open={confirmSubmitOpen}
@@ -68,7 +68,7 @@ export default function AddDoctorModalButton() {
         handleConfirm={handleConfirmSubmit}
         confirmButtonText="Submit"
       />
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

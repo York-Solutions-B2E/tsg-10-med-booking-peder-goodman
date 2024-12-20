@@ -7,8 +7,8 @@ import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
 import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 export default function AddAppointmentModalButton() {
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
@@ -26,7 +26,6 @@ export default function AddAppointmentModalButton() {
     setConfirmCancelOpen(true);
   };
 
-  
   const handleSubmission = (data: any) => {
     setAppointmentFormData(data);
     setConfirmSubmitOpen(true);
@@ -47,7 +46,7 @@ export default function AddAppointmentModalButton() {
   };
 
   // ? this is hard to test in this component because it depends on another component for form validations etc
-  // ? what I would do in the future (or in a soon to be refactored code) is to move this form submission 
+  // ? what I would do in the future (or in a soon to be refactored code) is to move this form submission
   // ? modal and logic to the form component itself. This way, I can test the form submission logic in isolation
   // ? along with the form validations etc.
   // ? I would also move FormModalWrapper into this component and pass the form component as a child
@@ -80,7 +79,7 @@ export default function AddAppointmentModalButton() {
         confirmButtonText="Submit"
       />
 
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

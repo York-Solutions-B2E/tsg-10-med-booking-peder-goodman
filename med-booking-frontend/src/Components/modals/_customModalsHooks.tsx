@@ -1,8 +1,7 @@
-export {}
-
+export {};
 
 // to setup the hook
-import { useState } from 'react';
+import { useState } from "react";
 
 export function useModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +16,9 @@ export function useModal() {
 // To use the hook, you can do the following:
 
 // import { useModal } from './useModal';
-import { AddAppointmentForm } from '../forms/AddAppointmentForm';
-import { ConfirmationModal } from './ConfirmationModal';
-import { Dialog } from '@mui/material';
+import { Dialog } from "@mui/material";
+import { AddAppointmentForm } from "../forms/AddAppointmentForm";
+import { GenericConfirmActionModal } from "./GenericConfirmActionModal";
 
 export default function AddAppointmentModalButton() {
   const [isFormOpen, openFormModal, closeFormModal] = useModal();
@@ -41,21 +40,9 @@ export default function AddAppointmentModalButton() {
         </Dialog>
       )}
 
-      {isCancelModalOpen && (
-        <ConfirmationModal
-          message="Are you sure you want to cancel?"
-          onConfirm={closeCancelModal}
-          onCancel={closeCancelModal}
-        />
-      )}
+      {isCancelModalOpen && <GenericConfirmActionModal message="Are you sure you want to cancel?" onConfirm={closeCancelModal} onCancel={closeCancelModal} />}
 
-      {isSubmitModalOpen && (
-        <ConfirmationModal
-          message="Confirm submission?"
-          onConfirm={closeSubmitModal}
-          onCancel={closeSubmitModal}
-        />
-      )}
+      {isSubmitModalOpen && <GenericConfirmActionModal message="Confirm submission?" onConfirm={closeSubmitModal} onCancel={closeSubmitModal} />}
     </div>
   );
 }

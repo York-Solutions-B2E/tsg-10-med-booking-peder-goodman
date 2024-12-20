@@ -2,9 +2,8 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
-import { error } from "console";
 
-export function ConfirmationModal(props: any) {
+export function GenericConfirmActionModal(props: any) {
   const { color, message, open, handleCancel, handleConfirm, confirmButtonText } = props;
 
   return (

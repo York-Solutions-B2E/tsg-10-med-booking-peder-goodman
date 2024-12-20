@@ -5,7 +5,7 @@ import { useState } from "react";
 import { getSpecializationsAndDoctors, updateDoctor } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
 import { AddDoctorForm } from "../forms/AddDoctorForm";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
 const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
@@ -60,7 +60,6 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   };
 
   const handleOpenEditDoctorForm = (doctor: DoctorDetails) => {
-
     setEditDoctorFormData(doctor);
     setOpenForm(true);
   };
@@ -84,7 +83,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
         <AddDoctorForm formData={doctor} isEditing={true} />
       </LargeFormModalWrapper>
 
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="success"
         message="Are you sure?"
         open={confirmSubmitOpen}
@@ -92,7 +91,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
         handleConfirm={handleConfirmSubmit}
         confirmButtonText="Update Doctor"
       />
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

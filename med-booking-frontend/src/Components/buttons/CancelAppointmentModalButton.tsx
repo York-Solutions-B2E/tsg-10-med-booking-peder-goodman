@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import { cancelAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
-import { getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
@@ -59,7 +58,7 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         onClick={handleCancelClickButton}
         color="error"
       />
-      <ConfirmationModal
+      <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel this appointment?"
         open={confirmCancelOpen}

@@ -18,7 +18,7 @@ declare global {
 
   interface PatientDetails extends UserDetails {
     birthdate: string;
-    patientAppointments: Appointment[];
+    patientAppointments?: Appointment[];
   }
 
   type Role = "ADMIN" | "PATIENT" | null;

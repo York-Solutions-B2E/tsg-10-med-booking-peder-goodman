@@ -26,6 +26,7 @@ export default function AddAppointmentModalButton() {
     setConfirmCancelOpen(true);
   };
 
+  
   const handleSubmission = (data: any) => {
     setAppointmentFormData(data);
     setConfirmSubmitOpen(true);
@@ -45,6 +46,12 @@ export default function AddAppointmentModalButton() {
     setOpenForm(false);
   };
 
+  // ? this is hard to test in this component because it depends on another component for form validations etc
+  // ? what I would do in the future (or in a soon to be refactored code) is to move this form submission 
+  // ? modal and logic to the form component itself. This way, I can test the form submission logic in isolation
+  // ? along with the form validations etc.
+  // ? I would also move FormModalWrapper into this component and pass the form component as a child
+  // ? this way, the form modal wrapper is only used in this component, since it is only used to open/close the form
   const handleConfirmSubmit = async () => {
     console.log("Submitting appointment form data");
     setConfirmSubmitOpen(false);

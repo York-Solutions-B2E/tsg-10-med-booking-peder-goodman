@@ -12,6 +12,12 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+// ? this component adds a lot of complexity for doing a little 
+// ? I think it's easier to just use the Dialog component directly in the parent component
+// ? this way, the parent component can have more control over the modal
+// ? and it's easier to understand what's going on
+// ? then the parent component can manage opening/closing the form modal
+// ? and then the form component can manage the form submission
 export function FullScreenFormModalWrapper(props: GenericModalProps) {
   const { open, onCancel, onSubmit, children } = props;
 

@@ -5,16 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import dayjs from "dayjs";
 
-interface ConfirmationAppointmentModalProps {
-  color: "inherit" | "primary" | "secondary" | "error" | "info" | "success" | "warning";
-  open: boolean;
-  handleCancel: () => void;
-  handleConfirm: () => void;
-  appointment: AppointmentRequest;
-  confirmButtonText: string;
-}
-
-export function ConfirmationAppointmentModal(props: ConfirmationAppointmentModalProps) {
+export function AppointmentConfirmationModal(props: ConfirmationAppointmentModalProps) {
   const { color, open, handleCancel, handleConfirm, appointment, confirmButtonText } = props;
 
   if (!appointment) {

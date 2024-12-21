@@ -128,6 +128,7 @@ export const DoctorForm = (props: DoctorFormProps) => {
   };
 
   // * Styling
+  // TODO: move to separate file
   const formContainerStyling = {
     // width: "80%",
     display: "flex",

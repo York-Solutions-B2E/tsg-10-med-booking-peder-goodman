@@ -18,7 +18,7 @@ import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 import { TimeDropdownInput } from "../inputs/TimeDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
-import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
+import { AppointmentConfirmationModal } from "../modals/AppointmentConfirmationModal";
 
 export const AppointmentForm = (props: AppointmentFormProps) => {
   // * Props & Store state
@@ -26,7 +26,6 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const patientBirthdate = dayjs(patientDetails.birthdate).format("MMM DD, YYYY");
-
 
   // * Initial Form state
   const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | undefined>(undefined);
@@ -208,6 +207,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   };
 
   // * Styling
+  // TODO: move styling to separate file
   const formContainerStyling = {
     // width: "80%",
     display: "flex",
@@ -311,7 +311,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
         </FormControl>
       </Box>
       {/* TODO: edit logig for "isEditing" or not  */}
-      <ConfirmationAppointmentModal
+      <AppointmentConfirmationModal
         appointment={appointmentFormData as AppointmentRequest}
         color="success"
         open={openConfirmSubmit}

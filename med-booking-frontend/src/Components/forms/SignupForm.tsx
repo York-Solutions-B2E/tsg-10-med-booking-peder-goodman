@@ -164,7 +164,7 @@ const hiddenButton = () => {
 
         <CustomButton buttonText="Signup" onClick={handleClickSignupButton} />
 
-        {/* <CustomAlert message="Error Logging in" /> */}
+        {/* TODO <CustomAlert message="Error Logging in" /> */}
       </FormControl>
     </Box>
   );

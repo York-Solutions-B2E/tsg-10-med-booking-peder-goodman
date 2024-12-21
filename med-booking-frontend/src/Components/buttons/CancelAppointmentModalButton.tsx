@@ -12,23 +12,24 @@ import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
+  
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  // const [showCancelButton, setShowCancelButton] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  useEffect(() => {
-    if (appointment.appointmentStatus === "CANCELED") {
-      setIsButtonDisabled(true);
-    }
 
+  useEffect(() => {
     const isAppointmentDateInThePast = dayjs(appointment.appointmentDate + appointment.appointmentTime).isBefore(dayjs());
 
     if (isAppointmentDateInThePast) {
       setIsButtonDisabled(true);
     }
+
+    if (appointment.appointmentStatus === "CANCELED") {
+      setIsButtonDisabled(true);
+    }
   }, []);
 
-  const handleCancelClickButton = () => {
+  const handleClickButton = () => {
     setConfirmCancelOpen(true);
   };
 
@@ -55,7 +56,7 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         }
         label="Cancel"
         className="textPrimary"
-        onClick={handleCancelClickButton}
+        onClick={handleClickButton}
         color="error"
       />
       <GenericConfirmActionModal

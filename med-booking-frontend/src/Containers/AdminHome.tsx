@@ -8,7 +8,7 @@ import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
 const AdminHome = () => {
-  const { userDetails, isLoading, isUserAuthenticated } = useSelector((state: RootState) => state.user);
+  // const { userDetails, isLoading, isUserAuthenticated } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     store.dispatch(checkUserAuthentication());

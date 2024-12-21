@@ -101,4 +101,13 @@ declare global {
     onCancel: () => void;
     closeModal: () => void;
   }
+
+  interface ConfirmationAppointmentModalProps {
+    color: "inherit" | "primary" | "secondary" | "error" | "info" | "success" | "warning";
+    open: boolean;
+    handleCancel: () => void;
+    handleConfirm: () => void;
+    appointment: AppointmentRequest;
+    confirmButtonText: string;
+  }
 }

@@ -8,9 +8,10 @@ import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
+
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
 
-  const handleCancelClickButton = () => {
+  const handleClickButton = () => {
     setConfirmCancelOpen(true);
   };
 
@@ -21,7 +22,7 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
 
   const submitConfirmation = async () => {
     setConfirmCancelOpen(false);
-    console.log("Doctor deleted:", doctor.id);
+    // Delete the doctor and refresh the doctor list
     await store.dispatch(deleteDoctor(doctor.id));
     store.dispatch(getSpecializationsAndDoctors());
   };
@@ -36,7 +37,7 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
         }
         label="Cancel"
         className="textPrimary"
-        onClick={handleCancelClickButton}
+        onClick={handleClickButton}
         color="error"
       />
       <GenericConfirmActionModal

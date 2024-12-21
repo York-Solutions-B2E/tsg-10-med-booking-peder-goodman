@@ -16,10 +16,10 @@ describe("AdminLoginButton", () => {
     window.location = originalLocation;
   });
 
-    test("renders the Admin Login button", () => {
-      const { getByText } = render(<AdminLoginButton />);
-      expect(getByText("Admin Login")).toBeInTheDocument();
-    });
+  test("renders the Admin Login button", () => {
+    const { getByText } = render(<AdminLoginButton />);
+    expect(getByText("Admin Login")).toBeInTheDocument();
+  });
 
   test("redirects to the correct login URL when port is 3000", () => {
     window.location.port = "3000";

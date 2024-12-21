@@ -82,7 +82,6 @@ describe("AddAppointmentModalButton Form Open and Cancel", () => {
 describe("AddAppointmentModalButton Form Submission modal", () => {
   // jest.mock("../../../src/Components/modals/ConfirmationAppointmentModal", () => <div>ConfirmationAppointmentModal</div>);
 
-  
   test.skip("opens the confirmation modal on form submission", () => {
     render(
       <Provider store={store}>

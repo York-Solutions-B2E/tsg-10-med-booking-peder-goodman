@@ -87,4 +87,18 @@ declare global {
     disableFuture?: boolean;
     disablePast?: boolean;
   }
+
+  interface AppointmentFormProps {
+    editFormData?: AppointmentRequest;
+    isEditing?: boolean;
+    onCancel: () => void;
+    closeModal: () => void;
+  }
+
+  interface DoctorFormProps {
+    editFormData?: DoctorRequest;
+    isEditing?: boolean;
+    onCancel: () => void;
+    closeModal: () => void;
+  }
 }

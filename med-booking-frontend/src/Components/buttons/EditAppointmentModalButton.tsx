@@ -12,8 +12,6 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
 
   const [openForm, setOpenForm] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | undefined>(undefined);
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
@@ -29,22 +27,21 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   }, []);
 
   // * Form Modal handlers
-  const handleCancelSubmission = () => {
+  const openFormModal = () => {
+    setOpenForm(true);
+  };
+
+  const triggerCancelDialog = () => {
     setConfirmCancelOpen(true);
   };
 
-  const handleCloseConfirmCancelModal = () => {
+  const closeCancelDialog = () => {
     setConfirmCancelOpen(false);
   };
 
-  const handleConfirmCancel = () => {
+  const confirmCancellation = () => {
     setConfirmCancelOpen(false);
     setOpenForm(false);
-  };
-
-  const handleOpenEditAppointmentForm = (appointment: Appointment) => {
-    setAppointmentFormData(appointment);
-    setOpenForm(true);
   };
 
   return (
@@ -60,18 +57,18 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         sx={{
           color: "primary.main",
         }}
-        onClick={() => handleOpenEditAppointmentForm(appointment)}
+        onClick={openFormModal}
       />
-      <Dialog fullWidth maxWidth="sm" open={openForm} onClose={handleCancelSubmission} TransitionComponent={ModalTransition}>
-        <AppointmentForm onCancel={handleCancelSubmission} editFormData={appointmentFormData} isEditing={true} closeModal={handleConfirmCancel} />
+      <Dialog fullWidth maxWidth="sm" open={openForm} onClose={triggerCancelDialog} TransitionComponent={ModalTransition}>
+        <AppointmentForm onCancel={triggerCancelDialog} editFormData={appointment} isEditing={true} closeModal={confirmCancellation} />
       </Dialog>
 
       <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}
-        handleCancel={handleCloseConfirmCancelModal}
-        handleConfirm={handleConfirmCancel}
+        handleCancel={closeCancelDialog}
+        handleConfirm={confirmCancellation}
         confirmButtonText="Yes"
       />
     </>

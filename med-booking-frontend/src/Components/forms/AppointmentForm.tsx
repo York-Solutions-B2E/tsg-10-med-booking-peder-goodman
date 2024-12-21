@@ -20,19 +20,13 @@ import { TimeDropdownInput } from "../inputs/TimeDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
 import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
 
-interface AppointmentFormProps {
-  editFormData?: AppointmentRequest;
-  isEditing?: boolean;
-  onCancel: () => void;
-  closeModal: () => void;
-}
-
 export const AppointmentForm = (props: AppointmentFormProps) => {
-  // * State
+  // * Props & Store state
   const { editFormData, isEditing, onCancel, closeModal } = props; // ! change to correct function names
-  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
+  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const patientBirthdate = dayjs(patientDetails.birthdate).format("MMM DD, YYYY");
+
 
   // * Initial Form state
   const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | undefined>(undefined);
@@ -55,7 +49,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   // Unavailable Times
   const [unavailableTimes, setUnavailableTimes] = useState<string[]>([]);
 
-  const setInitialState = async () => {
+  useEffect(() => {
     if (isEditing && editFormData) {
       // set the filtered doctors based on the selected specialization
       const specializationId = editFormData.doctor.specialization.id;
@@ -70,10 +64,6 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
 
       setVisitTypeSelection(editFormData.visitType);
     }
-  };
-
-  useEffect(() => {
-    setInitialState();
   }, []);
 
   // * Form Input Event handlers
@@ -141,26 +131,23 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   };
 
   const submitEditAppointment = async () => {
+    // update appointment and refresh state
     await store.dispatch(updateAppointment(appointmentFormData as AppointmentRequest));
-
-    // Refresh the doctor list
+    // TODO: error handling
     store.dispatch(getPatientDetails(appointmentFormData?.patient.id as number));
+    // close all modals
     setOpenConfirmSubmit(false);
     closeModal();
   };
 
   const submitNewAppointment = async () => {
+    // create new appointment and refresh state
     await store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
+    // TODO: error handling
     store.dispatch(getPatientDetails(patientDetails.id as number));
-
+    // close all modals
+    setOpenConfirmSubmit(false);
     closeModal();
-  };
-
-  // use enter button to submit form
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
   };
 
   // * Form validation
@@ -220,6 +207,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     }
   };
 
+  // * Styling
   const formContainerStyling = {
     // width: "80%",
     display: "flex",
@@ -236,6 +224,13 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     marginTop: "8px",
   };
 
+  // * Keyboard event handlers
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <>
       <AppBar sx={{ position: "relative", marginBottom: "60px" }}>
@@ -248,7 +243,9 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Box sx={formContainerStyling}>
+        {/* TODO: add styling to patient details */}
         <Box sx={{ display: "flex", flexDirection: "column", margin: "0 0 30px", gap: "6px" }}>
           <Typography variant="h4" component="div">
             Patient Details

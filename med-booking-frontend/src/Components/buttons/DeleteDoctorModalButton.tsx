@@ -1,6 +1,5 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Tooltip } from "@mui/material";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
@@ -27,19 +26,18 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
     store.dispatch(getSpecializationsAndDoctors());
   };
 
+  const buttonStyle = {
+    padding: "6px 6px",
+    minWidth: "24px",
+  };
+
   return (
     <>
-      <GridActionsCellItem
-        icon={
-          <Tooltip title="Delete Forever">
-            <DeleteForeverIcon />
-          </Tooltip>
-        }
-        label="Cancel"
-        className="textPrimary"
-        onClick={handleClickButton}
-        color="error"
-      />
+      <IconButton sx={buttonStyle} color="error" onClick={handleClickButton}>
+        <Tooltip title="Delete Forever">
+          <DeleteForeverIcon />
+        </Tooltip>
+      </IconButton>
       <GenericConfirmActionModal
         color="error"
         message="Deleting a doctor is irreversible, are you sure?"

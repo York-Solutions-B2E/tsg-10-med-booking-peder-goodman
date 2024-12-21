@@ -1,6 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Dialog, Tooltip } from "@mui/material";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+import { Dialog, IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { ModalTransition } from "../../utils/ModalTransition";
@@ -44,21 +43,19 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setOpenForm(false);
   };
 
+  const buttonStyle = {
+    padding: "6px 6px",
+    minWidth: "24px",
+  };
+
   return (
     <>
-      <GridActionsCellItem
-        disabled={isButtonDisabled}
-        icon={
-          <Tooltip title="Edit Appointment">
-            <EditIcon />
-          </Tooltip>
-        }
-        label="Save"
-        sx={{
-          color: "primary.main",
-        }}
-        onClick={openFormModal}
-      />
+      <IconButton disabled={isButtonDisabled} sx={buttonStyle} color="primary" onClick={openFormModal}>
+        <Tooltip title="Edit Appointment">
+          <EditIcon />
+        </Tooltip>
+      </IconButton>
+
       <Dialog fullWidth maxWidth="sm" open={openForm} onClose={triggerCancelDialog} TransitionComponent={ModalTransition}>
         <AppointmentForm onCancel={triggerCancelDialog} editFormData={appointment} isEditing={true} closeModal={confirmCancellation} />
       </Dialog>

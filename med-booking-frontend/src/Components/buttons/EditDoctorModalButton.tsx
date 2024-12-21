@@ -1,6 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Dialog, Tooltip } from "@mui/material";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+import { Dialog, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { ModalTransition } from "../../utils/ModalTransition";
 import { DoctorForm } from "../forms/DoctorForm";
@@ -30,20 +29,18 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
     setOpenForm(false);
   };
 
+  const buttonStyle = {
+    padding: "6px 6px",
+    minWidth: "24px",
+  };
+
   return (
     <>
-      <GridActionsCellItem
-        icon={
-          <Tooltip title="Edit Doctor">
-            <EditIcon />
-          </Tooltip>
-        }
-        label="Save"
-        sx={{
-          color: "primary.main",
-        }}
-        onClick={openFormModal}
-      />
+      <IconButton sx={buttonStyle} color="primary" onClick={openFormModal}>
+        <Tooltip title="Edit Doctor">
+          <EditIcon />
+        </Tooltip>
+      </IconButton>
 
       <Dialog fullWidth maxWidth="sm" open={openForm} onClose={triggerCancelDialog} TransitionComponent={ModalTransition}>
         <DoctorForm editFormData={doctor} isEditing={true} onCancel={triggerCancelDialog} closeModal={confirmCancellation} />

@@ -17,6 +17,13 @@ export function AppointmentConfirmationModal(props: ConfirmationAppointmentModal
   const appointmentTime = dayjs(appointment.appointmentDate + appointment.appointmentTime).format("hh:mm a");
   const visitType = appointment.visitType;
 
+  // * Keyboard event handlers
+  // const handleKeyDown = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     handleConfirm();
+  //   }
+  // };
+
   return (
     <>
       <Dialog open={open} onClose={handleCancel}>

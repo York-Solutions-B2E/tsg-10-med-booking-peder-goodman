@@ -5,11 +5,11 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { createDoctor, getSpecializationsAndDoctors, updateDoctor } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
 import { CustomTextField } from "../inputs/CustomTextInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
 import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
-import { updateDoctor, getSpecializationsAndDoctors, createDoctor } from "../../store/actions/doctorActions";
-import { store } from "../../store/store";
 
 export const DoctorForm = (props: DoctorFormProps) => {
   // * Props & Store state
@@ -155,11 +155,11 @@ export const DoctorForm = (props: DoctorFormProps) => {
   };
 
   // * Keyboard event handlers
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
+  // const handleKeyDown = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     handleSubmit();
+  //   }
+  // };
 
   return (
     <>
@@ -173,7 +173,7 @@ export const DoctorForm = (props: DoctorFormProps) => {
           </IconButton>
         </Box>
 
-        <FormControl sx={formControlStyling} onKeyDown={handleKeyDown}>
+        <FormControl sx={formControlStyling}>
           <CustomTextField
             id="signup-first-name-input"
             label="First Name"

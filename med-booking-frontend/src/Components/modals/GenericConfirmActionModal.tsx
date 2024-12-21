@@ -6,6 +6,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 export function GenericConfirmActionModal(props: any) {
   const { color, message, open, handleCancel, handleConfirm, confirmButtonText } = props;
 
+  // * Keyboard event handlers
+  // const handleKeyDown = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     handleConfirm();
+  //   }
+  // };
+
   return (
     <>
       <Dialog open={open} onClose={handleCancel}>

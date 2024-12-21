@@ -225,11 +225,11 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   };
 
   // * Keyboard event handlers
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
+  // const handleKeyDown = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     handleSubmit();
+  //   }
+  // };
 
   return (
     <>
@@ -254,7 +254,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
           <Typography>{`Patient Email: ${patientDetails.email}`}</Typography>
           <Typography>{`Date of Birth: ${patientBirthdate}`}</Typography>
         </Box>
-        <FormControl sx={formStyling} onKeyDown={handleKeyDown}>
+        <FormControl sx={formStyling}>
           <SpecializationDropdownInput
             inputId="select-specialization-input"
             label="Select Specialization"

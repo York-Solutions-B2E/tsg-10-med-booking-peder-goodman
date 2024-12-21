@@ -7,28 +7,36 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { CustomTextField } from "../inputs/CustomTextInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
+import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { updateDoctor, getSpecializationsAndDoctors, createDoctor } from "../../store/actions/doctorActions";
+import { store } from "../../store/store";
 
-export const AddDoctorForm = (props: any) => {
-  const { onSubmit, onCancel, formData, isEditing } = props;
+export const DoctorForm = (props: DoctorFormProps) => {
+  // * Props & Store state
+  const { closeModal, onCancel, editFormData, isEditing } = props;
   const availableSpecializations = useSelector((state: RootState) => state.medicalOptions.availableSpecializations);
 
-  // * Form state
+  // * Initial Form state
+  const [doctorFormData, setDoctorFormData] = useState<DoctorRequest | undefined>(undefined);
+  // Specialization
   const [selectedSpecialization, setSelectedSpecialization] = useState<Specialization | "">("");
   const [selectSpecializationErrorMessage, setSelectSpecializationErrorMessage] = useState("");
+  // First Name
   const [firstName, setFirstName] = useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+  // Last Name
   const [lastName, setLastName] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
 
   useEffect(() => {
-    if (isEditing && formData) {
-      setSelectedSpecialization(formData.specialization);
-      setFirstName(formData.firstName);
-      setLastName(formData.lastName);
+    if (isEditing && editFormData) {
+      setSelectedSpecialization(editFormData.specialization);
+      setFirstName(editFormData.firstName);
+      setLastName(editFormData.lastName);
     }
   }, []);
 
-  // * Event handlers
+  // * Form Input Event handlers
   const handleSelectSpecializationChange = (newValue: Specialization | "") => {
     if (newValue && typeof newValue !== "string") {
       setSelectedSpecialization(newValue);
@@ -46,10 +54,40 @@ export const AddDoctorForm = (props: any) => {
     setLastNameErrorMessage("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
+  // * Confirmation Modal handlers
+  const [openConfirmSubmit, setOpenConfirmSubmit] = useState(false);
+
+  const handleCloseConfirmSubmitModal = () => {
+    setOpenConfirmSubmit(false);
+  };
+
+  const handleConfirmSubmit = () => {
+    console.log("Submitting appointment form data");
+    if (isEditing) {
+      submitEditDoctor();
+    } else {
+      submitNewDoctor();
     }
+  };
+
+  const submitEditDoctor = async () => {
+    // create new doctor and update state
+    await store.dispatch(updateDoctor(doctorFormData as DoctorRequest));
+    // TODO: error handling
+    store.dispatch(getSpecializationsAndDoctors());
+    // close all modals
+    setOpenConfirmSubmit(false);
+    closeModal();
+  };
+
+  const submitNewDoctor = async () => {
+    // create new doctor and update state
+    await store.dispatch(createDoctor(doctorFormData as DoctorRequest));
+    // TODO: error handling
+    store.dispatch(getSpecializationsAndDoctors());
+    // close all modals
+    setOpenConfirmSubmit(false);
+    closeModal();
   };
 
   // * Form validation
@@ -75,18 +113,21 @@ export const AddDoctorForm = (props: any) => {
 
   // * Form submission
   const handleSubmit = () => {
-    const addDoctorData: DoctorRequest = {
+    const isFormValid = validateForm();
+
+    const combineDoctorData: DoctorRequest = {
       firstName,
       lastName,
       specialization: selectedSpecialization as Specialization,
     };
 
-    if (validateForm()) {
-      // passes data to parent component
-      onSubmit(addDoctorData);
+    if (isFormValid) {
+      setOpenConfirmSubmit(true);
+      setDoctorFormData(combineDoctorData as DoctorRequest);
     }
   };
 
+  // * Styling
   const formContainerStyling = {
     // width: "80%",
     display: "flex",
@@ -112,11 +153,11 @@ export const AddDoctorForm = (props: any) => {
     alignSelf: "center",
   };
 
-  // hidden button for testing
-  const hiddenButton = () => {
-    setSelectedSpecialization({ id: 1, name: "Cardiology" });
-    setFirstName("Jerry");
-    setLastName("Fisher");
+  // * Keyboard event handlers
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
   };
 
   return (
@@ -131,7 +172,6 @@ export const AddDoctorForm = (props: any) => {
           </IconButton>
         </Box>
 
-        {/* <div onClick={hiddenButton}>autofill</div> */}
         <FormControl sx={formControlStyling} onKeyDown={handleKeyDown}>
           <CustomTextField
             id="signup-first-name-input"
@@ -164,6 +204,15 @@ export const AddDoctorForm = (props: any) => {
             {isEditing ? "Save Changes" : "Add Doctor"}
           </Button>
         </FormControl>
+
+        <GenericConfirmActionModal
+          color="success"
+          message="Are you sure?"
+          open={openConfirmSubmit}
+          handleCancel={handleCloseConfirmSubmitModal}
+          handleConfirm={handleConfirmSubmit}
+          confirmButtonText={isEditing ? "Save Changes" : "Add Doctor"}
+        />
       </Box>
     </>
   );

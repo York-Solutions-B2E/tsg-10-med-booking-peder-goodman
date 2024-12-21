@@ -9,10 +9,9 @@ import { SignupForm } from "../Components/forms/SignupForm";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
-export const HomePage = () => {
+export const LoginPage = () => {
   const navigate = useNavigate();
-  const { userDetails, isUserAuthenticated, isPatientAuthenticated } =
-    useSelector((state: RootState) => state.user);
+  const { userDetails, isUserAuthenticated, isPatientAuthenticated } = useSelector((state: RootState) => state.user);
 
   const userRole = userDetails?.role;
   const [showSignup, setShowSignup] = useState(false);
@@ -31,7 +30,7 @@ export const HomePage = () => {
     }
   }, [isUserAuthenticated, userRole]);
 
-  const homePageStyling = {
+  const loginPageStyling = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -75,8 +74,7 @@ export const HomePage = () => {
   const NewUserPrompt = () => {
     return (
       <p>
-        Existing User?{" "}
-        <button onClick={() => setShowSignup(false)}>Sign-in</button>
+        Existing User? <button onClick={() => setShowSignup(false)}>Sign-in</button>
       </p>
     );
   };
@@ -86,17 +84,14 @@ export const HomePage = () => {
 
   return (
     <>
-      <Box sx={homePageStyling}>
+      <Box sx={loginPageStyling}>
         <Card sx={loginCardStyling}>
           <h1 style={{ marginTop: "0px" }}>{headerMessaging}</h1>
           {showSignup ? <NewUserPrompt /> : <ExistingUserPrompt />}
           {showSignup ? <SignupForm /> : <LoginForm />}
           <p style={{ margin: "16px 32px" }}>
             By {termsMessaging}, you agree to accept our{" "}
-            <a
-              href="https://genius.com/Rick-astley-never-gonna-give-you-up-lyrics"
-              target="_blank"
-            >
+            <a href="https://genius.com/Rick-astley-never-gonna-give-you-up-lyrics" target="_blank">
               terms and conditions.
             </a>
           </p>

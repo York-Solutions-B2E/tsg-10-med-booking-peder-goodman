@@ -3,7 +3,7 @@ import AdminHome from "./Containers/AdminHome";
 import "./css/App.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
-import { HomePage } from "./Containers/HomePage";
+import { LoginPage } from "./Containers/LoginPage";
 import { PatientAppointments } from "./Containers/PatientAppointments";
 import { Layout } from "./hoc/Layout";
 import { ProtectedRoute } from "./hoc/ProtectedRoute";
@@ -20,8 +20,8 @@ function App() {
           <Route element={<ProtectedRoute requiredRole={"PATIENT"} />}>
             <Route path="/my-appointments" element={<PatientAppointments />} />
           </Route>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="*" element={<Navigate to="/home" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Layout>
     </div>

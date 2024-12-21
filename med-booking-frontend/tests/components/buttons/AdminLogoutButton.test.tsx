@@ -1,3 +1,5 @@
+export {};
+
 import { fireEvent, render } from "@testing-library/react";
 import { AdminLogoutButton } from "../../../src/Components/buttons/AdminLogoutButton";
 import { logoutUser } from "../../../src/store/actions/userActions";

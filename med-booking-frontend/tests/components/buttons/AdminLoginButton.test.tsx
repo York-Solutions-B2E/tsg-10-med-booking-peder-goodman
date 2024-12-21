@@ -1,4 +1,5 @@
-// import "@testing-library/jest-dom/extend-expect";
+export {};
+
 import { fireEvent, render } from "@testing-library/react";
 import { AdminLoginButton } from "../../../src/Components/buttons/AdminLoginButton";
 

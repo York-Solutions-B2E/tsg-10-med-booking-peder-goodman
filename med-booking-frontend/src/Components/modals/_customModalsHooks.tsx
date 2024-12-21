@@ -17,7 +17,6 @@ export function useModal() {
 
 // import { useModal } from './useModal';
 import { Dialog } from "@mui/material";
-import { AddAppointmentForm } from "../forms/AddAppointmentForm";
 import { GenericConfirmActionModal } from "./GenericConfirmActionModal";
 
 export default function AddAppointmentModalButton() {
@@ -36,7 +35,7 @@ export default function AddAppointmentModalButton() {
 
       {isFormOpen && (
         <Dialog onClose={closeFormModal} open={isFormOpen}>
-          <AddAppointmentForm onSubmit={handleFormSubmit} onCancel={openCancelModal} />
+          {/* <AddAppointmentForm onSubmit={handleFormSubmit} onCancel={openCancelModal} /> */}
         </Dialog>
       )}
 

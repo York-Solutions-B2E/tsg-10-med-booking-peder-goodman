@@ -1,23 +1,18 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Tooltip } from "@mui/material";
+import { Dialog, Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { updateAppointment } from "../../store/actions/appointmentActions";
-
-import { getPatientDetails } from "../../store/actions/userActions";
-import { store } from "../../store/store";
-import { AddAppointmentForm } from "../forms/AddAppointmentForm";
+import { ModalTransition } from "../../utils/ModalTransition";
+import { AppointmentForm } from "../forms/AppointmentForm";
 import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
-import { LargeFormModalWrapper } from "../modals/LargeFormModalWrapper";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
 
   const [openForm, setOpenForm] = useState(false);
-  const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | null>(null);
+  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | undefined>(undefined);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -38,16 +33,6 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setConfirmCancelOpen(true);
   };
 
-  const handleSubmission = (data: any) => {
-    setAppointmentFormData(data);
-    setConfirmSubmitOpen(true);
-  };
-
-  // * Confirmation Modal handlers
-  const handleCloseConfirmSubmitModal = () => {
-    setConfirmSubmitOpen(false);
-  };
-
   const handleCloseConfirmCancelModal = () => {
     setConfirmCancelOpen(false);
   };
@@ -55,27 +40,6 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const handleConfirmCancel = () => {
     setConfirmCancelOpen(false);
     setOpenForm(false);
-  };
-
-  const handleConfirmSubmit = async () => {
-    setConfirmSubmitOpen(false);
-    setOpenForm(false);
-    console.log("Appointment Form Data Submitted:", appointmentFormData);
-
-    const updatedAppointment: AppointmentRequest = {
-      id: appointment?.id,
-      doctor: appointmentFormData?.doctor as DoctorDetails,
-      patient: appointmentFormData?.patient as PatientDetails,
-      appointmentDate: appointmentFormData?.appointmentDate as string,
-      appointmentTime: appointmentFormData?.appointmentTime as string,
-      visitType: appointmentFormData?.visitType as VisitType,
-    };
-
-    await store.dispatch(updateAppointment(updatedAppointment as Appointment));
-
-    // TODO: If error, show error message here
-    // Refresh the doctor list
-    store.dispatch(getPatientDetails(appointmentFormData?.patient.id as number));
   };
 
   const handleOpenEditAppointmentForm = (appointment: Appointment) => {
@@ -98,19 +62,10 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         }}
         onClick={() => handleOpenEditAppointmentForm(appointment)}
       />
+      <Dialog fullWidth maxWidth="sm" open={openForm} onClose={handleCancelSubmission} TransitionComponent={ModalTransition}>
+        <AppointmentForm onCancel={handleCancelSubmission} editFormData={appointmentFormData} isEditing={true} closeModal={handleConfirmCancel} />
+      </Dialog>
 
-      <LargeFormModalWrapper open={openForm} onSubmit={handleSubmission} onCancel={handleCancelSubmission}>
-        <AddAppointmentForm formData={appointmentFormData} isEditing={true} />
-      </LargeFormModalWrapper>
-
-      <GenericConfirmActionModal
-        color="success"
-        message="Is everything you provided accurate?"
-        open={confirmSubmitOpen}
-        handleCancel={handleCloseConfirmSubmitModal}
-        handleConfirm={handleConfirmSubmit}
-        confirmButtonText="Submit"
-      />
       <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"

@@ -80,7 +80,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
       />
 
       <LargeFormModalWrapper open={openForm} onSubmit={handleSubmission} onCancel={handleCancelSubmission}>
-        <AddDoctorForm formData={doctor} isEditing={true} />
+        <AddDoctorForm editFormData={doctor} isEditing={true} />
       </LargeFormModalWrapper>
 
       <GenericConfirmActionModal

@@ -1,21 +1,14 @@
 import AddIcon from "@mui/icons-material/Add";
+import { Dialog } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { createAppointment } from "../../store/actions/appointmentActions";
-import { getPatientDetails } from "../../store/actions/userActions";
-import { store } from "../../store/store";
-import { AddAppointmentForm } from "../forms/AddAppointmentForm";
-import { ConfirmationAppointmentModal } from "../modals/ConfirmationAppointmentModal";
-import { FullScreenFormModalWrapper } from "../modals/FullScreenFormModalWrapper";
+import { ModalTransition } from "../../utils/ModalTransition";
+import { AppointmentForm } from "../forms/AppointmentForm";
 import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 export default function AddAppointmentModalButton() {
-  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const [openForm, setOpenForm] = useState(false);
-  const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
-  const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
-  const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | null>(null);
+  const [openConfirmCancel, setConfirmCancelOpen] = useState(false);
 
   // * Form Modal handlers
   const handleOpenAppointmentFormModal = () => {
@@ -26,17 +19,7 @@ export default function AddAppointmentModalButton() {
     setConfirmCancelOpen(true);
   };
 
-  const handleSubmission = (data: any) => {
-    setAppointmentFormData(data);
-    setConfirmSubmitOpen(true);
-  };
-
-  // * Confirmation Modal handlers
-  const handleCloseConfirmSubmitModal = () => {
-    setConfirmSubmitOpen(false);
-  };
-
-  const handleCloseConfirmCancelModal = () => {
+  const handleCloseConfirmCancel = () => {
     setConfirmCancelOpen(false);
   };
 
@@ -45,45 +28,22 @@ export default function AddAppointmentModalButton() {
     setOpenForm(false);
   };
 
-  // ? this is hard to test in this component because it depends on another component for form validations etc
-  // ? what I would do in the future (or in a soon to be refactored code) is to move this form submission
-  // ? modal and logic to the form component itself. This way, I can test the form submission logic in isolation
-  // ? along with the form validations etc.
-  // ? I would also move FormModalWrapper into this component and pass the form component as a child
-  // ? this way, the form modal wrapper is only used in this component, since it is only used to open/close the form
-  const handleConfirmSubmit = async () => {
-    console.log("Submitting appointment form data");
-    setConfirmSubmitOpen(false);
-    setOpenForm(false);
-    await store.dispatch(createAppointment(appointmentFormData as AppointmentRequest));
-    store.dispatch(getPatientDetails(patientDetails.id as number));
-  };
-
   return (
     <div>
       <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleOpenAppointmentFormModal}>
         Add Appointment
       </Button>
-      {/* Testing modal sizes. will be fullscreen modal*/}
-
-      <FullScreenFormModalWrapper open={openForm} onCancel={handleCancelSubmission} onSubmit={handleSubmission}>
-        <AddAppointmentForm />
-      </FullScreenFormModalWrapper>
-
-      <ConfirmationAppointmentModal
-        appointment={appointmentFormData as AppointmentRequest}
-        color="success"
-        open={confirmSubmitOpen}
-        handleCancel={handleCloseConfirmSubmitModal}
-        handleConfirm={handleConfirmSubmit}
-        confirmButtonText="Submit"
-      />
+      {/* Testing dynamic modal sizes. this will be fullscreen modal, but if make this a component*/}
+      <Dialog fullScreen maxWidth={false} open={openForm} onClose={handleCancelSubmission} TransitionComponent={ModalTransition}>
+        {/* Leaving out formData and isEditing here */}
+        <AppointmentForm onCancel={handleCancelSubmission} closeModal={handleConfirmCancel} />
+      </Dialog>
 
       <GenericConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
-        open={confirmCancelOpen}
-        handleCancel={handleCloseConfirmCancelModal}
+        open={openConfirmCancel}
+        handleCancel={handleCloseConfirmCancel}
         handleConfirm={handleConfirmCancel}
         confirmButtonText="Yes"
       />

@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
@@ -38,8 +38,8 @@ const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
           <DeleteForeverIcon />
         </Tooltip>
       </IconButton>
-      
-      <GenericConfirmActionModal
+
+      <ConfirmActionModal
         color="error"
         message="Deleting a doctor is irreversible, are you sure?"
         open={confirmCancelOpen}

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { ModalTransition } from "../../utils/ModalTransition";
 import { DoctorForm } from "../forms/DoctorForm";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 export default function AddDoctorModalButton() {
   const [openForm, setOpenForm] = useState(false);
@@ -39,7 +39,7 @@ export default function AddDoctorModalButton() {
         <DoctorForm onCancel={triggerCancelDialog} closeModal={confirmCancellation} />
       </Dialog>
 
-      <GenericConfirmActionModal
+      <ConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export function GenericConfirmActionModal(props: any) {
+export function ConfirmActionModal(props: any) {
   const { color, message, open, handleCancel, handleConfirm, confirmButtonText } = props;
 
   // * Keyboard event handlers

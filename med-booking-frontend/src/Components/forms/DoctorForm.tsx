@@ -9,7 +9,7 @@ import { createDoctor, getSpecializationsAndDoctors, updateDoctor } from "../../
 import { store } from "../../store/store";
 import { CustomTextField } from "../inputs/CustomTextInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 export const DoctorForm = (props: DoctorFormProps) => {
   // * Props & Store state
@@ -206,7 +206,7 @@ export const DoctorForm = (props: DoctorFormProps) => {
           </Button>
         </FormControl>
 
-        <GenericConfirmActionModal
+        <ConfirmActionModal
           color="success"
           message="Are you sure?"
           open={openConfirmSubmit}

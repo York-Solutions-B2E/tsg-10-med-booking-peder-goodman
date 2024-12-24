@@ -3,7 +3,7 @@ import { Dialog, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { ModalTransition } from "../../utils/ModalTransition";
 import { DoctorForm } from "../forms/DoctorForm";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
@@ -46,7 +46,7 @@ const EditAppointmentModalButton = (props: DoctorModalButtonProps) => {
         <DoctorForm editFormData={doctor} isEditing={true} onCancel={triggerCancelDialog} closeModal={confirmCancellation} />
       </Dialog>
 
-      <GenericConfirmActionModal
+      <ConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

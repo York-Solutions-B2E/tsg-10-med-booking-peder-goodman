@@ -1,6 +1,6 @@
 import { Dialog } from "@mui/material";
 import { ModalTransition } from "../../utils/ModalTransition";
-import { GenericConfirmActionModal } from "./GenericConfirmActionModal";
+import { ConfirmActionModal } from "./ConfirmActionModal";
 import { useCustomModal } from "./useCustomModal";
 
 interface FormModalProps {
@@ -30,7 +30,7 @@ export const FormModal = (props: FormModalProps) => {
         <FormComponent {...formProps} onCancel={openConfirmCancel} closeModal={confirmCancellation} />
       </Dialog>
 
-      <GenericConfirmActionModal
+      <ConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={isConfirmCancelOpen}

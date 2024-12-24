@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { ModalTransition } from "../../utils/ModalTransition";
 import { AppointmentForm } from "../forms/AppointmentForm";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
@@ -60,7 +60,7 @@ const EditAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         <AppointmentForm onCancel={triggerCancelDialog} editFormData={appointment} isEditing={true} closeModal={confirmCancellation} />
       </Dialog>
 
-      <GenericConfirmActionModal
+      <ConfirmActionModal
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}

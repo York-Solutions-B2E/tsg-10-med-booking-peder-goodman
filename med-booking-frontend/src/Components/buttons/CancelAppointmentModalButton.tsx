@@ -2,11 +2,10 @@ import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { cancelAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
+import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
@@ -58,7 +57,7 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         </Tooltip>
       </IconButton>
 
-      <GenericConfirmActionModal
+      <ConfirmActionModal
         color="error"
         message="Are you sure you want to cancel this appointment?"
         open={confirmCancelOpen}

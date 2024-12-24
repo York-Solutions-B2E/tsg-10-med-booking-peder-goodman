@@ -1,13 +1,12 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import AddDoctorModalButton from "../Components/buttons/AddDoctorModalButton";
 import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
 import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
-const AdminHome = () => {
+const AdminPage = () => {
   // const { userDetails, isLoading, isUserAuthenticated } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -27,4 +26,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default AdminPage;

@@ -1,10 +1,10 @@
 import NavBar from "./Components/Navigation/NavBar";
-import AdminHome from "./Containers/AdminHome";
+import AdminPage from "./Containers/AdminPage";
 import "./css/App.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
+import { AppointmentPage } from "./Containers/AppointmentPage";
 import { LoginPage } from "./Containers/LoginPage";
-import { PatientAppointments } from "./Containers/PatientAppointments";
 import { Layout } from "./hoc/Layout";
 import { ProtectedRoute } from "./hoc/ProtectedRoute";
 
@@ -15,10 +15,10 @@ function App() {
       <Layout>
         <Routes>
           <Route element={<ProtectedRoute requiredRole={"ADMIN"} />}>
-            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Route>
           <Route element={<ProtectedRoute requiredRole={"PATIENT"} />}>
-            <Route path="/my-appointments" element={<PatientAppointments />} />
+            <Route path="/my-appointments" element={<AppointmentPage />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/login" replace />} />

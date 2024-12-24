@@ -10,7 +10,7 @@ import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
-export const PatientAppointments = () => {
+export const AppointmentPage = () => {
   const [isFormOpen, openFormModal, closeFormModal] = useCustomModal();
 
   useEffect(() => {

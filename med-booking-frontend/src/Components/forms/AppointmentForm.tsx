@@ -315,8 +315,8 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
         appointment={appointmentFormData as AppointmentRequest}
         color="success"
         open={openConfirmSubmit}
-        handleCancel={handleCloseConfirmSubmitModal}
-        handleConfirm={handleConfirmSubmit}
+        onDismiss={handleCloseConfirmSubmitModal}
+        onConfirmAction={handleConfirmSubmit}
         confirmButtonText={isEditing ? "Update Appointment" : "Confirm Appointment"}
       />
     </>

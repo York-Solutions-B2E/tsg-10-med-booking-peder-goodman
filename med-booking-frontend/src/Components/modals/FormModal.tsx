@@ -35,8 +35,8 @@ export const FormModal = (props: FormModalProps) => {
         color="error"
         message="Are you sure you want to cancel?"
         open={isConfirmCancelOpen}
-        handleCancel={closeConfirmCancel}
-        handleConfirm={confirmCancellation}
+        onDismiss={closeConfirmCancel}
+        onConfirmAction={confirmCancellation}
         confirmButtonText="Yes"
       />
     </>

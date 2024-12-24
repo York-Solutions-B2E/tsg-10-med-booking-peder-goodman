@@ -61,8 +61,8 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
         color="error"
         message="Are you sure you want to cancel this appointment?"
         open={confirmCancelOpen}
-        handleCancel={dismissConfirmation}
-        handleConfirm={submitConfirmation}
+        onDismiss={dismissConfirmation}
+        onConfirmAction={submitConfirmation}
         confirmButtonText="Yes"
       />
     </>

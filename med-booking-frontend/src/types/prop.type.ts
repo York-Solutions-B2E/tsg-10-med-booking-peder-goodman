@@ -105,8 +105,8 @@ declare global {
   interface ConfirmationAppointmentModalProps {
     color: "inherit" | "primary" | "secondary" | "error" | "info" | "success" | "warning";
     open: boolean;
-    handleCancel: () => void;
-    handleConfirm: () => void;
+    onDismiss: () => void;
+    onConfirmAction: () => void;
     appointment: AppointmentRequest;
     confirmButtonText: string;
   }

@@ -43,8 +43,8 @@ export default function AddDoctorModalButton() {
         color="error"
         message="Are you sure you want to cancel?"
         open={confirmCancelOpen}
-        handleCancel={closeCancelDialog}
-        handleConfirm={confirmCancellation}
+        onDismiss={closeCancelDialog}
+        onConfirmAction={confirmCancellation}
         confirmButtonText="Yes"
       />
     </div>

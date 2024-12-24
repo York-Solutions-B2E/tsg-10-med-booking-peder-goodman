@@ -43,8 +43,8 @@ const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
         color="error"
         message="Deleting a doctor is irreversible, are you sure?"
         open={confirmCancelOpen}
-        handleCancel={dismissConfirmation}
-        handleConfirm={submitConfirmation}
+        onDismiss={dismissConfirmation}
+        onConfirmAction={submitConfirmation}
         confirmButtonText="Delete"
       />
     </>

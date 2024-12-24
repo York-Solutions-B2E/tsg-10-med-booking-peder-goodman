@@ -210,8 +210,8 @@ export const DoctorForm = (props: DoctorFormProps) => {
           color="success"
           message="Are you sure?"
           open={openConfirmSubmit}
-          handleCancel={handleCloseConfirmSubmitModal}
-          handleConfirm={handleConfirmSubmit}
+          onDismiss={handleCloseConfirmSubmitModal}
+          onConfirmAction={handleConfirmSubmit}
           confirmButtonText={isEditing ? "Save Changes" : "Add Doctor"}
         />
       </Box>

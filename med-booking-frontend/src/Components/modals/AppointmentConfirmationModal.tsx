@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import dayjs from "dayjs";
 
 export function AppointmentConfirmationModal(props: ConfirmationAppointmentModalProps) {
-  const { color, open, handleCancel, handleConfirm, appointment, confirmButtonText } = props;
+  const { color, open, onDismiss, onConfirmAction, appointment, confirmButtonText } = props;
 
   if (!appointment) {
     return null;
@@ -20,13 +20,13 @@ export function AppointmentConfirmationModal(props: ConfirmationAppointmentModal
   // * Keyboard event handlers
   // const handleKeyDown = (e: React.KeyboardEvent) => {
   //   if (e.key === "Enter") {
-  //     handleConfirm();
+  //     onConfirmAction();
   //   }
   // };
 
   return (
     <>
-      <Dialog open={open} onClose={handleCancel}>
+      <Dialog open={open} onClose={onDismiss}>
         <DialogTitle id="alert-dialog-title">Confirm These Details</DialogTitle>
         <DialogContent>
           <Typography variant="h4" component="div">
@@ -45,8 +45,8 @@ export function AppointmentConfirmationModal(props: ConfirmationAppointmentModal
           {visitType == "IN_PERSON" && <Typography>{`Please Arrive 15 minutes before your appointment starts`}</Typography>}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button variant="contained" color={color} onClick={handleConfirm} autoFocus>
+          <Button onClick={onDismiss}>Cancel</Button>
+          <Button variant="contained" color={color} onClick={onConfirmAction} autoFocus>
             {confirmButtonText}
           </Button>
         </DialogActions>

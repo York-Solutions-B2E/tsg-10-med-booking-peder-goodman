@@ -5,12 +5,6 @@ import CancelAppointmentModalButton from "../../../src/Components/buttons/Cancel
 import { cancelAppointment } from "../../../src/store/actions/appointmentActions";
 import { getPatientDetails } from "../../../src/store/actions/userActions";
 import { store } from "../../../src/store/store";
-import configureMockStore, { MockStoreEnhanced } from "redux-mock-store";
-import userReducer from "../../../src/store/reducers/userReducer";
-import thunk from "redux-thunk";
-import { Store, UnknownAction } from "redux";
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-
 
 const mockEditAppointment: Appointment = {
   id: 1,
@@ -53,11 +47,9 @@ jest.mock("../../../src/store/actions/appointmentActions");
 jest.mock("../../../src/store/actions/userActions");
 
 describe("CancelAppointmentModalButton", () => {
-  
   beforeEach(() => {
     jest.clearAllMocks();
-
-    });
+  });
 
   test("renders the Add Doctor button", () => {
     render(

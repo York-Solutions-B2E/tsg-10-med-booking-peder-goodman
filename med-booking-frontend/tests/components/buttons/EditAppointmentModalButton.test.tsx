@@ -34,7 +34,7 @@ describe("EditAppointmentModalButton Form Open and Cancel", () => {
   test("renders the Add Appointment button", () => {
     render(
       <Provider store={store}>
-          <EditAppointmentModalButton appointment={mockEditAppointment} />
+        <EditAppointmentModalButton appointment={mockEditAppointment} />
       </Provider>
     );
 

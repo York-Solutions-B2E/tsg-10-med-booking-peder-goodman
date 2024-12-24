@@ -5,7 +5,7 @@ import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/
 import { store } from "../../store/store";
 import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
-const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
+const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
 
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
@@ -38,6 +38,7 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
           <DeleteForeverIcon />
         </Tooltip>
       </IconButton>
+      
       <GenericConfirmActionModal
         color="error"
         message="Deleting a doctor is irreversible, are you sure?"
@@ -50,4 +51,4 @@ const CancelAppointmentModalButton = (props: DoctorModalButtonProps) => {
   );
 };
 
-export default CancelAppointmentModalButton;
+export default DeleteDoctorModalButton;

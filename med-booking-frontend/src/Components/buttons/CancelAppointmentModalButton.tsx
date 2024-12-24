@@ -10,7 +10,9 @@ import { GenericConfirmActionModal } from "../modals/GenericConfirmActionModal";
 
 const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
   const { appointment } = props;
-  const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
+  // const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
+
+  let userId = appointment.patient.id;
 
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -40,7 +42,7 @@ const CancelAppointmentModalButton = (props: AppointmentModalButtonProps) => {
     setConfirmCancelOpen(false);
     // Cancel the appointment and refresh the patient details
     await store.dispatch(cancelAppointment(appointment.id));
-    store.dispatch(getPatientDetails(patientDetails.id as number));
+    store.dispatch(getPatientDetails(appointment.patient.id as number));
   };
 
   const buttonStyle = {

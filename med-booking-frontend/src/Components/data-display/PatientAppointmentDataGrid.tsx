@@ -118,6 +118,7 @@ const columns: GridColDef[] = [
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
       const appointment = params.row as Appointment;
+  
       return [<EditAppointmentModalButton appointment={appointment} />, <CancelAppointmentModalButton appointment={appointment} />];
     },
   },

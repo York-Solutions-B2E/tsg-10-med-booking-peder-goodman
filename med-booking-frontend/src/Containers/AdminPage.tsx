@@ -1,13 +1,17 @@
+import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import AddDoctorModalButton from "../Components/buttons/AddDoctorModalButton";
+import { ButtonWithText } from "../Components/buttons/ButtonWithText";
 import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
+import { DoctorForm } from "../Components/forms/DoctorForm";
+import { FormModal } from "../Components/modals/FormModal";
+import { useCustomModal } from "../Components/modals/useCustomModal";
 import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
 
 const AdminPage = () => {
-  // const { userDetails, isLoading, isUserAuthenticated } = useSelector((state: RootState) => state.user);
+  const [isFormOpen, openFormModal, closeFormModal] = useCustomModal();
 
   useEffect(() => {
     store.dispatch(checkUserAuthentication());
@@ -20,7 +24,8 @@ const AdminPage = () => {
 
   return (
     <Box sx={appointmentPageStyling}>
-      <AddDoctorModalButton />
+      <ButtonWithText variant={"contained"} buttonText="Add Doctor" onClick={openFormModal} startIcon={<AddIcon />} />
+      <FormModal open={isFormOpen} onClose={closeFormModal} maxWidth={"sm"} FormComponent={DoctorForm} />
       <DoctorDataGrid />
     </Box>
   );

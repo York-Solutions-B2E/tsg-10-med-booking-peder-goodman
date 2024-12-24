@@ -7,6 +7,7 @@ interface FormModalProps {
   open: boolean;
   onClose: () => void;
   fullScreen?: boolean;
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | false;
   FormComponent: React.ComponentType<any>;
   formProps?: {
     isEditing: boolean;
@@ -15,7 +16,7 @@ interface FormModalProps {
 }
 
 export const FormModal = (props: FormModalProps) => {
-  const { open, onClose, fullScreen = false, FormComponent, formProps } = props;
+  const { open, onClose, fullScreen = false, maxWidth = "sm", FormComponent, formProps } = props;
 
   const [isConfirmCancelOpen, openConfirmCancel, closeConfirmCancel] = useCustomModal();
 
@@ -26,7 +27,7 @@ export const FormModal = (props: FormModalProps) => {
 
   return (
     <>
-      <Dialog fullWidth maxWidth={fullScreen ? false : "sm"} fullScreen={fullScreen} open={open} onClose={openConfirmCancel} TransitionComponent={ModalTransition}>
+      <Dialog fullWidth maxWidth={fullScreen ? false : maxWidth} fullScreen={fullScreen} open={open} onClose={openConfirmCancel} TransitionComponent={ModalTransition}>
         <FormComponent {...formProps} onCancel={openConfirmCancel} closeModal={confirmCancellation} />
       </Dialog>
 

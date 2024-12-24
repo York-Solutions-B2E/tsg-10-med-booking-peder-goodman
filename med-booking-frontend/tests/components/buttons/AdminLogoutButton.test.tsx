@@ -17,8 +17,6 @@ describe("AdminLogoutButton", () => {
   test("dispatches logoutUser async thunk on button click", async () => {
     const mockDispatch = jest.fn();
     store.dispatch = mockDispatch;
-    const mockLogoutUser = logoutUser as jest.MockedFunction<typeof logoutUser>;
-    mockLogoutUser.mockReturnValue(jest.fn());
 
     const { getByText } = render(<AdminLogoutButton />);
     fireEvent.click(getByText("Logout"));

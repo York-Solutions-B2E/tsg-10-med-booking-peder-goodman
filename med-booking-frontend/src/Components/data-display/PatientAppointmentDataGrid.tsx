@@ -85,20 +85,13 @@ const columns: GridColDef[] = [
     type: "string",
     width: 120,
     renderCell: (params: { row: Appointment }) => {
-      let status = params.row.appointmentStatus;
-      let date = params.row.appointmentDate;
-      let time = params.row.appointmentTime;
+      const status = params.row.appointmentStatus;
+      const appointmentDateTime = dayjs(params.row.appointmentDate, params.row.appointmentTime);
+      const currentDateTime = dayjs();
 
-      if (status !== "CANCELED") {
-        let today = dayjs();
-        let appointmentDateTime = dayjs(date + " " + time);
-        if (today.isAfter(appointmentDateTime)) {
-          return "COMPLETED";
-        }
-      }
-
-      if (status === "CANCELED") {
-        return "CANCELED";
+      // if it's not canceled and the appointment date is in the past, then it's completed
+      if (status !== "CANCELED" && currentDateTime.isAfter(appointmentDateTime)) {
+        return "COMPLETED";
       }
 
       return params.row.appointmentStatus;
@@ -118,7 +111,7 @@ const columns: GridColDef[] = [
     cellClassName: "actions",
     getActions: (params: GridRowParams) => {
       const appointment = params.row as Appointment;
-  
+
       return [<EditAppointmentModalButton appointment={appointment} />, <CancelAppointmentModalButton appointment={appointment} />];
     },
   },

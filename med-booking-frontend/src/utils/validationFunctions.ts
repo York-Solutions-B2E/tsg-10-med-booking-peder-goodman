@@ -10,14 +10,14 @@ const validateEmail = (email: string) => {
   return false;
 };
 
-const validateDateIsInPast = (selectedDate: Dayjs | null) => {
-  const currentDate = dayjs();
+const validateDateIsInPast = (selectedDateTime: Dayjs | null) => {
+  const currentDateTime = dayjs();
 
-  if (!selectedDate) {
+  if (!selectedDateTime) {
     return false;
   }
 
-  if (selectedDate < currentDate) {
+  if (selectedDateTime < currentDateTime) {
     return true;
   }
 

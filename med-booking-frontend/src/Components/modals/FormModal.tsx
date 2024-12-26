@@ -9,14 +9,12 @@ interface FormModalProps {
   fullScreen?: boolean;
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | false;
   FormComponent: React.ComponentType<any>;
-  formProps?: {
-    isEditing: boolean;
-    data: Appointment | DoctorDetails;
-  };
+  isEditing?: boolean;
+  formData?: Appointment | DoctorDetails;
 }
 
 export const FormModal = (props: FormModalProps) => {
-  const { open, onClose, fullScreen = false, maxWidth = "sm", FormComponent, formProps } = props;
+  const { open, onClose, fullScreen = false, maxWidth = "sm", FormComponent, isEditing, formData } = props;
 
   const [isConfirmCancelOpen, openConfirmCancel, closeConfirmCancel] = useCustomModal();
 
@@ -28,7 +26,7 @@ export const FormModal = (props: FormModalProps) => {
   return (
     <>
       <Dialog fullWidth maxWidth={fullScreen ? false : maxWidth} fullScreen={fullScreen} open={open} onClose={openConfirmCancel} TransitionComponent={ModalTransition}>
-        <FormComponent {...formProps} onCancel={openConfirmCancel} closeModal={confirmCancellation} />
+        <FormComponent isEditing={isEditing} formData={formData} onCancel={openConfirmCancel} closeModal={confirmCancellation} />
       </Dialog>
 
       <ConfirmActionModal

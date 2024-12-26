@@ -5,10 +5,11 @@ interface ButtonIconWithToolTipProps {
   disabled?: boolean;
   tooltip?: string;
   icon: React.ReactElement;
+  color?: "primary" | "secondary" | "error" | "inherit" | "default" | "info" | "success" | "warning";
 }
 
 export const ButtonIconWithToolTip = (props: ButtonIconWithToolTipProps) => {
-  const { onClick, disabled = false, tooltip = "", icon } = props;
+  const { color = "primary", onClick, disabled = false, tooltip = "", icon } = props;
 
   const iconButtonStyle = {
     padding: "6px 6px",
@@ -16,7 +17,7 @@ export const ButtonIconWithToolTip = (props: ButtonIconWithToolTipProps) => {
   };
 
   return (
-    <IconButton disabled={disabled} sx={iconButtonStyle} color="primary" onClick={onClick}>
+    <IconButton color={color} disabled={disabled} sx={iconButtonStyle} onClick={onClick}>
       <Tooltip title={tooltip}>{icon}</Tooltip>
     </IconButton>
   );

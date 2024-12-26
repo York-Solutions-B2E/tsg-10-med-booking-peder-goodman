@@ -14,11 +14,12 @@ export const logoutUser = createAsyncThunk<LogoutResponse>("admin/logoutUser", a
   });
 
   if (response.status !== 200) {
-    console.log("Error logging out: ", response.status);
+    console.error("Error logging out: ", response.status);
     throw new Error(`HTTP error! status: ${response.data.message}`);
   } else {
     // handle redirect to okta logout and redirect back to the home page
-    window.location.href = `${response.data.logoutUrl}?id_token_hint=${response.data.idToken}` + `&post_logout_redirect_uri=${window.location.origin}`;
+    window.location.href =
+      `${response.data.logoutUrl}?id_token_hint=${response.data.idToken}` + `&post_logout_redirect_uri=${window.location.origin}`;
   }
 
   return response.data;

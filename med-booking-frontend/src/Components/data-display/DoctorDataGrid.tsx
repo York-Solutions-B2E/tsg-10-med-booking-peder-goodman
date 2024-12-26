@@ -22,11 +22,8 @@ export default function DoctorDataGrid() {
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorDetails | undefined>(undefined);
 
   // * click handlers
-  const handleClickEdit = async (doctor: DoctorDetails) => {
-    console.log("clicked edit doctor");
-    console.log("selected doctor: ", doctor);
-
-    await setSelectedDoctor(doctor);
+  const handleClickEdit = (doctor: DoctorDetails) => {
+    setSelectedDoctor(doctor);
     openEditDoctorFormModal();
   };
 
@@ -49,7 +46,7 @@ export default function DoctorDataGrid() {
     setSelectedDoctor(undefined);
   };
 
-  const handleClickActivateDoctor = async (doctor: DoctorDetails) => {
+  const handleClickActivateDoctor = (doctor: DoctorDetails) => {
     setSelectedDoctor(doctor);
     openConfirmActivate();
   };
@@ -169,7 +166,14 @@ export default function DoctorDataGrid() {
         disableRowSelectionOnClick
         // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
       />
-      <FormModal open={isEditDoctorFormOpen} onClose={closeEditDoctorFormModal} maxWidth={"sm"} FormComponent={DoctorForm} isEditing={true} formData={selectedDoctor} />
+      <FormModal
+        open={isEditDoctorFormOpen}
+        onClose={closeEditDoctorFormModal}
+        maxWidth={"sm"}
+        FormComponent={DoctorForm}
+        isEditing={true}
+        formData={selectedDoctor}
+      />
       <ConfirmActionModal
         color="error"
         message="All of this doctor's appointments will be cancelled. Confirm?"

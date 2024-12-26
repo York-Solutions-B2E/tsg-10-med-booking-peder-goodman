@@ -62,7 +62,6 @@ export const DoctorForm = (props: DoctorFormProps) => {
   };
 
   const handleConfirmSubmit = () => {
-    console.log("Submitting appointment form data");
     if (isEditing) {
       submitEditDoctor();
     } else {

@@ -25,7 +25,14 @@ export const FormModal = (props: FormModalProps) => {
 
   return (
     <>
-      <Dialog fullWidth maxWidth={fullScreen ? false : maxWidth} fullScreen={fullScreen} open={open} onClose={openConfirmCancel} TransitionComponent={ModalTransition}>
+      <Dialog
+        fullWidth
+        maxWidth={fullScreen ? false : maxWidth}
+        fullScreen={fullScreen}
+        open={open}
+        onClose={openConfirmCancel}
+        TransitionComponent={ModalTransition}
+      >
         <FormComponent isEditing={isEditing} formData={formData} onCancel={openConfirmCancel} closeModal={confirmCancellation} />
       </Dialog>
 

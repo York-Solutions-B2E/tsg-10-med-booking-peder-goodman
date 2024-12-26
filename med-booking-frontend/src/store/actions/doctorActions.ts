@@ -6,8 +6,6 @@ export const getSpecializationsAndDoctors = createAsyncThunk<any>("doctor/doctor
     withCredentials: true,
   });
 
-  console.log("doctors are: ", response.data.doctors);
-
   return response.data;
 });
 

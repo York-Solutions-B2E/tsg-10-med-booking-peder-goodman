@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { ButtonWithText } from "../Components/buttons/ButtonWithText";
-import PatientAppointmentDataGrid from "../Components/data-display/PatientAppointmentDataGrid";
+import PatientAppointmentDataGrid from "../Components/data-display/AppointmentDataGrid";
 import { AppointmentForm } from "../Components/forms/AppointmentForm";
 import { FormModal } from "../Components/modals/FormModal";
 import { useCustomModal } from "../Components/modals/useCustomModal";

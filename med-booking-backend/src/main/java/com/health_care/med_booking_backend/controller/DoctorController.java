@@ -1,5 +1,7 @@
 package com.health_care.med_booking_backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,7 +48,7 @@ public class DoctorController {
     public ResponseEntity<String> deactivateDoctor(@PathVariable Long doctorId) {
         return doctorService.deactivateDoctor(doctorId);
     }
-    
+
     // Activate doctor
     @PutMapping("/activate/{doctorId}")
     public ResponseEntity<String> activateDoctor(@PathVariable Long doctorId) {
@@ -57,6 +59,12 @@ public class DoctorController {
     @GetMapping("/doctors-specializations")
     public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {
         return doctorService.getListOfDoctorsAndSpecializations();
+    }
+
+    // Get a list of all Active and Inactive Doctors
+    @GetMapping("/all-doctors")
+    public List<DoctorDTO> getAllDoctors() {
+        return doctorService.getAllDoctors();
     }
 
     @GetMapping("/get/{doctorId}")

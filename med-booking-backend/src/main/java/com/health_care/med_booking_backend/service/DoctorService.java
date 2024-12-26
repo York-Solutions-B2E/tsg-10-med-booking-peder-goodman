@@ -131,7 +131,7 @@ public class DoctorService {
 
     public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {
         List<Specialization> specializationList = specializationRepository.findAll();
-        List<Doctor> doctorList = doctorRepository.findAll();
+        List<Doctor> doctorList = doctorRepository.findAllActiveDoctors();
 
         List<DoctorDTO> doctorDTOList = doctorList.stream().map(DoctorMapper::toDoctorDTO).toList();
 
@@ -139,6 +139,14 @@ public class DoctorService {
                 specializationList, doctorDTOList);
 
         return ResponseEntity.ok(doctorSpecializationListResponse);
+    }
+
+    public List<DoctorDTO> getAllDoctors() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+
+        List<DoctorDTO> doctorDTOList = doctorList.stream().map(DoctorMapper::toDoctorDTO).toList();
+
+        return doctorDTOList;
     }
 
     // Get Doctor by ID

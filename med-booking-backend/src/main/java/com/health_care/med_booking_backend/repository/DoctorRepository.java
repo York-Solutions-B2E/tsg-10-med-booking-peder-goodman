@@ -21,4 +21,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentStatus <> 'CANCELED'")
     List<Appointment> findAppointmentsByDoctorIdAndNotBooked(@Param("doctorId") Long doctorId);
 
+    @Query("SELECT d FROM Doctor d WHERE d.doctorStatus = 'ACTIVE'")
+    List<Doctor> findAllActiveDoctors();
 }

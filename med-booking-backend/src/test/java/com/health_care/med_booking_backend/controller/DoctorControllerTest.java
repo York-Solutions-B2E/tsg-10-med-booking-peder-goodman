@@ -1,15 +1,16 @@
 package com.health_care.med_booking_backend.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
 import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Doctor;
+import com.health_care.med_booking_backend.model.DoctorStatus;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.service.DoctorService;
 
@@ -73,7 +75,7 @@ class DoctorControllerTest {
     // * Test update Doctor
     @Test
     void testUpdateDoctor_NotFound() {
-        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"));
+        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"), DoctorStatus.ACTIVE);
 
         when(doctorService.updateDoctor(doctorRequest))
                 .thenReturn(ResponseEntity.status(400)
@@ -87,7 +89,7 @@ class DoctorControllerTest {
 
     @Test
     void testUpdateDoctor_NoChangesNeeded() {
-        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"));
+        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"), DoctorStatus.ACTIVE);
 
         when(doctorService.updateDoctor(doctorRequest))
                 .thenReturn(ResponseEntity.status(400)
@@ -101,7 +103,7 @@ class DoctorControllerTest {
 
     @Test
     void testUpdateDoctor_MultipleFieldsUpdated() {
-        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"));
+        DoctorDTO doctorRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(1L, "Orthopedics"), DoctorStatus.ACTIVE);
 
         when(doctorService.updateDoctor(doctorRequest))
                 .thenReturn(ResponseEntity.status(200)

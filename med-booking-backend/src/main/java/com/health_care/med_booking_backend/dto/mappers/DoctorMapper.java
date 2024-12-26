@@ -9,6 +9,8 @@ public class DoctorMapper {
                 doctor.getId(),
                 doctor.getFirstName(),
                 doctor.getLastName(),
-                doctor.getSpecialization());
+                doctor.getSpecialization(),
+                doctor.getDoctorStatus()
+        );
     }
 }

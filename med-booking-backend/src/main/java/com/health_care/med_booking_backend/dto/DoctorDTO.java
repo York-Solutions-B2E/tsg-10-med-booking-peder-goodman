@@ -1,5 +1,6 @@
 package com.health_care.med_booking_backend.dto;
 
+import com.health_care.med_booking_backend.model.DoctorStatus;
 import com.health_care.med_booking_backend.model.Specialization;
 
 import lombok.AllArgsConstructor;
@@ -16,4 +17,5 @@ public class DoctorDTO {
     private String firstName;
     private String lastName;
     private Specialization specialization;
+    private DoctorStatus doctorStatus;
 }

@@ -42,9 +42,9 @@ public class DoctorController {
     }
 
     // Delete doctor
-    @PutMapping("/delete/{doctorId}")
+    @PutMapping("/deactivate/{doctorId}")
     public ResponseEntity<String> deleteDoctor(@PathVariable Long doctorId) {
-        return doctorService.deleteDoctor(doctorId);
+        return doctorService.deactivateDoctor(doctorId);
     }
 
     // Get a list of Doctors and Specializations

@@ -11,7 +11,9 @@ import com.health_care.med_booking_backend.dto.mappers.DoctorMapper;
 import com.health_care.med_booking_backend.dto.requests.DoctorRequest;
 import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationListResponse;
 import com.health_care.med_booking_backend.model.Appointment;
+import com.health_care.med_booking_backend.model.AppointmentStatus;
 import com.health_care.med_booking_backend.model.Doctor;
+import com.health_care.med_booking_backend.model.DoctorStatus;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.repository.DoctorRepository;
 import com.health_care.med_booking_backend.repository.SpecializationRepository;
@@ -97,16 +99,23 @@ public class DoctorService {
         return ResponseEntity.ok("Doctor Updated!");
     }
 
-    public ResponseEntity<String> deleteDoctor(Long doctorId) {
-        boolean doesDoctorExists = doctorRepository.existsById(doctorId);
+    @Transactional
+    public ResponseEntity<String> deactivateDoctor(Long doctorId) {
+        Optional<Doctor> doesDoctorExist = doctorRepository.findById(doctorId);
 
-        if (!doesDoctorExists) {
+        if (doesDoctorExist.isEmpty()) {
             return ResponseEntity.badRequest().body("Couldn't find Doctor with id " + doctorId + " in the Database");
         }
 
-        doctorRepository.deleteById(doctorId);
+        // TODO: check if there are any appts attached to a doctor, cancel them if there are.
 
-        return ResponseEntity.ok("Doctor Deleted! Doctor id is: " + doctorId);
+        doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctorId).forEach(appointment -> {
+            appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
+        });
+
+        doesDoctorExist.get().setDoctorStatus(DoctorStatus.INACTIVE);
+
+        return ResponseEntity.ok("Doctor set to INACTIVE! Connected Appointments Canceled!");
     }
 
     public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {

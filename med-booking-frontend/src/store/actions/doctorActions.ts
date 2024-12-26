@@ -2,9 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getSpecializationsAndDoctors = createAsyncThunk<any>("doctor/doctors-specializations", async () => {
-  const response = await axios.get<AuthCheckResponse>("api/doctors/doctors-specializations", {
+  const response = await axios.get<any>("api/doctors/doctors-specializations", {
     withCredentials: true,
   });
+
+  console.log("doctors are: ", response.data.doctors);
 
   return response.data;
 });
@@ -34,7 +36,7 @@ export const updateDoctor = createAsyncThunk("doctor/update", async (body: Docto
 });
 
 export const deleteDoctor = createAsyncThunk<any, number>("doctor/cancel", async (doctorId: number) => {
-  const response = await axios.delete<any>(`api/doctors/delete/${doctorId}`, {
+  const response = await axios.put<any>(`api/doctors/deactivate/${doctorId}`, {
     withCredentials: true,
   });
 });

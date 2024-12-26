@@ -13,7 +13,7 @@ export const LoginForm = () => {
   // * Form state
   const [email, setEmail] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
+  const [birthDate, setBirthDate] = useState<string>("");
   const [birthDateErrorMessage, setBirthDateErrorMessage] = useState("");
 
   // * Event handlers
@@ -22,8 +22,8 @@ export const LoginForm = () => {
     setEmailErrorMessage("");
   };
 
-  const handleDateChange = (newValue: any) => {
-    setBirthDate(newValue);
+  const handleDateChange = (newValue: Dayjs | null) => {
+    setBirthDate(newValue?.format("YYYY-MM-DD") || "");
     setBirthDateErrorMessage("");
   };
 
@@ -41,7 +41,7 @@ export const LoginForm = () => {
 
   const validateForm = () => {
     const isEmailValid = validateEmail(email);
-    const isBirthDateValid = validateDateIsInPast(birthDate);
+    const isBirthDateValid = validateDateIsInPast(dayjs(birthDate, "YYYY-MM-DD"));
 
     if (!isEmailValid) {
       setEmailErrorMessage("Invalid Email");
@@ -63,7 +63,7 @@ export const LoginForm = () => {
 
     const patientLoginData: PatientLoginRequest = {
       email,
-      birthdate: birthDate.format("YYYY-MM-DD"),
+      birthdate: birthDate,
     };
 
     if (validateForm()) {
@@ -82,7 +82,7 @@ export const LoginForm = () => {
 
   // hidden button for testing
   const hiddenButton = () => {
-    setBirthDate(dayjs("1995-11-25"));
+    setBirthDate("1995-11-25");
     setEmail("aspen.grove@example.com");
   };
 
@@ -102,7 +102,13 @@ export const LoginForm = () => {
           errorMessage={emailErrorMessage}
         />
 
-        <CustomDatePicker errorMessage={birthDateErrorMessage} birthDate={birthDate} onChange={handleDateChange} label="Birth Date" disableFuture={true} />
+        <CustomDatePicker
+          errorMessage={birthDateErrorMessage}
+          selectedDate={birthDate}
+          onChange={handleDateChange}
+          label="Birth Date"
+          disableFuture={true}
+        />
 
         <CustomButton buttonText="Login" onClick={handleClickLoginButton} />
 

@@ -12,7 +12,7 @@ import { createAppointment, updateAppointment } from "../../store/actions/appoin
 import { getDoctorAvailability } from "../../store/actions/doctorActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import { validateDateIsInFuture } from "../../utils/validationFunctions";
+import { validateDateIsInFuture, validateTimeIsInFuture } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
 import { SpecializationDropdownInput } from "../inputs/SpecializationDropdownInput";
@@ -22,10 +22,10 @@ import { AppointmentConfirmationModal } from "../modals/AppointmentConfirmationM
 
 export const AppointmentForm = (props: AppointmentFormProps) => {
   // * Props & Store state
-  const { editFormData, isEditing, onCancel, closeModal } = props; // ! change to correct function names
+  const { formData, isEditing, onCancel, closeModal } = props; // ! change to correct function names
   const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
-  const patientBirthdate = dayjs(patientDetails.birthdate).format("MMM DD, YYYY");
+  const formattedPatientBirthdate = dayjs(patientDetails.birthdate).format("MMM DD, YYYY");
 
   // * Initial Form state
   const [appointmentFormData, setAppointmentFormData] = useState<AppointmentRequest | undefined>(undefined);
@@ -33,10 +33,10 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   const [visitTypeSelection, setVisitTypeSelection] = useState<VisitType | "">("");
   const [visitTypeErrorMessage, setVisitTypeErrorMessage] = useState("");
   // Appointment Date
-  const [appointmentDate, setAppointmentDate] = useState<Dayjs | null>(null);
+  const [appointmentDate, setAppointmentDate] = useState<string>("");
   const [appointmentDateErrorMessage, setAppointmentDateErrorMessage] = useState("");
   // Appointment Time
-  const [appointmentTime, setAppointmentTime] = useState<Dayjs | null>(null);
+  const [appointmentTime, setAppointmentTime] = useState<string>("");
   const [appointmentTimeErrorMessage, setAppointmentTimeErrorMessage] = useState("");
   // Specialization
   const [selectedSpecialization, setSelectedSpecialization] = useState<Specialization | "">("");
@@ -49,19 +49,17 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   const [unavailableTimes, setUnavailableTimes] = useState<string[]>([]);
 
   useEffect(() => {
-    if (isEditing && editFormData) {
+    if (isEditing && formData) {
       // set the filtered doctors based on the selected specialization
-      const specializationId = editFormData.doctor.specialization.id;
+      const specializationId = formData.doctor.specialization.id;
       setFilteredDoctors(availableDoctors.filter((doctor) => doctor.specialization.id === specializationId));
 
-      setSelectedSpecialization(editFormData.doctor.specialization);
-      setDoctorSelection(editFormData.doctor);
-      // formatting time
-      setAppointmentDate(dayjs(editFormData.appointmentDate));
-      const dateTime = dayjs(editFormData.appointmentDate + editFormData.appointmentTime);
-      setAppointmentTime(dateTime);
+      setSelectedSpecialization(formData.doctor.specialization);
+      setDoctorSelection(formData.doctor);
+      setAppointmentDate(formData.appointmentDate);
+      setAppointmentTime(formData.appointmentTime);
 
-      setVisitTypeSelection(editFormData.visitType);
+      setVisitTypeSelection(formData.visitType);
     }
   }, []);
 
@@ -71,13 +69,13 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     setVisitTypeErrorMessage("");
   };
 
-  const handleAppointmentDateChange = (newValue: any) => {
-    setAppointmentDate(newValue);
+  const handleAppointmentDateChange = (newValue: Dayjs | null) => {
+    setAppointmentDate(newValue?.format("YYYY-MM-DD") || "");
     setAppointmentDateErrorMessage("");
-    setAppointmentTime(null);
+    setAppointmentTime("");
   };
 
-  const handleAppointmentTimeChange = (newValue: any) => {
+  const handleAppointmentTimeChange = (newValue: string) => {
     setAppointmentTime(newValue);
     setAppointmentTimeErrorMessage("");
   };
@@ -88,8 +86,8 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     setSelectSpecializationErrorMessage("");
 
     // rest date fields
-    setAppointmentDate(null);
-    setAppointmentTime(null);
+    setAppointmentDate("");
+    setAppointmentTime("");
 
     // filter doctors based on selected specialization
     if (newValue !== "") {
@@ -110,7 +108,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
       store.dispatch(getDoctorAvailability(newValue.id));
     }
     // clear appointment time if doctor selection changes
-    setAppointmentTime(null);
+    setAppointmentTime("");
   };
 
   // * Confirmation Modal handlers
@@ -121,7 +119,6 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   };
 
   const handleConfirmSubmit = () => {
-    console.log("Submitting appointment form data");
     if (isEditing) {
       submitEditAppointment();
     } else {
@@ -151,9 +148,11 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
 
   // * Form validation
   const validateForm = () => {
+    const appointmentDateTime = dayjs(appointmentDate + appointmentTime);
+
     const isVisitTypeValid = visitTypeSelection.length > 0;
-    const isAppointmentDateValid = validateDateIsInFuture(appointmentDate);
-    const isAppointmentTimeValid = validateDateIsInFuture(appointmentTime);
+    const isAppointmentDateValid = validateDateIsInFuture(dayjs(appointmentDate, "YYYY-MM-DD"));
+    const isAppointmentTimeValid = validateTimeIsInFuture(appointmentDateTime);
     const isSpecializationValid = selectedSpecialization !== "";
     const isDoctorValid = selectedDoctor !== "";
 
@@ -192,11 +191,11 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     }
 
     const appointmentFormMergeData = {
-      id: editFormData?.id,
+      id: formData?.id,
       patient: patientDetails,
       doctor: selectedDoctor, // contains specialization
-      appointmentDate: appointmentDate.format("YYYY-MM-DD"),
-      appointmentTime: appointmentTime.format("HH:mm"),
+      appointmentDate: appointmentDate,
+      appointmentTime: appointmentTime,
       visitType: visitTypeSelection,
     };
 
@@ -252,7 +251,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
           </Typography>
           <Typography>{`Patient Name: ${patientDetails.firstName} ${patientDetails.lastName}`}</Typography>
           <Typography>{`Patient Email: ${patientDetails.email}`}</Typography>
-          <Typography>{`Date of Birth: ${patientBirthdate}`}</Typography>
+          <Typography>{`Date of Birth: ${formattedPatientBirthdate}`}</Typography>
         </Box>
         <FormControl sx={formStyling}>
           <SpecializationDropdownInput
@@ -278,7 +277,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
             <CustomDatePicker
               disabled={selectedDoctor === ""}
               errorMessage={appointmentDateErrorMessage}
-              birthDate={appointmentDate}
+              selectedDate={appointmentDate}
               onChange={handleAppointmentDateChange}
               label="Appointment Date"
               disablePast={true}

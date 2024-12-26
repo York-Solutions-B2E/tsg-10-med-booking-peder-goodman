@@ -1,22 +1,19 @@
 import { Box, FormControl, FormHelperText } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
 import CustomButton from "../inputs/CustomButton";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { CustomTextField } from "../inputs/CustomTextInput";
 
+import dayjs from "dayjs";
 import { signupPatient } from "../../store/actions/userActions";
 import { store } from "../../store/store";
-import {
-  validateDateIsInPast,
-  validateEmail,
-} from "../../utils/validationFunctions";
+import { validateDateIsInPast, validateEmail } from "../../utils/validationFunctions";
 
 export const SignupForm = () => {
   // * Form state
   const [email, setEmail] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
+  const [birthDate, setBirthDate] = useState<string>("");
   const [birthDateErrorMessage, setBirthDateErrorMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
@@ -59,7 +56,7 @@ export const SignupForm = () => {
   // * Form validation
   const validateForm = () => {
     const isEmailValid = validateEmail(email);
-    const isBirthDateValid = validateDateIsInPast(birthDate);
+    const isBirthDateValid = validateDateIsInPast(dayjs(birthDate, "YYYY-MM-DD"));
     const isFirstNameValid = firstName.length > 0;
     const isLastNameValid = lastName.length > 0;
 
@@ -79,9 +76,7 @@ export const SignupForm = () => {
       setLastNameErrorMessage("Please enter your last name");
     }
 
-    return (
-      isEmailValid && isBirthDateValid && isFirstNameValid && isLastNameValid
-    );
+    return isEmailValid && isBirthDateValid && isFirstNameValid && isLastNameValid;
   };
 
   // * Form submission
@@ -95,7 +90,7 @@ export const SignupForm = () => {
       firstName,
       lastName,
       email,
-      birthdate: birthDate.format("YYYY-MM-DD"),
+      birthdate: birthDate,
     };
 
     if (validateForm()) {
@@ -113,12 +108,12 @@ export const SignupForm = () => {
   };
 
   // hidden button for testing
-const hiddenButton = () => {
-  setBirthDate(dayjs("1998-02-25"))
-  setEmail("newemail1@email.com")
-  setFirstName("Jerry")
-  setLastName("Fisher")
-}
+  const hiddenButton = () => {
+    setBirthDate("1998-02-25");
+    setEmail("newemail1@email.com");
+    setFirstName("Jerry");
+    setLastName("Fisher");
+  };
 
   return (
     <Box sx={formContainerStyling}>
@@ -156,7 +151,7 @@ const hiddenButton = () => {
 
         <CustomDatePicker
           errorMessage={birthDateErrorMessage}
-          birthDate={birthDate}
+          selectedDate={birthDate}
           onChange={handleDateChange}
           label="Birth Date"
           disableFuture={true}

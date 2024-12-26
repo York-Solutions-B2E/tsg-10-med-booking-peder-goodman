@@ -3,26 +3,25 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import dayjs, { Dayjs } from "dayjs";
 import { generateTimeSlots } from "../../utils/helperFunctions";
 
-interface TimeSlot {
-  date: string;
-  time: string;
-  isAvailable: boolean;
-}
+// interface TimeSlot {
+//   date: string;
+//   time: string;
+//   isAvailable: boolean;
+// }
+
+const dropdownFieldStyling = {
+  backgroundColor: "white",
+};
 
 export const TimeDropdownInput = (props: TimeDropdownInputProps) => {
   const { inputId, label, disabled, errorMessage, selectedDate, doctorAvailability, selectedValue, onChange } = props;
 
-  const dropdownFieldStyling = {
-    backgroundColor: "white",
-  };
+  const formattedSelectedValue = selectedValue ? dayjs(selectedValue, "HH:mm").format("HH:mm A") : "";
 
   const handleChange = (event: SelectChangeEvent) => {
-    const selectedTime = dayjs(event.target.value, "HH:mm A");
-    let updatedDateTime = dayjs();
-    if (selectedDate) {
-      updatedDateTime = selectedDate.hour(selectedTime.hour()).minute(selectedTime.minute());
-      onChange(updatedDateTime);
-    }
+    const updatedDateTimeFormatted = dayjs(event.target.value, "HH:mm A").format("HH:mm");
+
+    onChange(updatedDateTimeFormatted);
   };
 
   // Filter out unavailable time slots
@@ -40,7 +39,7 @@ export const TimeDropdownInput = (props: TimeDropdownInputProps) => {
     //   const slotTime = dayjs(`${selectedDateTime.format("YYYY-MM-DD")} ${slot}`, "YYYY-MM-DD HH:mm A");
     //   const isPast = slotTime.isBefore(today);
     //   const isTaken = doctorAvailability.some((appointment: { appointmentDate: any; appointmentTime: any; }) => {
-    //     const appointmentTime = dayjs(`${appointment.appointmentDate} ${appointment.appointmentTime}`, "YYYY-MM-DD HH:mm");
+    //     const appointmentTime = dayjs(`${appointment.appointmentDate} ${appointment.appointmentTime}`, "YYYY-MM-DD HH:mm A");
     //     return slotTime.isSame(appointmentTime);
     //   }
     // );
@@ -60,7 +59,7 @@ export const TimeDropdownInput = (props: TimeDropdownInputProps) => {
         id={inputId}
         label={label}
         labelId={`${inputId}-label`}
-        value={selectedValue?.format("HH:mm A") || ""}
+        value={formattedSelectedValue}
         disabled={disabled}
         onChange={handleChange}
         error={!!errorMessage}

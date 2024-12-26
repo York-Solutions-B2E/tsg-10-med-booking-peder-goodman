@@ -62,34 +62,34 @@ declare global {
     inputId: string;
     label: string;
     disabled: boolean;
-    selectedDate: Dayjs | null;
+    selectedDate: string;
     errorMessage: string;
     doctorAvailability: DoctorAvailability | null;
-    selectedValue: Dayjs | null;
-    onChange: (value: Dayjs | null) => void;
+    selectedValue: string;
+    onChange: (value: string) => void;
   }
 
   interface CustomDatePickerProps {
     label: string;
-    birthDate: any;
+    selectedDate: string;
     disabled?: boolean;
-    onChange: (date: any) => void;
+    onChange: (date: Dayjs | null) => void;
     errorMessage: string;
     disableFuture?: boolean;
     disablePast?: boolean;
   }
   interface CustomTimePickerProps {
     label: string;
-    birthDate: any;
+    selectedTime: string;
     disabled?: boolean;
-    onChange: (date: any) => void;
+    onChange: (date: string) => void;
     errorMessage: string;
     disableFuture?: boolean;
     disablePast?: boolean;
   }
 
   interface AppointmentFormProps {
-    editFormData?: AppointmentRequest;
+    formData?: AppointmentRequest;
     isEditing?: boolean;
     onCancel: () => void;
     closeModal: () => void;

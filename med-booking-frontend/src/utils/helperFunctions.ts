@@ -21,4 +21,18 @@ const generateTimeSlots = (firstHour: number, lastHour: number) => {
   return slots;
 };
 
-export { calculateAge, generateTimeSlots };
+const checkIfAppointmentIsEditable = (appointment: Appointment) => {
+  if (appointment.appointmentStatus === "CANCELED") {
+    return false;
+  }
+
+  const isAppointmentDateInThePast = dayjs(appointment.appointmentDate + appointment.appointmentTime).isBefore(dayjs());
+
+  if (isAppointmentDateInThePast) {
+    return false;
+  }
+
+  return true;
+};
+
+export { calculateAge, generateTimeSlots, checkIfAppointmentIsEditable };

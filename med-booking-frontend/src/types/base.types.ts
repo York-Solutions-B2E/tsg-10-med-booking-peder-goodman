@@ -30,6 +30,7 @@ declare global {
     firstName: string;
     lastName: string;
     specialization: Specialization;
+    doctorStatus: DoctorStatus;
   }
 
   interface Specialization {
@@ -40,6 +41,8 @@ declare global {
   interface DoctorAvailability extends DoctorDetails {
     selectedDoctorAvailability: DoctorAppointment[];
   }
+
+  type DoctorStatus = "ACTIVE" | "INACTIVE";
 
   // ** Appointments
 

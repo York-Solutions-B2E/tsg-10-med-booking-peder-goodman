@@ -21,7 +21,7 @@ const DeactivateDoctorModalButton = (props: DoctorModalButtonProps) => {
 
   const submitConfirmation = async () => {
     setConfirmCancelOpen(false);
-    // Delete the doctor and refresh the doctor list
+    // Deactivate the doctor and refresh the doctor list
     await store.dispatch(deactivateDoctor(doctor.id));
     store.dispatch(getSpecializationsAndDoctors());
   };
@@ -34,7 +34,7 @@ const DeactivateDoctorModalButton = (props: DoctorModalButtonProps) => {
   return (
     <>
       <IconButton sx={buttonStyle} color="error" onClick={handleClickButton}>
-        <Tooltip title="Delete Forever">
+        <Tooltip title="Deactivate Doctor">
           <DeleteForeverIcon />
         </Tooltip>
       </IconButton>
@@ -45,7 +45,7 @@ const DeactivateDoctorModalButton = (props: DoctorModalButtonProps) => {
         open={confirmCancelOpen}
         onDismiss={dismissConfirmation}
         onConfirmAction={submitConfirmation}
-        confirmButtonText="Delete"
+        confirmButtonText="Deactivate"
       />
     </>
   );

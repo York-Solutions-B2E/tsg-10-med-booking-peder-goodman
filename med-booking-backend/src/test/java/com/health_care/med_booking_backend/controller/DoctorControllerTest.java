@@ -113,7 +113,7 @@ class DoctorControllerTest {
         assertEquals("Doctor Updated!", response.getBody());
     }
 
-    // * Test delete Doctor
+    // * Test deactivate Doctor
     @Test
     void deactivateDoctor_NotFound() {
         when(doctorService.deactivateDoctor(1L))

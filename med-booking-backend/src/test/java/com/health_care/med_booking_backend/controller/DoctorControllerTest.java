@@ -115,22 +115,22 @@ class DoctorControllerTest {
 
     // * Test delete Doctor
     @Test
-    void deleteDoctor_NotFound() {
-        when(doctorService.deleteDoctor(1L))
+    void deactivateDoctor_NotFound() {
+        when(doctorService.deactivateDoctor(1L))
                 .thenReturn(ResponseEntity.status(400).body("Couldn't find Doctor with id 1 in the Database"));
 
-        ResponseEntity<String> response = doctorController.deleteDoctor(1L);
+        ResponseEntity<String> response = doctorController.deactivateDoctor(1L);
 
         assertEquals(400, response.getStatusCode().value());
         assertEquals("Couldn't find Doctor with id 1 in the Database", response.getBody());
     }
 
     @Test
-    void testDeleteDoctor_doctorExists() {
-        when(doctorService.deleteDoctor(1L))
+    void testdeactivateDoctor_doctorExists() {
+        when(doctorService.deactivateDoctor(1L))
                 .thenReturn(ResponseEntity.status(200).body("Doctor Deleted! Doctor id is: 1"));
 
-        ResponseEntity<String> response = doctorController.deleteDoctor(1L);
+        ResponseEntity<String> response = doctorController.deactivateDoctor(1L);
 
         assertEquals(200, response.getStatusCode().value());
         assertEquals("Doctor Deleted! Doctor id is: 1", response.getBody());

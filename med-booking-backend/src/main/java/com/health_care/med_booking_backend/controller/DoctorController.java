@@ -43,7 +43,7 @@ public class DoctorController {
 
     // Delete doctor
     @PutMapping("/deactivate/{doctorId}")
-    public ResponseEntity<String> deleteDoctor(@PathVariable Long doctorId) {
+    public ResponseEntity<String> deactivateDoctor(@PathVariable Long doctorId) {
         return doctorService.deactivateDoctor(doctorId);
     }
 

@@ -1,11 +1,11 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
-import { deleteDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
+import { deactivateDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
 import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 
-const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
+const DeactivateDoctorModalButton = (props: DoctorModalButtonProps) => {
   const { doctor } = props;
 
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
@@ -22,7 +22,7 @@ const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
   const submitConfirmation = async () => {
     setConfirmCancelOpen(false);
     // Delete the doctor and refresh the doctor list
-    await store.dispatch(deleteDoctor(doctor.id));
+    await store.dispatch(deactivateDoctor(doctor.id));
     store.dispatch(getSpecializationsAndDoctors());
   };
 
@@ -51,4 +51,4 @@ const DeleteDoctorModalButton = (props: DoctorModalButtonProps) => {
   );
 };
 
-export default DeleteDoctorModalButton;
+export default DeactivateDoctorModalButton;

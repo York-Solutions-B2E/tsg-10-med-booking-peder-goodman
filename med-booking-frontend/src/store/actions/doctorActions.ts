@@ -35,7 +35,7 @@ export const updateDoctor = createAsyncThunk("doctor/update", async (body: Docto
   return response.data;
 });
 
-export const deleteDoctor = createAsyncThunk<any, number>("doctor/cancel", async (doctorId: number) => {
+export const deactivateDoctor = createAsyncThunk<any, number>("doctor/deactivate", async (doctorId: number) => {
   const response = await axios.put<any>(`api/doctors/deactivate/${doctorId}`, {
     withCredentials: true,
   });

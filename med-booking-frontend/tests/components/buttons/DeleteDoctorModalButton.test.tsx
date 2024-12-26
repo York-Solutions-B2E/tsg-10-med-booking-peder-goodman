@@ -1,8 +1,8 @@
 export {};
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-import DeleteDoctorModalButton from "../../../src/Components/buttons/DeleteDoctorModalButton";
-import { deleteDoctor, getSpecializationsAndDoctors } from "../../../src/store/actions/doctorActions";
+import DeactivateDoctorModalButton from "../../../src/Components/buttons/DeactivateDoctorModalButton";
+import { deactivateDoctor, getSpecializationsAndDoctors } from "../../../src/store/actions/doctorActions";
 import { store } from "../../../src/store/store";
 
 const mockEditDoctor: DoctorDetails = {
@@ -18,7 +18,7 @@ const mockEditDoctor: DoctorDetails = {
 jest.mock("../../../src/store/store");
 jest.mock("../../../src/store/actions/doctorActions");
 
-describe("DeleteDoctorModalButton", () => {
+describe("DeactivateDoctorModalButton", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -26,7 +26,7 @@ describe("DeleteDoctorModalButton", () => {
   test("renders the Add Doctor button", () => {
     render(
       <Provider store={store}>
-        <DeleteDoctorModalButton doctor={mockEditDoctor} />
+        <DeactivateDoctorModalButton doctor={mockEditDoctor} />
       </Provider>
     );
 
@@ -36,7 +36,7 @@ describe("DeleteDoctorModalButton", () => {
   test("opens the confirm delete modal when when delete icon is clicked", () => {
     render(
       <Provider store={store}>
-        <DeleteDoctorModalButton doctor={mockEditDoctor} />
+        <DeactivateDoctorModalButton doctor={mockEditDoctor} />
       </Provider>
     );
     fireEvent.click(screen.getByTestId("DeleteForeverIcon"));
@@ -49,7 +49,7 @@ describe("DeleteDoctorModalButton", () => {
   test("closes the confirm delete modal without deleting doctor", async () => {
     render(
       <Provider store={store}>
-        <DeleteDoctorModalButton doctor={mockEditDoctor} />
+        <DeactivateDoctorModalButton doctor={mockEditDoctor} />
       </Provider>
     );
     fireEvent.click(screen.getByTestId("DeleteForeverIcon"));
@@ -68,7 +68,7 @@ describe("DeleteDoctorModalButton", () => {
     // render the component
     render(
       <Provider store={store}>
-        <DeleteDoctorModalButton doctor={mockEditDoctor} />
+        <DeactivateDoctorModalButton doctor={mockEditDoctor} />
       </Provider>
     );
 
@@ -81,7 +81,7 @@ describe("DeleteDoctorModalButton", () => {
       expect(screen.queryByRole("button", { name: /Delete/i })).not.toBeInTheDocument();
     });
 
-    expect(mockDispatch).toHaveBeenCalledWith(deleteDoctor(3));
+    expect(mockDispatch).toHaveBeenCalledWith(deactivateDoctor(3));
     expect(mockDispatch).toHaveBeenCalledWith(getSpecializationsAndDoctors());
   });
 });

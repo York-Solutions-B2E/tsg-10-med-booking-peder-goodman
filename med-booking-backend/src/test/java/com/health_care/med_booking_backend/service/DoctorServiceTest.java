@@ -90,13 +90,13 @@ public class DoctorServiceTest {
         verify(doctorRepository, times(1)).save(any(Doctor.class));
     }
 
-    // * Tests for deleteDoctor method
+    // * Tests for deactivateDoctor method
     // Test case 1: Doctor does not exist in the database
     @Test
-    void testDeleteDoctor_doctorDoesntExist() {
+    void testDeactivateDoctor_doctorDoesntExist() {
         when(doctorRepository.existsById(1L)).thenReturn(false);
 
-        ResponseEntity<String> response = doctorService.deleteDoctor(1L);
+        ResponseEntity<String> response = doctorService.deactivateDoctor(1L);
 
         assertEquals(400, response.getStatusCode().value());
         assertEquals("Couldn't find Doctor with id 1 in the Database", response.getBody());
@@ -105,10 +105,10 @@ public class DoctorServiceTest {
 
     // Test case 2: Doctor exists in the database
     @Test
-    void testDeleteDoctor_doctorExists() {
+    void testDeactivateDoctor_doctorExists() {
         when(doctorRepository.existsById(2L)).thenReturn(true);
 
-        ResponseEntity<String> response = doctorService.deleteDoctor(2L);
+        ResponseEntity<String> response = doctorService.deactivateDoctor(2L);
 
         assertEquals(200, response.getStatusCode().value());
         assertEquals("Doctor Deleted! Doctor id is: 2", response.getBody());

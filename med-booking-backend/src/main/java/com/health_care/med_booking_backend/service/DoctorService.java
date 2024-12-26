@@ -107,15 +107,26 @@ public class DoctorService {
             return ResponseEntity.badRequest().body("Couldn't find Doctor with id " + doctorId + " in the Database");
         }
 
-        // TODO: check if there are any appts attached to a doctor, cancel them if there are.
-
         doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctorId).forEach(appointment -> {
             appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
         });
 
         doesDoctorExist.get().setDoctorStatus(DoctorStatus.INACTIVE);
 
-        return ResponseEntity.ok("Doctor set to INACTIVE! Connected Appointments Canceled!");
+        return ResponseEntity.ok("Doctor set to Inactive! Connected Appointments Canceled!");
+    }
+
+    @Transactional
+    public ResponseEntity<String> activateDoctor(Long doctorId) {
+        Optional<Doctor> doesDoctorExist = doctorRepository.findById(doctorId);
+
+        if (doesDoctorExist.isEmpty()) {
+            return ResponseEntity.badRequest().body("Couldn't find Doctor with id " + doctorId + " in the Database");
+        }
+
+        doesDoctorExist.get().setDoctorStatus(DoctorStatus.ACTIVE);
+
+        return ResponseEntity.ok("Doctor set to Active!");
     }
 
     public ResponseEntity<DoctorSpecializationListResponse> getListOfDoctorsAndSpecializations() {

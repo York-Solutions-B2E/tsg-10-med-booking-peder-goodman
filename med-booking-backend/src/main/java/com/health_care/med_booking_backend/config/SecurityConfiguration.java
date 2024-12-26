@@ -28,7 +28,6 @@ public class SecurityConfiguration {
                 // Enable CORS and CSRF protection
                 .csrf((csrf) -> csrf
                         // allow access to the following paths without CSRF protection for POST, PUT,
-                        // DELETE
                         .ignoringRequestMatchers("/api/patients/**", "/api/appointments/**",
                                 "/api/doctors/doctors-specializations", "/api/doctors/get/*")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())

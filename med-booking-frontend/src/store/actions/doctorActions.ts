@@ -40,3 +40,9 @@ export const deactivateDoctor = createAsyncThunk<any, number>("doctor/deactivate
     withCredentials: true,
   });
 });
+
+export const activateDoctor = createAsyncThunk<any, number>("doctor/activate", async (doctorId: number) => {
+  const response = await axios.put<any>(`api/doctors/activate/${doctorId}`, {
+    withCredentials: true,
+  });
+});

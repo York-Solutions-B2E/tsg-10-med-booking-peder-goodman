@@ -41,10 +41,16 @@ public class DoctorController {
         return doctorService.updateDoctor(doctorDTO);
     }
 
-    // Delete doctor
+    // Deactivate doctor
     @PutMapping("/deactivate/{doctorId}")
     public ResponseEntity<String> deactivateDoctor(@PathVariable Long doctorId) {
         return doctorService.deactivateDoctor(doctorId);
+    }
+    
+    // Activate doctor
+    @PutMapping("/activate/{doctorId}")
+    public ResponseEntity<String> activateDoctor(@PathVariable Long doctorId) {
+        return doctorService.activateDoctor(doctorId);
     }
 
     // Get a list of Doctors and Specializations

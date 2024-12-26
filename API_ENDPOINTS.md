@@ -172,18 +172,32 @@
   }
   ```
 
-### Delete Doctor
+  ### Deactivate Doctor
 
-- **URL**: `/api/doctors/delete/{doctorId}`
-- **Method**: `DELETE`
-- **Headers**: withCredentials: true
-- **Description**: Deletes a doctor by ID.
-- **Response**:
-  ```json
-  {
-    "message": "Doctor Deleted! Doctor id is: 1"
-  }
-  ```
+  - **URL**: `/api/doctors/deactivate/{doctorId}`
+  - **Method**: `PUT`
+  - **Headers**: withCredentials: true
+  - **Description**: Deactivates a doctor by ID.
+  - **Response**:
+    ```json
+    {
+      "message": "Doctor set to Inactive! Connected Appointments Canceled!"
+    }
+    ```
+
+  ### Activate Doctor
+
+  - **URL**: `/api/doctors/activate/{doctorId}`
+  - **Method**: `PUT`
+  - **Headers**: withCredentials: true
+  - **Description**: Activates a doctor by ID.
+  - **Response**:
+    ```json
+    {
+      "message": "Doctor set to Active!"
+    }
+    ```
+
 
 ### Get List of Doctors and Specializations
 

@@ -28,6 +28,7 @@ const mockEditAppointment: Appointment = {
       id: 1,
       name: "Cardiology",
     },
+    doctorStatus: "ACTIVE",
   },
   appointmentStatus: "CONFIRMED",
 };
@@ -74,7 +75,7 @@ describe("CancelAppointmentModalButton", () => {
     expect(screen.getByRole("button", { name: /Yes/i })).toBeInTheDocument();
   });
 
-  test("opens the confirm delete modal when when delete icon is clicked", () => {
+  test("opens the confirm deactivate modal when when delete icon is clicked", () => {
     render(
       <Provider store={store}>
         <CancelAppointmentModalButton appointment={mockEditAppointment} />
@@ -111,7 +112,7 @@ describe("CancelAppointmentModalButton", () => {
       expect(screen.getByRole("button", { name: /Delete/i })).not.toBeInTheDocument();
       expect(store.dispatch).toHaveBeenCalledWith(cancelAppointment(1));
       expect(store.dispatch).toHaveBeenCalledWith(getPatientDetails(14));
-      // todo: check if the deleteDoctor action was called
+      // todo: check if the deactivateDoctor action was called
     });
   });
 });

@@ -5,10 +5,10 @@ import { ButtonWithText } from "../Components/buttons/ButtonWithText";
 import DoctorDataGrid from "../Components/data-display/DoctorDataGrid";
 import { DoctorForm } from "../Components/forms/DoctorForm";
 import { FormModal } from "../Components/modals/FormModal";
-import { useCustomModal } from "../Components/modals/useCustomModal";
 import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
+import { useCustomModal } from "../utils/useCustomModal";
 
 const AdminPage = () => {
   const [isFormOpen, openFormModal, closeFormModal] = useCustomModal();

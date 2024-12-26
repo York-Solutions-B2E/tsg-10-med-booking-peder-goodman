@@ -7,11 +7,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { activateDoctor, deactivateDoctor, getSpecializationsAndDoctors } from "../../store/actions/doctorActions";
 import { store } from "../../store/store";
+import { useCustomModal } from "../../utils/useCustomModal";
 import { ButtonIconWithToolTip } from "../buttons/ButtonIconWithToolTip";
 import { DoctorForm } from "../forms/DoctorForm";
 import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 import { FormModal } from "../modals/FormModal";
-import { useCustomModal } from "../modals/useCustomModal";
 
 // ******** FUNCTION START
 export default function DoctorDataGrid() {

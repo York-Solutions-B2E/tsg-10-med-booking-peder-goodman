@@ -10,11 +10,11 @@ import { cancelAppointment } from "../../store/actions/appointmentActions";
 import { getPatientDetails } from "../../store/actions/userActions";
 import { store } from "../../store/store";
 import { calculateAge, checkIfAppointmentIsEditable } from "../../utils/helperFunctions";
+import { useCustomModal } from "../../utils/useCustomModal";
 import { ButtonIconWithToolTip } from "../buttons/ButtonIconWithToolTip";
 import { AppointmentForm } from "../forms/AppointmentForm";
 import { ConfirmActionModal } from "../modals/ConfirmActionModal";
 import { FormModal } from "../modals/FormModal";
-import { useCustomModal } from "../modals/useCustomModal";
 
 // ******** FUNCTION START
 export default function AppointmentDataGrid() {

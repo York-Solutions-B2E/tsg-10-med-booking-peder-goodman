@@ -5,10 +5,10 @@ import { ButtonWithText } from "../Components/buttons/ButtonWithText";
 import PatientAppointmentDataGrid from "../Components/data-display/AppointmentDataGrid";
 import { AppointmentForm } from "../Components/forms/AppointmentForm";
 import { FormModal } from "../Components/modals/FormModal";
-import { useCustomModal } from "../Components/modals/useCustomModal";
 import { getSpecializationsAndDoctors } from "../store/actions/doctorActions";
 import { checkUserAuthentication } from "../store/actions/userActions";
 import { store } from "../store/store";
+import { useCustomModal } from "../utils/useCustomModal";
 
 export const AppointmentPage = () => {
   const [isFormOpen, openFormModal, closeFormModal] = useCustomModal();

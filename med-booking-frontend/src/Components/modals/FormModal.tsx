@@ -1,7 +1,7 @@
 import { Dialog } from "@mui/material";
 import { ModalTransition } from "../../utils/ModalTransition";
+import { useCustomModal } from "../../utils/useCustomModal";
 import { ConfirmActionModal } from "./ConfirmActionModal";
-import { useCustomModal } from "./useCustomModal";
 
 interface FormModalProps {
   open: boolean;

@@ -107,7 +107,7 @@ public class DoctorService {
             return ResponseEntity.badRequest().body("Couldn't find Doctor with id " + doctorId + " in the Database");
         }
 
-        doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctorId).forEach(appointment -> {
+        doctorRepository.findAppointmentsByDoctorIdAndNotCanceled(doctorId).forEach(appointment -> {
             appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
         });
 
@@ -154,7 +154,7 @@ public class DoctorService {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new IllegalStateException("Doctor with id " + doctorId + " does not exist"));
 
-        List<Appointment> filteredAppointments = doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctorId);
+        List<Appointment> filteredAppointments = doctorRepository.findAppointmentsByDoctorIdAndNotCanceled(doctorId);
 
         doctor.setDoctorAppointments(filteredAppointments);
 

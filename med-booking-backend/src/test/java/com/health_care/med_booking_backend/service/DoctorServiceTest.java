@@ -1,10 +1,5 @@
 package com.health_care.med_booking_backend.service;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -12,10 +7,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,6 +31,7 @@ import com.health_care.med_booking_backend.dto.responses.DoctorSpecializationLis
 import com.health_care.med_booking_backend.model.Appointment;
 import com.health_care.med_booking_backend.model.AppointmentStatus;
 import com.health_care.med_booking_backend.model.Doctor;
+import com.health_care.med_booking_backend.model.DoctorStatus;
 import com.health_care.med_booking_backend.model.Patient;
 import com.health_care.med_booking_backend.model.Specialization;
 import com.health_care.med_booking_backend.model.VisitType;
@@ -143,7 +148,7 @@ public class DoctorServiceTest {
                 VisitType.IN_PERSON, AppointmentStatus.CANCELED);
 
         when(doctorRepository.findById(1L)).thenReturn(Optional.of(doctor));
-        when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(1L))
+        when(doctorRepository.findAppointmentsByDoctorIdAndNotCanceled(1L))
                 .thenReturn(Arrays.asList(appointment1, appointment2));
 
         Doctor expectedResult = new Doctor("John", "Doe", cardiology);
@@ -156,7 +161,7 @@ public class DoctorServiceTest {
         assertEquals(200, response.getStatusCode().value());
         assertEquals(expectedResult, response.getBody());
         verify(doctorRepository, times(1)).findById(1L);
-        verify(doctorRepository, times(1)).findAppointmentsByDoctorIdAndNotBooked(1L);
+        verify(doctorRepository, times(1)).findAppointmentsByDoctorIdAndNotCanceled(1L);
     }
 
     // * Tests for getListOfDoctorsAndSpecializations method
@@ -263,7 +268,7 @@ public class DoctorServiceTest {
     // * Tests for updateDoctor method
     @Test
     void testUpdateDoctor_NotFound() {
-        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "John", "Doe", new Specialization(1L, "Cardiology"));
+        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "John", "Doe", new Specialization(1L, "Cardiology"), DoctorStatus.ACTIVE);
 
         when(doctorRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -276,7 +281,7 @@ public class DoctorServiceTest {
 
     @Test
     void testUpdateDoctor_NoChangesNeeded() {
-        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "John", "Doe", new Specialization(1L, "Cardiology"));
+        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "John", "Doe", new Specialization(1L, "Cardiology"), DoctorStatus.ACTIVE);
         Doctor existingDoctor = new Doctor("John", "Doe", new Specialization(1L, "Cardiology"));
         existingDoctor.setId(1L);
 
@@ -290,8 +295,8 @@ public class DoctorServiceTest {
 
     @Test
     void testUpdateDoctor_MultipleFieldsUpdated() {
-        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(2L, "Dermatology"));
-        Doctor existingDoctor = new Doctor("John", "Doe", new Specialization(1L, "Cardiology"));
+        DoctorDTO doctorUpdateRequest = new DoctorDTO(1L, "Jane", "Smith", new Specialization(2L, "Dermatology"),DoctorStatus.ACTIVE);
+        Doctor existingDoctor = new Doctor("John", "Doe", new Specialization(1L, "Cardiology"),DoctorStatus.ACTIVE);
         existingDoctor.setId(1L);
 
         when(doctorRepository.findById(1L)).thenReturn(Optional.of(existingDoctor));

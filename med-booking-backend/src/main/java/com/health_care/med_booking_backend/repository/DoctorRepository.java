@@ -19,7 +19,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
             Specialization specialization);
 
     @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentStatus <> 'CANCELED'")
-    List<Appointment> findAppointmentsByDoctorIdAndNotBooked(@Param("doctorId") Long doctorId);
+    List<Appointment> findAppointmentsByDoctorIdAndNotCanceled(@Param("doctorId") Long doctorId);
 
     @Query("SELECT d FROM Doctor d WHERE d.doctorStatus = 'ACTIVE'")
     List<Doctor> findAllActiveDoctors();

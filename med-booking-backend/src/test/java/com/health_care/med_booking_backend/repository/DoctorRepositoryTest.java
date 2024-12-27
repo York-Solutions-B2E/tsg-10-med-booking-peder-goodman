@@ -1,8 +1,5 @@
 package com.health_care.med_booking_backend.repository;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -10,9 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -64,7 +63,7 @@ public class DoctorRepositoryTest {
                 Appointment appointment3 = new Appointment(patient1, doctor1, LocalDate.now().plusDays(2),
                                 LocalTime.now(),
                                 VisitType.IN_PERSON, AppointmentStatus.BOOKED);
-                when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor1.getId()))
+                when(doctorRepository.findAppointmentsByDoctorIdAndNotCanceled(doctor1.getId()))
                                 .thenReturn(Arrays.asList(appointment1, appointment3));
         }
 
@@ -72,12 +71,12 @@ public class DoctorRepositoryTest {
         @Test
         void testFindAppointmentsByDoctorIdAndNotBooked_returnsEmptyList() {
                 // Arrange
-                when(doctorRepository.findAppointmentsByDoctorIdAndNotBooked(doctor2.getId()))
+                when(doctorRepository.findAppointmentsByDoctorIdAndNotCanceled(doctor2.getId()))
                                 .thenReturn(Collections.emptyList());
 
                 // Act
                 List<Appointment> appointments = doctorRepository
-                                .findAppointmentsByDoctorIdAndNotBooked(doctor2.getId());
+                                .findAppointmentsByDoctorIdAndNotCanceled(doctor2.getId());
 
                 // Assert
                 assertThat(appointments).isEmpty(); // Assuming no appointments are booked initially
@@ -91,7 +90,7 @@ public class DoctorRepositoryTest {
 
                 // Act
                 List<Appointment> appointments = doctorRepository
-                                .findAppointmentsByDoctorIdAndNotBooked(doctor1.getId());
+                                .findAppointmentsByDoctorIdAndNotCanceled(doctor1.getId());
 
                 // Assert
                 assertThat(appointments).hasSize(2);

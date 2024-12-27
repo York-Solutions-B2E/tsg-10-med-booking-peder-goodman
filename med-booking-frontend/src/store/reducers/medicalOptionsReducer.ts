@@ -16,6 +16,9 @@ const medicalOptionsSlice = createSlice({
   initialState: initialState,
   reducers: {
     resetMedicalOptionsState: () => initialState,
+    resetSelectedDoctorAvailability: (state) => {
+      state.selectedDoctorAvailability = null;
+    },
   },
   extraReducers: (builder) => {
     getSpecializationsAndDoctorsCases(builder);
@@ -64,6 +67,6 @@ const getDoctorAvailabilityCases = (builder: ActionReducerMapBuilder<any>) => {
 };
 
 // export any actions in the reducer (not counting extraReducers)
-export const { resetMedicalOptionsState } = medicalOptionsSlice.actions;
+export const { resetMedicalOptionsState, resetSelectedDoctorAvailability } = medicalOptionsSlice.actions;
 // export the reducer
 export default medicalOptionsSlice.reducer;

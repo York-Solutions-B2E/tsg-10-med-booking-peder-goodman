@@ -82,8 +82,8 @@ export const LoginForm = () => {
 
   // hidden button for testing
   const hiddenButton = () => {
-    setBirthDate("1995-11-25");
-    setEmail("aspen.grove@example.com");
+    setBirthDate("1985-06-20");
+    setEmail("forrest.green@example.com");
   };
 
   return (

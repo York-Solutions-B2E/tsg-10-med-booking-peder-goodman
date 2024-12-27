@@ -39,7 +39,7 @@ declare global {
   }
 
   interface DoctorAvailability extends DoctorDetails {
-    selectedDoctorAvailability: DoctorAppointment[];
+    doctorAppointments: DoctorAppointment[];
   }
 
   type DoctorStatus = "ACTIVE" | "INACTIVE";

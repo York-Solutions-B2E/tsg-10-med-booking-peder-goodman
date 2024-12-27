@@ -62,9 +62,8 @@ declare global {
     inputId: string;
     label: string;
     disabled: boolean;
-    selectedDate: string;
     errorMessage: string;
-    doctorAvailability: DoctorAvailability | null;
+    doctorAvailability: string[];
     selectedValue: string;
     onChange: (value: string) => void;
   }

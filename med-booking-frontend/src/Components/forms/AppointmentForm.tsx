@@ -11,7 +11,9 @@ import { useSelector } from "react-redux";
 import { createAppointment, updateAppointment } from "../../store/actions/appointmentActions";
 import { getDoctorAvailability } from "../../store/actions/doctorActions";
 import { getPatientDetails } from "../../store/actions/userActions";
+import { resetSelectedDoctorAvailability } from "../../store/reducers/medicalOptionsReducer";
 import { store } from "../../store/store";
+import { filterSelectedDaysAvailableSlots } from "../../utils/helperFunctions";
 import { validateDateIsInFuture, validateTimeIsInFuture } from "../../utils/validationFunctions";
 import CustomDatePicker from "../inputs/CustomDatePicker";
 import { DoctorDropdownInput } from "../inputs/DoctorDropdownInput";
@@ -20,9 +22,28 @@ import { TimeDropdownInput } from "../inputs/TimeDropdownInput";
 import { VisitTypeDropdownInput } from "../inputs/VisitTypeDropdownInput";
 import { AppointmentConfirmationModal } from "../modals/AppointmentConfirmationModal";
 
+// * Styling
+// TODO: move styling to separate file
+const formContainerStyling = {
+  // width: "80%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "transparent",
+};
+
+const formStyling = {
+  width: "60%",
+  gap: "20px",
+  maxWidth: "400px",
+  marginTop: "8px",
+};
+
+// ** FUNCTION START **
 export const AppointmentForm = (props: AppointmentFormProps) => {
   // * Props & Store state
-  const { formData, isEditing, onCancel, closeModal } = props; // ! change to correct function names
+  const { formData, isEditing, onCancel, closeModal } = props;
   const { availableSpecializations, availableDoctors, selectedDoctorAvailability } = useSelector((state: RootState) => state.medicalOptions);
   const patientDetails = useSelector((state: RootState) => state.user.userDetails as PatientDetails);
   const formattedPatientBirthdate = dayjs(patientDetails.birthdate).format("MMM DD, YYYY");
@@ -46,22 +67,33 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
   const [selectedDoctorErrorMessage, setSelectedDoctorErrorMessage] = useState("");
   const [filteredDoctors, setFilteredDoctors] = useState<DoctorDetails[]>([]);
   // Unavailable Times
-  const [unavailableTimes, setUnavailableTimes] = useState<string[]>([]);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
+  // * Initialize form data if editing
   useEffect(() => {
     if (isEditing && formData) {
       // set the filtered doctors based on the selected specialization
-      const specializationId = formData.doctor.specialization.id;
-      setFilteredDoctors(availableDoctors.filter((doctor) => doctor.specialization.id === specializationId));
 
-      setSelectedSpecialization(formData.doctor.specialization);
-      setDoctorSelection(formData.doctor);
-      setAppointmentDate(formData.appointmentDate);
-      setAppointmentTime(formData.appointmentTime);
-
-      setVisitTypeSelection(formData.visitType);
+      handleSelectSpecializationChange(formData.doctor.specialization);
+      handleSelectedDoctorChange(formData.doctor);
+      handleAppointmentDateChange(dayjs(formData.appointmentDate));
+      handleAppointmentTimeChange(formData.appointmentTime);
+      handleUpdateVisitTypeChange(formData.visitType);
+    } else {
+      store.dispatch(resetSelectedDoctorAvailability());
     }
   }, []);
+
+  // * Filter available times based on selected date
+  useEffect(() => {
+    const doctorAvailability = filterSelectedDaysAvailableSlots(
+      selectedDoctorAvailability?.doctorAppointments as DoctorAppointment[],
+      appointmentDate,
+      patientDetails.id as number,
+      patientDetails?.patientAppointments as Appointment[]
+    );
+    setAvailableTimes(doctorAvailability);
+  }, [selectedDoctorAvailability, appointmentDate]);
 
   // * Form Input Event handlers
   const handleUpdateVisitTypeChange = (newValue: VisitType | "") => {
@@ -73,6 +105,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     setAppointmentDate(newValue?.format("YYYY-MM-DD") || "");
     setAppointmentDateErrorMessage("");
     setAppointmentTime("");
+    setAppointmentTimeErrorMessage("");
   };
 
   const handleAppointmentTimeChange = (newValue: string) => {
@@ -99,13 +132,16 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     }
   };
 
-  const handleSelectedDoctorChange = (newValue: DoctorDetails | "") => {
+  const handleSelectedDoctorChange = async (newValue: DoctorDetails | "") => {
     setDoctorSelection(newValue);
     setSelectedDoctorErrorMessage("");
     // get doctor availability
     if (newValue !== "") {
       // fetch selected doctor availability
-      store.dispatch(getDoctorAvailability(newValue.id));
+      await store.dispatch(getDoctorAvailability(newValue.id));
+    } else {
+      // clear doctor availability if no doctor is selected
+      store.dispatch(resetSelectedDoctorAvailability());
     }
     // clear appointment time if doctor selection changes
     setAppointmentTime("");
@@ -126,6 +162,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     }
   };
 
+  // * Form submission handlers
   const submitEditAppointment = async () => {
     // update appointment and refresh state
     await store.dispatch(updateAppointment(appointmentFormData as AppointmentRequest));
@@ -205,30 +242,22 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
     }
   };
 
-  // * Styling
-  // TODO: move styling to separate file
-  const formContainerStyling = {
-    // width: "80%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  };
-
-  const formStyling = {
-    width: "60%",
-    gap: "20px",
-    maxWidth: "400px",
-    marginTop: "8px",
-  };
-
   // * Keyboard event handlers
   // const handleKeyDown = (e: React.KeyboardEvent) => {
   //   if (e.key === "Enter") {
   //     handleSubmit();
   //   }
   // };
+
+  const onHiddenButtonClick = () => {
+    console.log("hidden button clicked");
+    const specilizatoinToSet = availableSpecializations.find((spec) => spec.name === "Cardiology");
+    const doctorToSet = availableDoctors.find((doc) => doc.id === 2);
+
+    handleSelectSpecializationChange(specilizatoinToSet || "");
+    handleSelectedDoctorChange(doctorToSet || "");
+    handleAppointmentDateChange(dayjs("2024-12-28"));
+  };
 
   return (
     <>
@@ -251,7 +280,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
           </Typography>
           <Typography>{`Patient Name: ${patientDetails.firstName} ${patientDetails.lastName}`}</Typography>
           <Typography>{`Patient Email: ${patientDetails.email}`}</Typography>
-          <Typography>{`Date of Birth: ${formattedPatientBirthdate}`}</Typography>
+          <Typography onClick={onHiddenButtonClick}>{`Date of Birth: ${formattedPatientBirthdate}`}</Typography>
         </Box>
         <FormControl sx={formStyling}>
           <SpecializationDropdownInput
@@ -284,14 +313,13 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
             />
 
             <TimeDropdownInput
-              doctorAvailability={selectedDoctorAvailability}
-              disabled={appointmentDate === null}
+              doctorAvailability={availableTimes}
+              disabled={appointmentDate === ""}
               inputId={""}
               selectedValue={appointmentTime}
               label="Apt Time"
               errorMessage={appointmentTimeErrorMessage}
               onChange={handleAppointmentTimeChange}
-              selectedDate={appointmentDate}
             />
           </Box>
 
@@ -309,7 +337,7 @@ export const AppointmentForm = (props: AppointmentFormProps) => {
           </Button>
         </FormControl>
       </Box>
-      {/* TODO: edit logig for "isEditing" or not  */}
+      {/* TODO: edit logging for "isEditing" or not  */}
       <AppointmentConfirmationModal
         appointment={appointmentFormData as AppointmentRequest}
         color="success"

@@ -60,40 +60,54 @@ public class DatabaseSeeder {
                                 // Cardiology
                                 Doctor doctor1 = new Doctor("Val Purrs", "Ventric", cardiology);
                                 Doctor doctor2 = new Doctor("Bea T.", "Barker", cardiology);
-                                Doctor doctor3 = new Doctor("Art H.", "Eagle", cardiology);
-                                Doctor doctor4 = new Doctor("Ana Paw", "Gram", cardiology);
+                                // Doctor doctor3 = new Doctor("Art H.", "Eagle", cardiology);
+                                // Doctor doctor4 = new Doctor("Ana Paw", "Gram", cardiology);
                                 // Pediatrics
                                 Doctor doctor5 = new Doctor("Hammy C.", "Care", pediatrics);
                                 Doctor doctor6 = new Doctor("Pippa P.", "Peep", pediatrics);
-                                Doctor doctor7 = new Doctor("Minnie Whiskers", "Troubles", pediatrics);
+                                // Doctor doctor7 = new Doctor("Minnie Whiskers", "Troubles", pediatrics);
                                 // Dermatology
                                 Doctor doctor8 = new Doctor("Derm A.", "Scratch", dermatology);
                                 Doctor doctor9 = new Doctor("Rashy P.", "Furball", dermatology);
-                                Doctor doctor10 = new Doctor("E. Cheeky", "Tion", dermatology);
-                                Doctor doctor11 = new Doctor("Skin P.", "Feathers", dermatology);
-                                Doctor doctor12 = new Doctor("Mel O.", "Pelt", dermatology);
+                                // Doctor doctor10 = new Doctor("E. Cheeky", "Tion", dermatology);
+                                // Doctor doctor11 = new Doctor("Skin P.", "Feathers", dermatology);
+                                // Doctor doctor12 = new Doctor("Mel O.", "Pelt", dermatology);
                                 // Orthopedics
                                 Doctor doctor13 = new Doctor("Fracture P.", "Hopper", orthopedics);
-                                Doctor doctor14 = new Doctor("Patella P.", "Scurry", orthopedics);
+                                // Doctor doctor14 = new Doctor("Patella P.", "Scurry", orthopedics);
                                 // Neurology
                                 Doctor doctor15 = new Doctor("Neuro B.", "Fluff", neurology);
                                 Doctor doctor16 = new Doctor("Myra T.", "Squeak", neurology);
-                                Doctor doctor17 = new Doctor("Axel C.", "Claws", neurology);
-                                Doctor doctor18 = new Doctor("Syn A.", "Pounce", neurology);
+                                // Doctor doctor17 = new Doctor("Axel C.", "Claws", neurology);
+                                // Doctor doctor18 = new Doctor("Syn A.", "Pounce", neurology);
 
-                                List<Doctor> listOfDoctors = List.of(doctor1, doctor2, doctor3, doctor4, doctor5,
-                                                doctor6, doctor7,
-                                                doctor8,
-                                                doctor9, doctor10, doctor11, doctor12, doctor13, doctor14, doctor15,
-                                                doctor16, doctor17,
-                                                doctor18);
+                                List<Doctor> listOfDoctors = List.of(
+                                        doctor1,
+                                        doctor2,
+                                        // doctor3,
+                                        // doctor4,
+                                        doctor5,
+                                        doctor6,
+                                        // doctor7,
+                                        doctor8,
+                                        doctor9,
+                                        // doctor10,
+                                        // doctor11,
+                                        // doctor12,
+                                        doctor13,
+                                        // doctor14,
+                                        doctor15,
+                                        doctor16
+                                        // doctor17,
+                                        // doctor18
+                                        );
 
                                 // Seed database with doctors
                                 doctorRepository.saveAll(listOfDoctors);
 
                                 // ! Print Doctors
                                 System.out.println(
-                                                "Doctors look like: " + List.of(doctor1, doctor2, doctor3));
+                                                "Doctors look like: " + List.of(doctor1, doctor2));
 
                                 // create List of Patients
                                 Patient patient1 = new Patient("Willow", "Woods", "willow.woods@example.com",
@@ -116,42 +130,49 @@ public class DatabaseSeeder {
                                                 LocalDate.of(1993, 12, 30));
                                 Patient patient10 = new Patient("Cliff", "Leaf", "cliff.leaf@example.com",
                                                 LocalDate.of(1980, 5, 17));
-                                Patient patient11 = new Patient("Fern", "Vale", "fern.vale@example.com",
-                                                LocalDate.of(1991, 1, 3));
-                                Patient patient12 = new Patient("Blossom", "Petal", "blossom.petal@example.com",
-                                                LocalDate.of(1987, 10, 21));
-                                Patient patient13 = new Patient("Cedar", "Trail", "cedar.trail@example.com",
-                                                LocalDate.of(1979, 7, 9));
-                                Patient patient14 = new Patient("Lake", "Shore", "lake.shore@example.com",
-                                                LocalDate.of(1994, 5, 26));
-                                Patient patient15 = new Patient("Daisy", "Bloom", "daisy.bloom@example.com",
-                                                LocalDate.of(1999, 4, 11));
-                                Patient patient16 = new Patient("Pine", "Forest", "pine.forest@example.com",
-                                                LocalDate.of(1986, 6, 30));
-                                Patient patient17 = new Patient("Violet", "Garden", "violet.garden@example.com",
-                                                LocalDate.of(1997, 8, 15));
-                                Patient patient18 = new Patient("Ash", "Glen", "ash.glen@example.com",
-                                                LocalDate.of(1992, 12, 3));
-                                Patient patient19 = new Patient("Rose", "Thorn", "rose.thorn@example.com",
-                                                LocalDate.of(1984, 2, 29));
-                                Patient patient20 = new Patient("Birch", "Haven", "birch.haven@example.com",
-                                                LocalDate.of(1995, 11, 18));
-                                Patient patient21 = new Patient("Clover", "Field", "clover.field@example.com",
-                                                LocalDate.of(2001, 9, 20));
-                                Patient patient22 = new Patient("Juniper", "Dell", "juniper.dell@example.com",
-                                                LocalDate.of(1982, 3, 8));
-                                Patient patient23 = new Patient("Briar", "Patch", "briar.patch@example.com",
-                                                LocalDate.of(1996, 4, 14));
-                                Patient patient24 = new Patient("Sage", "Cliff", "sage.cliff@example.com",
-                                                LocalDate.of(1990, 7, 19));
-                                Patient patient25 = new Patient("Laurel", "Branch", "laurel.branch@example.com",
-                                                LocalDate.of(1993, 5, 6));
+                                // Patient patient11 = new Patient("Fern", "Vale", "fern.vale@example.com",
+                                // LocalDate.of(1991, 1, 3));
+                                // Patient patient12 = new Patient("Blossom", "Petal",
+                                // "blossom.petal@example.com",
+                                // LocalDate.of(1987, 10, 21));
+                                // Patient patient13 = new Patient("Cedar", "Trail", "cedar.trail@example.com",
+                                // LocalDate.of(1979, 7, 9));
+                                // Patient patient14 = new Patient("Lake", "Shore", "lake.shore@example.com",
+                                // LocalDate.of(1994, 5, 26));
+                                // Patient patient15 = new Patient("Daisy", "Bloom", "daisy.bloom@example.com",
+                                // LocalDate.of(1999, 4, 11));
+                                // Patient patient16 = new Patient("Pine", "Forest", "pine.forest@example.com",
+                                // LocalDate.of(1986, 6, 30));
+                                // Patient patient17 = new Patient("Violet", "Garden",
+                                // "violet.garden@example.com",
+                                // LocalDate.of(1997, 8, 15));
+                                // Patient patient18 = new Patient("Ash", "Glen", "ash.glen@example.com",
+                                // LocalDate.of(1992, 12, 3));
+                                // Patient patient19 = new Patient("Rose", "Thorn", "rose.thorn@example.com",
+                                // LocalDate.of(1984, 2, 29));
+                                // Patient patient20 = new Patient("Birch", "Haven", "birch.haven@example.com",
+                                // LocalDate.of(1995, 11, 18));
+                                // Patient patient21 = new Patient("Clover", "Field",
+                                // "clover.field@example.com",
+                                // LocalDate.of(2001, 9, 20));
+                                // Patient patient22 = new Patient("Juniper", "Dell",
+                                // "juniper.dell@example.com",
+                                // LocalDate.of(1982, 3, 8));
+                                // Patient patient23 = new Patient("Briar", "Patch", "briar.patch@example.com",
+                                // LocalDate.of(1996, 4, 14));
+                                // Patient patient24 = new Patient("Sage", "Cliff", "sage.cliff@example.com",
+                                // LocalDate.of(1990, 7, 19));
+                                // Patient patient25 = new Patient("Laurel", "Branch",
+                                // "laurel.branch@example.com",
+                                // LocalDate.of(1993, 5, 6));
 
                                 List<Patient> listOfPatients = List.of(patient1, patient2, patient3, patient4, patient5,
-                                                patient6, patient7, patient8, patient9, patient10, patient11, patient12,
-                                                patient13, patient14, patient15, patient16, patient17, patient18,
-                                                patient19, patient20, patient21, patient22, patient23, patient24,
-                                                patient25);
+                                                patient6, patient7, patient8, patient9, patient10
+                                // patient11, patient12,
+                                // patient13, patient14, patient15, patient16, patient17, patient18,
+                                // patient19, patient20, patient21, patient22, patient23, patient24,
+                                // patient25
+                                );
 
                                 // Seed database with patients
                                 patientRepository.saveAll(listOfPatients);
@@ -161,7 +182,7 @@ public class DatabaseSeeder {
                                                 .println("Patients look like: "
                                                                 + List.of(patient1, patient2, patient3));
 
-                                // Create List of Appointments
+                                // * Randomly Generate a list of Appointments around the current date
                                 List<Appointment> appointments = AppointmentSeeder.generateAppointments(listOfPatients,
                                                 listOfDoctors);
                                 // Appointment appointment1 = new Appointment()

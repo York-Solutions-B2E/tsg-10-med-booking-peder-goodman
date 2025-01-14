@@ -29,7 +29,7 @@ public class AppointmentSeeder {
         List<Appointment> appointments = new ArrayList<>();
 
         for (Patient patient : patients) {
-            int numAppointments = random.nextInt(9) + 2; // At least 2 appointments, up to 10
+            int numAppointments = random.nextInt(24) + 13; // At least 13 appointments, up to 24
 
             // Choose the main doctor for this patient
             Doctor mainDoctor = doctors.get(random.nextInt(doctors.size()));
@@ -40,13 +40,18 @@ public class AppointmentSeeder {
             for (int i = 0; i < numAppointments; i++) {
                 // Randomize appointment date: between a week before and 2-3 weeks from today
                 LocalDateTime appointmentDateTime = getRandomAppointmentDate();
+                // LocalDate selectedDate = appointmentDateTime.toLocalDate();
+
+                // while (takenDates.stream().anyMatch(date -> date.toLocalDate().equals(selectedDate))) {
                 while (takenDates.contains(appointmentDateTime)) {
                     appointmentDateTime = getRandomAppointmentDate(); // Ensure unique appointment time
                 }
+                // Add the appointment date to the takenDates set
                 takenDates.add(appointmentDateTime);
+                
                 // split date and time
-                LocalDate appointmentDate = appointmentDateTime.toLocalDate();
-                LocalTime appointmentTime = appointmentDateTime.toLocalTime();
+                LocalDate appointmentDate = appointmentDateTime.toLocalDate(); // grab the chosen date
+                LocalTime appointmentTime = appointmentDateTime.toLocalTime(); // split the time
 
                 // Select the visit type (80% IN_PERSON)
                 VisitType visitType = random.nextInt(100) < 80 ? VisitType.IN_PERSON : VisitType.TELEHEALTH;
@@ -54,14 +59,15 @@ public class AppointmentSeeder {
                 // Select the appointment status should be BOOKED by default
                 AppointmentStatus status = AppointmentStatus.BOOKED;
 
-                // Randomly sprinkle in some canceled appointments
-                if (random.nextInt(100) < 10) {
-                    status = AppointmentStatus.CANCELED;
-                }
+                // Randomly sprinkle in some canceled appointments (3% chance)
+                 if (random.nextInt(100) < 3) {
+                     status = AppointmentStatus.CANCELED;
+                 }
 
                 // The appointment can either be with the main doctor or another doctor (50%
                 // each)
-                Doctor doctor = random.nextInt(100) < 50 ? mainDoctor : getRandomOtherDoctor(doctors, mainDoctor);
+                 Doctor doctor = random.nextInt(100) < 40 ? mainDoctor :
+                 getRandomOtherDoctor(doctors, mainDoctor);
 
                 appointments.add(new Appointment(patient, doctor, appointmentDate, appointmentTime, visitType, status));
             }
@@ -73,8 +79,8 @@ public class AppointmentSeeder {
     // Generate a random appointment date within the specified range
     private static LocalDateTime getRandomAppointmentDate() {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime startRange = now.minusWeeks(1); // 1 week before
-        LocalDateTime endRange = now.plusWeeks(3); // 2-3 weeks ahead
+        LocalDateTime startRange = now.minusDays(3); // 1 week before
+        LocalDateTime endRange = now.plusWeeks(2); // 2-3 weeks ahead
 
         long randomTime = startRange.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 + (long) (random.nextDouble() * (endRange.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()

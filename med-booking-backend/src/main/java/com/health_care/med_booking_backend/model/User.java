@@ -39,13 +39,19 @@ public class User {
     @Column(nullable = false)
     protected Role role;
 
+    @Column(nullable = false)
+    protected String password;
+
+
+
     // lombok provides all args and no args constructor
     // this is for everything but the id (and will probably be used most often
-    public User(String firstName, String lastName, String email, Role role) {
+    public User(String firstName, String lastName, String email, Role role, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
+        this.password = password;
     }
 
     public String getFullName() {

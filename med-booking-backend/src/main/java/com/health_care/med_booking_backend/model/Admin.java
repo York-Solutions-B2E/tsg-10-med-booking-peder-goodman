@@ -17,7 +17,7 @@ public class Admin extends User {
     private String oktaId;
 
     public Admin(String firstName, String lastName, String email, String oktaId) {
-        super(firstName, lastName, email, Role.ADMIN);
+        super(firstName, lastName, email, Role.ADMIN, "password1234");
         this.oktaId = oktaId;
     }
 }

@@ -29,8 +29,8 @@ public class Patient extends User {
     @JsonManagedReference
     private List<Appointment> patientAppointments;
 
-    public Patient(String firstName, String lastName, String email, LocalDate birthdate) {
-        super(firstName, lastName, email, Role.PATIENT);
+    public Patient(String firstName, String lastName, String email, LocalDate birthdate, String password) {
+        super(firstName, lastName, email, Role.PATIENT, password);
         this.birthdate = birthdate;
     }
 }

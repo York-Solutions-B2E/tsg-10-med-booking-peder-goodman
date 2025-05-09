@@ -1,4 +1,3 @@
-export {};
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import EditAppointmentModalButton from "../../../src/Components/buttons/EditAppointmentModalButton";

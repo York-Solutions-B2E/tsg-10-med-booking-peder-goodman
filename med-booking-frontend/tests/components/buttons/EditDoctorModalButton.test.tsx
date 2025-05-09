@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import EditDoctorModalButton from "../../../src/Components/buttons/EditDoctorModalButton";
 import { store } from "../../../src/store/store";
 
-export {};
 
 const mockEditDoctor: DoctorDetails = {
   id: 3,
@@ -13,6 +12,7 @@ const mockEditDoctor: DoctorDetails = {
     id: 1,
     name: "Cardiology",
   },
+  doctorStatus: "ACTIVE"
 };
 
 describe("AddDoctorModalButton Form Open and Cancel", () => {

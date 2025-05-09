@@ -1,4 +1,3 @@
-export {};
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import DeactivateDoctorModalButton from "../../../src/Components/buttons/DeactivateDoctorModalButton";

@@ -1,0 +1,55 @@
+#name: Run tests
+#
+#on:
+#  pull_request:
+#    branches: ['main']
+#
+#  workflow_dispatch:
+#
+#jobs:
+#  frontend-tests:
+#    runs-on: macOS-latest
+#
+#    steps:
+#      # Checkout the code
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 16.18
+#
+#      - name: Install Dependencies
+#        run: |
+#          cd med-booking-frontend
+#          npm ci
+#
+#      - name: Run frontend tests
+#        run: |
+#          cd med-booking-frontend
+#          npm test
+#
+#  backend-tests:
+#    runs-on: macOS-latest
+#
+#    steps:
+#      # Checkout the code
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Setup JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'temurin'
+#          java-version: '17'
+#
+#      - name: Install Dependencies
+#        run: |
+#          cd med-booking-backend
+#          ./mvnw install
+#
+#      - name: Run backend tests
+#        run: |
+#          cd med-booking-backend
+#          ./mvnw test
